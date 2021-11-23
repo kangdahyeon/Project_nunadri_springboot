@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+  <title>자랑게시판</title>
+  <style>
+    .item_img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .item_img img {
+      border-radius: 4px;
+    }
+
+    .item_list {
+      /*       
+      padding: 16px;
+      margin-left: 24px; */
+    }
+
+    .item_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .item_title a {
+      text-decoration: none;
+    }
+
+    .gallery_view {
+      float: left;
+      /* width: 200px; */
+      padding: 0 23px 11px 0;
+      list-style-type: none;
+    }
+
+    .item_price {
+      padding-bottom: 42px;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
+      float: left;
+      width: 200px;
+      margin-left: 74px;
+      padding: 0 0 13px 0;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
+      margin-left: 0 !important
+    }
+
+    div {
+      display: block;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+
+    .container {
+      width: 970px;
+    }
+
+    .gallery_view {
+      float: left;
+      width: 200px;
+      padding: 0 23px 11px 0;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 74px;
+    }
+
+    .paging {
+      padding: auto;
+      position: relative;
+      padding: 10px 0 0 100px;
+    }
+
+    .paging>a {
+      text-decoration: none;
+      padding: 10px;
+    }
+
+    .paging>a:hover {
+      color: rgb(218, 162, 60);
+    }
+
+    /* 글쓰기 버튼*/
+    #writerBtn {
+      position: absolute;
+      right: 270px;
+      color: black;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-color: black;
+    }
+
+    .div_right {
+      padding-left: 896px;
+
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid black;
+      color: black;
+      padding-left: 30px;
+    }
+
+    .icon_search {
+      position: absolute;
+      left: 1085px;
+      margin-top: 7.5px;
+      color: black;
+    }
+
+    .white-text-container h2 {
+      color: black;
+    }
+
+    .black-image-project-hover img {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s;
+      -moz-transition: .3s;
+      -ms-transition: .3s;
+      -o-transition: .3s;
+      transition: .3s;
+    }
+
+    .black-image-project-hover img:hover {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+
+    .navbar_display {
+      background-color: white;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      transition: all 300ms ease-in-out;
+    }
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
+</head>
+
+<body>
+
+  <header>
+    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 100%; 
+    transform: translate(-12px,-12px);">
+      <div class="container">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+          aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav ">
+            <li class="img_1">
+              <a href="../../main/index.html" title="">
+                <img src="../../../assets/images/logo1-1.png" class="logoimg img_2">
+                <img src="../../../assets/images/logo1-2.png" class="logoimg img_3">
+              </a>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a><i class="far fa-comment-alt"></i> 소통해요</a>
+                <div class="drop_down_content">
+                  <a href="../../community/feed/feed_list.html" title="">자랑해요</a>
+                  <a href="../../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
+                  <a href="../../community/free/boarder_Communication.html" title="">잡담해요</a>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
+                <div class="drop_down_content">
+                  <a href="../../customerService/question_list.html" title="">질문했어요</a>
+                  <a href="../../customerService/questionboard.html" title="">건의해요</a>
+                </div>
+              </div>
+            </li>
+
+
+            <li style="margin-left: 400px;"><a href="../../member/login.html" title=""><i
+                  class="fas fa-sign-in-alt"></i>
+                로그인</a></li>
+            <li><a href="../../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--hero-full-container : 내용이 없어도 페이지 크기가 유지되게해줌.
+  background-image-container : 백그라운드 이미지 지정-->
+  <div class="hero-full-container white-text-container">
+    <div class="section-container background-image-container" style="background-image: none;">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm-8 col-sm-offset-2 section-container-spacer" style="margin-bottom: 0px;">
+            <div class="text-center">
+              <h1 class="h2" style="color: black; text-shadow: none;">중고장터</h1>
+            </div>
+          </div>
+
+          <div class="body" style="font-size: 13px;">
+
+            <!--검색창-->
+            <div class="div_right2">
+              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search2"></i>
+            </div>
+
+            <div class="used_body">
+
+              <div class="used_prod_wrap used_hp">
+
+                <div class="used_galleryview_wrap">
+
+                  <ul class="used_prod_list">
+
+                    <li class="gallery_view fst">
+                      <div>
+                        <a href="../fleaMarket/fleamarket_detail.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2d/b0/242db01397.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">NEW 십자가 목걸이 회중 시계 패션 기념 선물 예수 믿음 하나님
+                          빈티지</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2b/52/242b527467.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">새상품 명품 커피메이커 간편조작 원터치에 반하다
+                        </a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/17/90/241790f157.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">새상품)독일 더 스페셜 5종 칼세트(시중 5만원)ISA</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2a/ec/242aec3cc7.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">Q5781 유니클로 남자XL 중고 브이넥 니트 울셔츠/더크</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                  </ul>
+                  <ul class="used_prod_list">
+
+                    <li class="gallery_view fst">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2d/b1/242db125f7.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">런던 관광 여행 기념 고급 수입 정품 패션 앤틱 목걸이 빈티지
+                          시계</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2b/8c/242b8cf047.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">5031 타미힐피거 셔츠 사이즈상세 아지구제A</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2a/fb/242afbefd7.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">16만원 정품 새물품 자동차 공기청정기 미개봉 차량용</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="http://image.auction.co.kr/itemimage/24/2d/b1/242db11347.jpg" alt=""
+                            class="img-responsive" style="height:200px;width:200px;">
+                        </a>
+                      </div>
+                      <div class="item_tit">
+                        <a href="./work.html" target="_blank" style="color: black;">진주3종세트/새제품/옥 비취 산호 터키 호박</a>
+                      </div><br>
+                      <div class="item_price">
+
+                        <div class="item_sell">
+                          <span class="tit">판매가</span>
+                          <span class="cost"><strong>8,000</strong>원</span>
+                        </div>
+                      </div>
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                  </ul>
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="paging col-lg-11" style="padding-left: 485px; font-size: 15px;">
+            <a href="#" style="color: black;">&#60;</a>
+            <a class="select" href="#" style="color: black;">1</a>
+            <a href="#" style="color: black;">2</a>
+            <a href="#" style="color: black;">3</a>
+            <a href="#" style="color: black;">4</a>
+            <a href="#" style="color: black;">5</a>
+            <a href="#" style="color: black;">&#62;</a>
+          </div>
+          <!--글쓰기 버튼-->
+          <div class="div_right">
+            <a href="#" class="btn btn-default" id="writerBtn"
+              style="color: black; font-size: 15px; border: 1px solid black;">글쓰기</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function (event) {
+        navActivePage();
+      });
+
+      const navbar = document.querySelector('#nav');
+      const navbarHeight = navbar.getBoundingClientRect().height;
+
+      document.addEventListener('scroll', () => {
+        console.log(window.scrollY);
+        if (window.scrollY > navbarHeight) {
+          navbar.classList.add('navbar_display');
+        } else {
+          navbar.classList.remove('navbar_display');
+        }
+      });
+    </script>
+
+    <script type="text/javascript" src="../../../js/main.js"></script>
+</body>
+
+</html>

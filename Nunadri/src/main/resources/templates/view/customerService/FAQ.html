@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+
+  <link rel="stylesheet" link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+
+  <title>고객센터</title>
+
+
+  <link href="../../css/main.css" rel="stylesheet">
+  <link href="./Boastcss.css" rel="stylesheet2">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../../js/main.js"></script>
+  <style>
+    
+    .qna {
+      height: 200px;
+    }
+
+    .qna .box.text {
+      padding: 20px 50px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .qna .box.text>h2 {
+      text-align: center;
+      position: relative;
+    }
+
+    .qna .box.text>h2:after {
+      content: "\f054";
+      font-family: "Font Awesome 5 Pro";
+      position: absolute;
+      right: 0;
+      top: 0;
+      transform: rotate(0deg);
+      transition: 0.25s;
+    }
+
+    .qna .box.text.qna_show>h2:after {
+      transform: rotate(90deg);
+    }
+
+    .qna .box.text>h2:before {
+      content: "Q. ";
+    }
+
+    .qna .box.text>.box_content {
+      overflow: hidden;
+      padding: 0 50px;
+      display: none;
+    }
+
+    .qna .box.text>.box_content p:first-of-type:before {
+      content: "A. ";
+      font-weight: bold;
+    }
+
+
+    .hero-full-container {
+      height: 100vh;
+      color: black;
+    }
+
+    .navbar_display {
+      background-color: rgb(10, 55, 50);
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      transition: all 300ms ease-in-out;
+    }
+  </style>
+</head>
+
+
+<body class="">
+
+  <!-- Add your content of header -->
+  <header>
+    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 99%; transform: translateX(-1px); 
+    ">
+      <div class="container">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+          aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav ">
+            <li class="img_1">
+              <a href="../main/index.html" title="">
+                <img src="../../assets/images/logo1-1.png" class="logoimg img_2">
+                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
+              </a>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a><i class="far fa-comment-alt"></i> 소통해요</a>
+                <div class="drop_down_content">
+                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
+                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
+                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
+                <div class="drop_down_content">
+                  <a href="../customerService/question_list.html" title="">질문했어요</a>
+                  <a href="../customerService/questionboard.html" title="">건의해요</a>
+                </div>
+              </div>
+            </li>
+            <li style="margin-left: 400px;"><a href="../member/login.html" title=""><i class="fas fa-sign-in-alt"></i>
+                로그인</a></li>
+            <li><a href="../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero-full-container">
+    <div class="section-container_detail">
+      <div class="section-container-spacer text-center">
+        <div class="container2">
+          <h1 class="h2 font_black">고객센터</h1>
+          <p>너나들이의 대표질문입니다.</p>
+          <div id="divsize">
+          </div>
+
+          <div class="section-container">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 section-container-spacer">
+                  <div class="qna">
+                    <div class="custom_page_123"></div>
+                    <div class="col col2" id="col2">
+                      <div id="boxholder_1" class="box cpbox text">
+                        <h2 class="boast_h2 font_black"> 왜 너나들이라 지었나요? </h2>
+                        <div class="box_content">
+                          <p>너나들이는 서로 ‘너’, ‘나’ 하고 부르며 터놓고 허물없이 지내는 사이. 라는 순우리말이며, 가까운 이웃간에 터놓고 허물없이 지내자는 의미에서 이름을
+                            짓게되었습니다. </p>
+                        </div>
+                        <div class="clear">
+                          <!--space-->
+                        </div>
+                      </div>
+
+                      <div class="col col2" id="col2">
+                        <div id="boxholder_1" class="box cpbox text">
+                          <h2 class="boast_h2 font_black">질문2</h2>
+                          <div class="box_content">
+                            <p>어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</p>
+                          </div>
+                          <div class="clear">
+                            <!--space-->
+                          </div>
+
+                        </div>
+
+                        <div class="col col2" id="col2">
+                          <div id="boxholder_1" class="box cpbox text">
+                            <h2 class="boast_h2 font_black">질문3</h2>
+                            <div class="box_content">
+                              <p>어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</p>
+                            </div>
+                            <div class="clear">
+                              <!--space-->
+                            </div>
+
+                          </div>
+
+                          <div class="col col2" id="col2">
+                            <div id="boxholder_1" class="box cpbox text">
+                              <h2 class="boast_h2 font_black">질문4</h2>
+                              <div class="box_content">
+                                <p>어쩌구 저쩌구 어쩌구 저쩌구 어쩌구 저쩌구</p>
+                              </div>
+                              <div class="clear">
+                                <!--space-->
+                              </div>
+
+                            </div>
+                          </div>
+
+
+
+
+                         
+                          <script>
+                            document.addEventListener("DOMContentLoaded", function (event) {
+                              navActivePage();
+                            });
+                            const navbar = document.querySelector('#nav');
+                            const navbarHeight = navbar.getBoundingClientRect().height;
+
+                            document.addEventListener('scroll', () => {
+                              console.log(window.scrollY);
+                              if (window.scrollY > navbarHeight) {
+                                navbar.classList.add('navbar_display');
+                              } else {
+                                navbar.classList.remove('navbar_display');
+                              }
+                            });
+                          </script>
+
+                          <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
+
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-XXXXX-X', 'auto');
+  ga('send', 'pageview');
+</script>
+
+-->
+                          <script type="text/javascript" src="../../js/jquery-ui.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-icon-180x180.png">
+  <link href="../../assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+
+  <title>자랑게시판</title>
+  <style>
+    .item_img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .item_img img {
+      border-radius: 4px;
+    }
+
+    .item_list {
+      /*       
+      padding: 16px;
+      margin-left: 24px; */
+    }
+
+    .item_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .item_title a {
+      text-decoration: none;
+    }
+
+    .gallery_view {
+      float: left;
+      /* width: 200px; */
+      padding: 0 23px 11px 0;
+      list-style-type: none;
+    }
+
+    .item_price {
+      padding-bottom: 42px;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
+      float: left;
+      width: 200px;
+      margin-left: 74px;
+      padding: 0 0 13px 0;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
+      margin-left: 0 !important
+    }
+
+    div {
+      display: block;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+
+    .container {
+      width: 970px;
+    }
+
+    .gallery_view {
+      float: left;
+      width: 200px;
+      padding: 0 23px 11px 0;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 74px;
+    }
+
+
+    /* 글쓰기 버튼*/
+    #writerBtn {
+      position: absolute;
+      right: 270px;
+      color: black;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-color: black;
+    }
+
+    .div_right {
+      padding-left: 896px;
+
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid black;
+      color: black;
+      padding-left: 30px;
+    }
+
+    .icon_search {
+      position: absolute;
+      left: 1085px;
+      margin-top: 7.5px;
+      color: black;
+    }
+
+    .white-text-container h2 {
+      color: black;
+    }
+
+    .black-image-project-hover img {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s;
+      -moz-transition: .3s;
+      -ms-transition: .3s;
+      -o-transition: .3s;
+      transition: .3s;
+    }
+
+    .black-image-project-hover img:hover {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+
+
+    .navbar_display {
+      background-color: white;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      transition: all 300ms ease-in-out;
+    }
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- <div id="site-border-left"></div>
+  <div id="site-border-right"></div>
+  <div id="site-border-top"></div>
+  <div id="site-border-bottom"></div> -->
+  <!-- Add your content of header -->
+  <header>
+    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 100%; 
+    transform: translate(-12px,-12px);">
+      <div class="container">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
+          aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul class="nav navbar-nav ">
+            <li class="img_1">
+              <a href="../../main/index.html" title="">
+                <img src="../../../assets/images/logo1-1.png" class="logoimg img_2">
+                <img src="../../../assets/images/logo1-2.png" class="logoimg img_3">
+              </a>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a><i class="far fa-comment-alt"></i> 소통해요</a>
+                <div class="drop_down_content">
+                  <a href="../../community/feed/feed_list.html" title="">자랑해요</a>
+                  <a href="../../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
+                  <a href="../../community/free/boarder_Communication.html" title="">잡담해요</a>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="drop_down">
+                <a href="../../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
+                <div class="drop_down_content">
+                  <a href="../../customerService/question_list.html" title="">질문했어요</a>
+                  <a href="../../customerService/questionboard.html" title="">건의해요</a>
+                </div>
+              </div>
+            </li>
+            <li style="margin-left: 400px;"><a href="../../member/login.html" title=""><i
+                  class="fas fa-sign-in-alt"></i>
+                로그인</a></li>
+            <li><a href="../../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <!--hero-full-container : 내용이 없어도 페이지 크기가 유지되게해줌.
+  background-image-container : 백그라운드 이미지 지정-->
+  <div class="hero-full-container white-text-container">
+    <div class="section-container background-image-container" style="background-image: none;">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm-8 col-sm-offset-2 section-container-spacer" style="margin-bottom: 0px;">
+            <div class="text-center">
+              <h1 class="h2" style="color: black; text-shadow: none;">자랑해요</h1>
+            </div>
+          </div>
+
+          <div class="body" style="font-size: 12px;">
+
+            <!--글쓰기 버튼-->
+            <div class="">
+              <a href="../feed/feed_edit.html" class="btn btn-default" id="writerBtn"
+                style="color: black; font-size: 15px;">작성하기</a>
+            </div>
+
+            <!--검색창-->
+            <div class="div_right2">
+              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search2"></i>
+            </div>
+
+            <div class="used_body">
+
+              <div class="used_prod_wrap used_hp">
+
+                <div class="used_galleryview_wrap">
+
+                  <ul class="used_prod_list">
+
+                    <li class="gallery_view fst">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="https://t1.daumcdn.net/cfile/tistory/224EBA4953741BCC08" alt=""
+                            class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="https://t1.daumcdn.net/cfile/tistory/9951754A5DFD9A1F05" alt=""
+                            class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzP2ULQO0QheKB1hDe__n-YQ8uLNyz2lfOCg&usqp=CAU"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img src="https://www.drworkout.fitness/wp-content/uploads/2021/07/Chris-Bumstead-Diet.jpg"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                  </ul>
+                  <ul class="used_prod_list">
+
+                    <li class="gallery_view fst">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img
+                            src="data:image/jpeg;base64,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"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRb6rarpXnsz7dvp57HsFETEKoca1O_uEm9CQ&usqp=CAU"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="./work.html" title="" class="black-image-project-hover">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKqHB5MqfqLvqXiHcykCoXPEXGk5jLPrDNUA&usqp=CAU"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                    <li class="gallery_view">
+                      <div>
+                        <a href="../feed/feed_view.html" title="" class="black-image-project-hover">
+                          <img
+                            src="https://www.popco.net/zboard/data/photo_gallery/2015/07/19/83310533755ab3b834bc6a.jpg"
+                            alt="" class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
+                        </a>
+                      </div>
+
+
+                      <div class="item_icons">
+
+                      </div>
+                    </li>
+
+                  </ul>
+
+
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <button id="searchMoreNotify" class="btn btn-outline-primary btn-block col-sm-10 mx-auto" style="background-color: white; box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+            border-radius: 5px; width: 200px; margin-left: 41%;">더 보기</button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+      navActivePage();
+    });
+
+    const navbar = document.querySelector('#nav');
+    const navbarHeight = navbar.getBoundingClientRect().height;
+
+    document.addEventListener('scroll', () => {
+      console.log(window.scrollY);
+      if (window.scrollY > navbarHeight) {
+        navbar.classList.add('navbar_display');
+      } else {
+        navbar.classList.remove('navbar_display');
+      }
+    });
+  </script>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
+
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-XXXXX-X', 'auto');
+  ga('send', 'pageview');
+</script>
+
+-->
+  <script type="text/javascript" src="../../../js/main.js"></script>
+
+</body>
+
+</html>

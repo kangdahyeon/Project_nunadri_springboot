@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.springproject.mapper.MemberMapper">
+
+	<select id="findId" parameterType="String" resultType="com.springproject.vo.MemberVO">
+		SELECT * FROM MEMBER
+			WHERE ID = #{id}
+	</select> 
+	
+	<insert id="join" parameterType="com.springproject.vo.MemberVO">
+		INSERT INTO MEMBER(
+								ID
+							   ,PWD
+							   ,ADDRESS
+							   ,ADDRESS_DETAIL
+							   ,NAME
+							   ,NICKNAME
+							   ,PHONE
+							   ,EMAIL
+							   ,ROLE
+							 
+							)
+						VALUES (
+								#{id}
+							   ,#{pwd}
+							   ,#{address}
+							   ,#{addressDetail}
+							   ,#{name}
+							   ,#{nickname}
+							   ,#{phone}
+							   ,#{email}
+								,#{role}
+								)
+						
+	</insert>
+</mapper>
