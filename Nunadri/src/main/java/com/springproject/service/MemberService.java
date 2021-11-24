@@ -8,6 +8,8 @@ public interface MemberService {
 	
 	void join(MemberVO vo);
 	
+	MemberVO findId(String id);
+	
 	
 
 }

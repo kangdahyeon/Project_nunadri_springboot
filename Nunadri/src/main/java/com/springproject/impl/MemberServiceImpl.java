@@ -27,6 +27,12 @@ public class MemberServiceImpl implements MemberService {
 		
 	}
 	
+	@Override
+	public MemberVO findId(String id) {
+		MemberVO m = memberMapper.findId(id);
+		return m;
+	}
+	
 	
 	//쿼리문 작성하기
 	 private void validateDuplicateEmail(MemberVO member) {

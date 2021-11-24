@@ -11,6 +11,8 @@
 			WHERE ID = #{id}
 	</select> 
 	
+	
+	
 	<insert id="join" parameterType="com.springproject.vo.MemberVO">
 		INSERT INTO MEMBER(
 								ID

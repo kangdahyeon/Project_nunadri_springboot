@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -295,8 +296,8 @@
     }
     
       .error {
-            color: blue;
-        }
+            color: deeppink;
+        }l
   </style>
 
 </head>
@@ -320,7 +321,7 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav ">
             <li class="img_1">
-              <a href="../main/index.html" title="">
+              <a href="/" title="">
                 <img src="../../assets/images/logo2-1.png" class="logoimg img_2">
                 <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
               </a>
@@ -354,7 +355,7 @@
             <li class="font_col" style="margin-left: 400px;"><a href="../member/login.html" style="color: white;"><i
                   class="fas fa-sign-in-alt"></i>
                 로그인</a></li>
-            <li class="font_col"><a href="../member/signup.html" style="color: white;"><i
+            <li class="font_col"><a href="/signup" style="color: white;"><i
                   class="fas fa-folder-plus"></i> 회원가입</a>
             </li>
 
@@ -385,6 +386,7 @@
                     <input name="pwd" class="css-17gk82d" placeholder="영문, 숫자, 특문 중 2개 조합 10자 이상"
                       autocomplete="off" data-valid="false" type="password" value="">
                   </div>
+                  
 
 
 
@@ -403,8 +405,6 @@
                         </a>
                       </ul>
                     </div>
-
-                    <br>
                   </div>
                    <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p>
                   <div class="css-1ai28bz-&quot;SubmitButtonBlock&quot;"><button type="submit" class="css-11a3zmg"
@@ -428,6 +428,7 @@
                   </div>
 
                 </div>
+           
                
               	</form>
             </div>

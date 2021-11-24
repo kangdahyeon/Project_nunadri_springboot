@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -105,9 +106,9 @@
                 <th id="table_width_hit">조회수</th>
               </tr>
               <tr>
-                <td>1</td>
-                <td id="table_text">제목제목제목</td>
-                <td>닉네임</td>
+                <td><span th:text="${mem.id}"/></td>
+                <td id="table_text"><span th:text="${mem.nickname}"/></td>
+                <td><span th:text="${mem.address}"/></td>
                 <td>2021-11-15</td>
                 <td>0</td>
               </tr>

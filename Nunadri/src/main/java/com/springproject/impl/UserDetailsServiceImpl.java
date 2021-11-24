@@ -1,6 +1,7 @@
 package com.springproject.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +10,13 @@ import org.springframework.stereotype.Service;
 
 import com.springproject.mapper.MemberMapper;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.SecurityUser;
 //import com.springproject.vo.SecurityUser;
+
+/*시큐리티가 /login 주소 요청이 오면 낚아채서 로그인 진행
+ * 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)
+ */
+
 
 @Service											/*UserDetailsService : 데이터베이스에서 회원 정보를 가져오는 역할
 													loadUserByUsername() 메소드가 존재하며, 회원정보를 조회하여
@@ -19,6 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    @Autowired
    private MemberMapper memberMapper;
    
+   
    @Override				//UserDetails : 회원의 정보를 담기 위해서 사용하는 인터페이스, 직접 구현하거나 스프링 시큐리티 User 클래스 사용
    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
       MemberVO member = memberMapper.findId(id);
@@ -27,11 +35,20 @@ public class UserDetailsServiceImpl implements UserDetailsService {
          throw new UsernameNotFoundException(id + "           ");
       } else {
 //         return new SecurityUser(member);
-    	  return User.builder()
-    			  .username(member.getId())
-    			  .password(member.getPwd())
-    			  .roles(member.getRole().toString())
-    			  .build();
+    	 
+//    	  return User.builder()
+//    			  .username(member.getId())
+//    			  .password(member.getPwd())
+//    			  .roles(member.getRole().toString())
+//    			  .build();
+    	  
+    	  SecurityUser user = 
+    			  new SecurityUser(member.getId(),
+    					  			member.getPwd(),
+    					  			member.getNickname(),
+    					  			AuthorityUtils.createAuthorityList(member.getRole().toString()));
+//    	  System.out.println(user.getNickname());	
+    	  return user;
     	  
       }
    }

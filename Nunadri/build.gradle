@@ -32,9 +32,11 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation('nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect')
 	
 	//값 검증 ex)@NotBlank, @Length, @Max, @Min 지정 가능
 	implementation('org.springframework.boot:spring-boot-starter-validation')
+	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
 }
 
 test {

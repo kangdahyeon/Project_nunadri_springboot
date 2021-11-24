@@ -25,7 +25,7 @@ public class NoticeMyhouseVO {
 	
 	private int myhouseHit;
 	
-	// ¼Ò¸ðÀÓ
+	//ì†Œëª¨ìž„
 	private Date myhouseDate;
 
 }
