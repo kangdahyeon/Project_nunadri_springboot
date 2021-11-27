@@ -41,6 +41,7 @@ public class DatasourceConfiguration {
 		
 		sqlSessionFactoryBean.setMapperLocations(applicationContext
 									.getResources("classpath:/mapper/**/*-mapping.xml"));
+		sqlSessionFactoryBean.setTypeAliasesPackage("com.springproject.domain");
 		return sqlSessionFactoryBean.getObject();
 	}
 	
@@ -48,4 +49,11 @@ public class DatasourceConfiguration {
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
+	
+	@Bean
+	@ConfigurationProperties(prefix = "mybatis.configuration")
+	public org.apache.ibatis.session.Configuration mybatisConfg() {
+		return new org.apache.ibatis.session.Configuration();
+	}
+	
 }

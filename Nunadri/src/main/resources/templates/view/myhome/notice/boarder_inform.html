@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -13,11 +13,11 @@
   <meta name="msapplication-tap-highlight" content="no">
 
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css}" rel="stylesheet"/>
 
   <title>공지사항</title>
 
-  <link href="../../../css/main.css" rel="stylesheet">
+  <link th:href="@{../../css/main.css}" rel="stylesheet"/>
 
   <style>
     .navbar_display {
@@ -46,41 +46,41 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav ">
             <li class="img_1">
-              <a href="../../main/index.html" title="">
-                <img src="../../../assets/images/logo1-1.png" class="logoimg img_2">
-                <img src="../../../assets/images/logo1-2.png" class="logoimg img_3">
+              <a href="@{../../main/index.html}" title="">
+                <img src="@{../../../assets/images/logo1-1.png}" class="logoimg img_2">
+                <img src="@{../../../assets/images/logo1-2.png}" class="logoimg img_3">
               </a>
             </li>
             <li>
               <div class="drop_down">
-                <a href="../../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
+                <a href="@{../../myhome/myhome_main.html}" title=""><i class="fas fa-home"></i> 우리집</a>
               </div>
             </li>
             <li>
               <div class="drop_down">
                 <a><i class="far fa-comment-alt"></i> 소통해요</a>
                 <div class="drop_down_content">
-                  <a href="../../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../../community/free/boarder_Communication.html" title="">잡담해요</a>
+                  <a href="@{../../community/feed/feed_list.html}" title="">자랑해요</a>
+                  <a href="@{../../community/honey/boarder_honey.html}" title="">꿀팁있어요</a>
+                  <a href="@{../../community/free/boarder_Communication.html}" title="">잡담해요</a>
                 </div>
               </div>
             </li>
             <li>
               <div class="drop_down">
-                <a href="../../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
+                <a href="@{../../customerService/FAQ.html}"><i class="fas fa-headset"></i> 고객센터</a>
                 <div class="drop_down_content">
-                  <a href="../../customerService/question_list.html" title="">질문했어요</a>
-                  <a href="../../customerService/questionboard.html" title="">건의해요</a>
+                  <a href="@{../../customerService/question_list.html}" title="">질문했어요</a>
+                  <a href="@{../../customerService/questionboard.html}" title="">건의해요</a>
                 </div>
               </div>
             </li>
 
 
-            <li style="margin-left: 400px;"><a href="../../member/login.html" title=""><i
+            <li style="margin-left: 400px;"><a href="@{../../member/login.html}" title=""><i
                   class="fas fa-sign-in-alt"></i>
                 로그인</a></li>
-            <li><a href="../../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
+            <li><a href="@{../../member/signup.html}" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
 
           </ul>
         </div>
@@ -96,10 +96,11 @@
           <div id="divsize">
             <!--검색창-->
             <div class="div_right">
-              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search"></i>
+              <input type="search" placeholder=" 검색어를 입력하세요" onkeyup="enterkey();"><i class="fas fa-search icon_search"></i>
             </div>
             <!--게시판 목록 표출-->
             <table class="type04">
+            <thead>
               <tr>
                 <th id="table_width_no">No</th>
                 <th id="table_text">제목</th>
@@ -107,26 +108,59 @@
                 <th id="table_width_writer">작성일</th>
                 <th id="table_width_hit">조회수</th>
               </tr>
-              <tr>
-                <td>1</td>
-                <td id="table_text">제목제목제목</td>
-                <td>닉네임</td>
-                <td>2021-11-15</td>
-                <td>0</td>
-              </tr>
+            </thead>
+            	<tbody>
+					<tr th:if="${not #lists.isEmpty( communityList )}" th:each="row : ${communityList}">
+						<td class="text-left">
+							<a th:href="|@{/board/view.do}${params.makeQueryString(params.currentPageNo)}&noticeNo=${row.noticeNo}|" th:text="${row.title}"></a>
+						</td>
+						<td th:text="${row.writer}"></td>
+						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>
+						<td th:text="${row.viewCnt}"></td>
+					</tr>
+					<tr th:unless="${not #lists.isEmpty( boardList )}">
+						<td colspan="5">조회된 결과가 없습니다.</td>
+					</tr>
+				</tbody>
             </table>
 
           </div>
-          <!--페이징-->
-          <div class="paging col-lg-11">
-            <a href="#">&#60;</a>
-            <a class="select" href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">&#62;</a>
-          </div>
+         <!--페이징-->
+         <div>
+         	<ul>
+         		<li th:if="${paging.startPage != 1}">
+         			<a href="/boardList?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lsaquo;</a>
+         		</li >
+         		<li th:each begin="${paging.startPage}" end="${paging.endPage}" var="p">
+         			<a
+         		</li>
+         	</ul>
+         </div>
+         
+         
+         
+      <!-- <div class="paging col-lg-11" >
+          <ul class="pagination nav nav-tabs" th:with="startNumber=${T(Math).floor(pageList.number/10)}*10+1, 
+                  endNumber=(${pageList.totalPages} > ${startNumber}+9) ? ${startNumber}+9 : ${pageList.totalPages}">
+            <li>
+              <a href="/notice/boarder_inform?page=1">&lsaquo;</a>
+            </li>
+            <li th:style="${pageList.first} ? 'display:none'">
+              <a th:href="@{/notice/boarder_inform/(page=${pageList.number})}">&lsaquo;</a>
+            </li>
+            <li th:each="page:${#numbers.sequence(startNumber,endNumber)}"
+            th:class="(${page} == ${pageList.number}+1) ? 'active'">
+               <a  class="select" th:href="@{/notice/boarder_inform(page=${page})}" th:text=${page}></a>
+            </li>
+            <li th:style="${pageList.last} ? 'display:none'">
+              <a th:href="@{/notice/boarder_inform(page=${pageList.number}+2)}">&rsaquo;</a>
+            </li>
+            <li>
+              <a aria-label="Next" th:href="@{/notice/boarder_inform(page=${pageList.totalPages})}">&raquo;</a>
+            </li>
+          </ul>
+        </div>-->
+
           <!--글쓰기 버튼-->
           <div class="div_right">
             <a href="#" class="btn btn-default" id="writerBtn">글쓰기</a>
@@ -136,7 +170,7 @@
     </div>
   </div>
   <!--푸터-->
-  <footer class="footer-container text-center">
+  <!-- <footer class="footer-container text-center">
     <div class="container">
       <div class="row">
         <div class="col-xs-12" style="padding : 30px">
@@ -146,7 +180,7 @@
         </div>
       </div>
     </div>
-  </footer>
+  </footer> -->
 
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {
@@ -166,11 +200,19 @@
         navbar.classList.remove('navbar_display');
       }
     });
+
+     // 엔터키 누르면 검색되는 스크립트
+     function enterkey() {
+      if(window.event.keycode == 13) {
+          
+          search();
+      }
+    }
   </script>
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
-  <script type="text/javascript" src="../../../js/main.js"></script>
+  <script type="text/javascript" th:src="@{../../../js/main.js}"></script>
 </body>
 
 </html>

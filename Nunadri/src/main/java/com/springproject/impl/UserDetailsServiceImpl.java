@@ -13,21 +13,20 @@ import com.springproject.vo.MemberVO;
 import com.springproject.vo.SecurityUser;
 //import com.springproject.vo.SecurityUser;
 
-/*ì‹œíë¦¬í‹°ê°€ /login ì£¼ì†Œ ìš”ì²­ì´ ì˜¤ë©´ ë‚šì•„ì±„ì„œ ë¡œê·¸ì¸ ì§„í–‰
- * ë¡œê·¸ì¸ ì§„í–‰ì´ ì™„ë£Œë˜ë©´ ì‹œíë¦¬í‹° sessionì„ ë§Œë“¤ì–´ì¤Œ(SecurityContenxtHolder)
- */
+/*½ÃÅ¥¸®Æ¼°¡ /login ÁÖ¼Ò ¿äÃ»ÀÌ ¿À¸é ³¬¾ÆÃ¤¼­ ·Î±×ÀÎ ÁøÇà
+ * ·Î±×ÀÎ ÁøÇàÀÌ ¿Ï·áµÇ¸é ½ÃÅ¥¸®Æ¼ sessionÀ» ¸¸µé¾îÁÜ(SecurityContenxtHolder)*/
 
 
-@Service											/*UserDetailsService : ë°ì´í„°ë² ì´ìŠ¤ì—ì„œ íšŒì› ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ëŠ” ì—­í• 
-													loadUserByUsername() ë©”ì†Œë“œê°€ ì¡´ì¬í•˜ë©°, íšŒì›ì •ë³´ë¥¼ ì¡°íšŒí•˜ì—¬
-													ì‚¬ìš©ìì˜ ì •ë³´ì™€ ê¶Œí•œì„ ê°–ëŠ” UserDetails ì¸í„°í˜ì´ìŠ¤ë¥¼ ë°˜í™˜
-													ìŠ¤í”„ë§ ì‹œíë¦¬í‹°ì—ì„œ UserDetailServiceë¥¼ êµ¬í˜„í•˜ê³  ìˆëŠ” í´ë˜ìŠ¤ë¥¼ í†µí•´ ë¡œê·¸ì¸ ê¸°ëŠ¥ì„ êµ¬í˜„*/
+@Service											/*UserDetailsService : µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ È¸¿ø Á¤º¸¸¦ °¡Á®¿À´Â ¿ªÇÒ
+														loadUserByUsername() ¸Ş¼Òµå°¡ Á¸ÀçÇÏ¸ç, È¸¿øÁ¤º¸¸¦ Á¶È¸ÇÏ¿©
+														»ç¿ëÀÚÀÇ Á¤º¸¿Í ±ÇÇÑÀ» °®´Â UserDetails ÀÎÅÍÆäÀÌ½º¸¦ ¹İÈ¯
+														½ºÇÁ¸µ ½ÃÅ¥¸®Æ¼¿¡¼­ UserDetailService¸¦ ±¸ÇöÇÏ°í ÀÖ´Â Å¬·¡½º¸¦ ÅëÇØ ·Î±×ÀÎ ±â´ÉÀ» ±¸Çö*/
 public class UserDetailsServiceImpl implements UserDetailsService {
    @Autowired
    private MemberMapper memberMapper;
    
    
-   @Override				//UserDetails : íšŒì›ì˜ ì •ë³´ë¥¼ ë‹´ê¸° ìœ„í•´ì„œ ì‚¬ìš©í•˜ëŠ” ì¸í„°í˜ì´ìŠ¤, ì§ì ‘ êµ¬í˜„í•˜ê±°ë‚˜ ìŠ¤í”„ë§ ì‹œíë¦¬í‹° User í´ë˜ìŠ¤ ì‚¬ìš©
+   @Override				//UserDetails : È¸¿øÀÇ Á¤º¸¸¦ ´ã±â À§ÇØ¼­ »ç¿ëÇÏ´Â ÀÎÅÍÆäÀÌ½º, Á÷Á¢ ±¸ÇöÇÏ°Å³ª ½ºÇÁ¸µ ½ÃÅ¥¸®Æ¼ User Å¬·¡½º »ç¿ë
    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
       MemberVO member = memberMapper.findId(id);
       

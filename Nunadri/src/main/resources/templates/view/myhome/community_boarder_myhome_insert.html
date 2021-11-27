@@ -334,7 +334,7 @@
     .footer_color > a {
       text-decoration: none;
     }
-    #button_color {
+    .button_color {
       color: #fff;
       border: 1px solid #fff;
       border-radius: 5px;
@@ -423,28 +423,26 @@
             <div>
               <form>
                 <select name="boardselect" class="div_right boarderselect">
-                  <option value="게시판선택">우리집게시판</option>
-                  <option value="게시판선택">공지사항</option>
-                  <option value="게시판선택">도와주세요</option>
-                  <option value="게시판선택">자유게시판</option>
+                  <option value="0">우리집게시판</option>
+                  <option value="1">공지사항</option>
+                  <option value="2">도와주세요</option>
+                  <option value="3">자유게시판</option>
                 </select>
               </form>
             </div>
             <form action="writerAction" method="post">
-              <input type="hidden" name="bdGroup" value=<%=%>
-              <input type="hidden" name="bdOrder" value=<%=%> <input type="hidden" name="bdIndent" value=<%=%>
-
-              <input type="text" class="form-control textbox" id="" name="" placeholder="제목을 입력해주세요." required>
+              <input type="hidden" name="nickname" value=>
+              <input type="text" class="form-control textbox" id="noticeTitle" name="noticeTitle" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
-                <textarea class="form-control" rows="11" name="" placeholder="내용을 입력해주세요" required></textarea>
+                <textarea class="form-control" rows="11" id="noticeContent" name="noticeContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
-                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
-                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
+                    <a class="btn btn-default button_color"><i class="far fa-image"></i></a>
+                    <a class="btn btn-default button_color"><i class="fas fa-link"></i></a>
                   </div>
               </div>
               <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
               <div class="">
-                  <a class="btn btn-default" id="button_color" onclick="location.href=''">글올리기</a>
+                  <a class="btn btn-default button_color" id="btn-save"onclick="location.href=''">글올리기</a>
               </div>
           </form>
         </div>
@@ -488,5 +486,6 @@
 <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
 <script type="text/javascript" src="../../js/main.js"></script>
+<script src="../../../static/js/app/index.js"></script>
 </body>
 </html>

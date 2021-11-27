@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springproject.mapper.CommunityMapper">
+	<sql id="communityColumns">
+			  NOTICE_CATEGORY
+			, NOTICE_NO
+			, NICKNAME
+			, NOTICE_REGDATE
+			, NOTICE_TITLE
+			, NOTICE_CONTENT
+			, NOTICE_HIT
+			, NOTICE_PICTURE
+	</sql>
+
+	<resultMap type="com.springproject.vo.CommunityVO" id="CommunityVOResultMap">
+		<id property="noticeCategory" column="NOTICE_CATEGORY"/>
+		<id property="noticeNo" column="NOTICE_NO"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="noticeRegDate" column="NOTICE_REGDATE"/>
+		<result property="noticeTitle" column="NOTICE_TITLE"/>
+		<result property="noticeContent" column="NOTICE_CONTENT"/>
+		<result property="noticeHit" column="NOTICE_HIT"/>
+		<result property="noticePicture" column="NOTICE_PICTURE"/>
+	</resultMap>
+		
+	
+		<insert id="insertCommunity" parameterType="CommunityVO">
+			INSERT INTO projectdb.NOTICE_COMMUNITY 
+		(
+			 NOTICE_NO
+			, NOTICE_CATEGORY
+			, NICKNAME
+			, NOTICE_REGDATE
+			, NOTICE_TITLE
+			, NOTICE_CONTENT
+			, NOTICE_HIT
+			, NOTICE_PICTURE
+			
+    		) values (
+    			(SELECT 
+					IFNULL(MAX(NOTICE_NO), 0) + 1 
+				FROM 
+					projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
+				WHERE 
+					NOTICE_CATEGORY = #{noticeCategory})
+				, #{noticeCategory}
+				, #{nickname}
+				, date_format(now(), '%Y-%m-%d')
+				, #{noticeTitle}
+				, #{noticeContent}
+				, #{noticeHit}
+				, #{noticePicture}
+   		 )	
+		</insert>
+	
+		<select id="selectCommunityDetail" parameterType="CommunityVO" resultType="CommunityVO">
+			SELECT
+				<include refid="communityColumns" />
+			FROM
+				projectdb.NOTICE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND
+				NOTICE_NO = #{noticeNo}
+		</select>
+	
+		<update id="updateCommunity" parameterType="CommunityVO">
+			UPDATE projectdb.NOTICE_COMMUNITY
+			SET
+			NOTICE_CATEGORY = #{noticeCategory}
+				, NOTICE_TITLE = #{noticeTitle}
+				, NOTICE_CONTENT = #{noticeContent}
+				, NICKNAME = #{nickname}
+			WHERE
+				NOTICE_NO = #{noticeNo}
+		</update>
+	
+		<delete id="deleteCommunity" parameterType="CommunityVO">
+			DELETE FROM projectdb.NOTICE_COMMUNITY
+			WHERE NOTICE_NO = #{noticeNo} 
+			AND NOTICE_CATEGORY = #{noticeCategory}
+		</delete>
+	
+		<select id="selectCommunityList" parameterType="CommunityVO" resultType="CommunityVO">
+			SELECT 
+				<include refid="communityColumns" />
+			FROM
+			    projectdb.NOTICE_COMMUNITY
+			WHERE
+			    NOTICE_CATEGORY = #{noticeCategory}
+			    <if test="searchCondition == 'NOTICE_TITLE'">
+					AND TITLE LIKE '%' || #{searchKeyword} || '%'
+				</if>
+				<if test="searchCondition == 'NOTICE_CONTENT'">
+					AND CONTENT LIKE '%' || #{searchKeyword} || '%'
+				</if>
+			ORDER BY NOTICE_NO DESC
+			LIMIT 9
+		</select>
+	
+		<select id="selectCommunityTotalCount" parameterType="CommunityVO" resultType="int">
+			SELECT
+				COUNT(*)
+			FROM
+				projectdb.NOTICE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+</mapper>

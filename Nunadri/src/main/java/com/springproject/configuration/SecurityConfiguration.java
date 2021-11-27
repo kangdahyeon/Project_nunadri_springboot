@@ -27,8 +27,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             
       security.authorizeRequests()
                            .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
-                           .antMatchers("/admin/**").hasRole("ADMIN")
-                           .anyRequest().authenticated();
+                           .antMatchers("/admin/**").hasRole("ADMIN");
 //                           .antMatchers("/manager/**").hasRole("MANAGER")
 //                           .antMatchers("admin/**").hasAnyRole("ADMIN");
 //      
@@ -62,7 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    
    @Override
    public void configure(WebSecurity web) throws Exception {
-       web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**"); //static 디렉터리 하위 파일은 인증을 무시하도록 설정
+       web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**"); //static �뵒�젆�꽣由� �븯�쐞 �뙆�씪�� �씤利앹쓣 臾댁떆�븯�룄濡� �꽕�젙
    }
    
  
@@ -74,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //   @Override
 //   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 //
-//       //userDetailsService를 구현하고 있는 객체로 memberService를 지정해주며, 비밀번호 암호화를 위해 passwordEncoder 지정
+//       //userDetailsService瑜� 援ы쁽�븯怨� �엳�뒗 媛앹껜濡� memberService瑜� 吏��젙�빐二쇰ŉ, 鍮꾨�踰덊샇 �븫�샇�솕瑜� �쐞�빐 passwordEncoder 吏��젙
 //       auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
 //   }
 }

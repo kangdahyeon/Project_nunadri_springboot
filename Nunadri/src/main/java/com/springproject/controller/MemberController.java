@@ -28,8 +28,6 @@ public class MemberController {
 	
 	 @GetMapping("/")
 	 public String main() {
-		
-		 
 		 return "view/main/index";
 	 }
 	 

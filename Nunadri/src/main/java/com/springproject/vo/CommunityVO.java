@@ -2,10 +2,14 @@ package com.springproject.vo;
 
 import java.sql.Date;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
-public class NoticeCommunityVO {
+@ToString
+@Getter
+@Setter
+public class CommunityVO {
 
 	private String noticeCategory;
 	
@@ -22,4 +26,9 @@ public class NoticeCommunityVO {
 	private int noticeHit;
 	
 	private String noticePicture;
+	
+	private String SearchCondition;
+	
+	private String SearchKeyword;
+	
 }
