@@ -2,7 +2,6 @@ package com.springproject.service;
 
 
 
-import java.util.Map;
 
 import com.springproject.vo.MemberVO;
 
@@ -19,4 +18,6 @@ public interface MemberService {
 	void updateMember(MemberVO vo);
 	
 	void updatePwd(MemberVO vo);
+	
+	void deleteMember(String id);
 }

@@ -31,6 +31,11 @@
 	</update>
 	
 	
+	<delete id="deleteMember" parameterType="String">
+      delete from MEMBER where ID = #{id};
+   </delete>
+	
+	
 	
 	
 	
@@ -65,7 +70,7 @@
 	
 	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">
 	
-		UPDATE MEMBER SET PWD=#{pwd}, ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
+		UPDATE MEMBER SET ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
 		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email} WHERE ID = #{id}
 	</update>
 </mapper>

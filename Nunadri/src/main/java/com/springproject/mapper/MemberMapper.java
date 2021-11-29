@@ -24,6 +24,8 @@ public interface MemberMapper {
 	
 	void updatePwd(MemberVO vo);
 	
+	void deleteMember(String id);
+	
 	
 
 }

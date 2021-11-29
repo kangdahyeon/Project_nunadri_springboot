@@ -35,11 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             
 
      security.authorizeRequests()
-                      .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
-                      .antMatchers("/admin/**").hasRole("ADMIN")
+                      .antMatchers("/", "/login", "/signup", "/findid",
+                    		  "/findpwd","/login/error","/checkPassword","/checkPwdCode","/checkMail","/sendId").permitAll()
+                      .antMatchers("/admin/**").hasRole("ADMIN") //권한 부분 추가(찾기 시리즈)
                       .anyRequest().authenticated();
-                           .antMatchers("/manager/**").hasRole("MANAGER")
-                           .antMatchers("admin/**").hasAnyRole("ADMIN");
+                 
         
       security.csrf().disable();
 
@@ -75,11 +75,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //   }
    
    
-   @Bean
-   @Override
-   public AuthenticationManager authenticationManagerBean() throws Exception {
-       return super.authenticationManagerBean();
-   }
+//   @Bean
+//   @Override
+//   public AuthenticationManager authenticationManagerBean() throws Exception {
+//       return super.authenticationManagerBean();
+//   }
    
    @Override
    public void configure(WebSecurity web) throws Exception {

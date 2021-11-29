@@ -61,7 +61,7 @@
       border: none;
       height: 40px;
       padding: 10px 10px 10px 10px;
-      width: 48%;
+      width: 30%;
       border-radius: 25px;
       background: white;
       font-size: 20px;
@@ -96,6 +96,7 @@
   <div class="hero-full-container background-image-container white-text-container background-image-container"
     style="z-index: -1;">
     <div class="container">
+    <form action="/update" method="post">
       <div class="row">
         <div class="col-xs-12">
           <div class="hero-full-wrapper">
@@ -133,7 +134,8 @@
                       <label>이메일</label>
                       <input type="text" class="form" name="email" th:value="${memberInfo.email}" placeholder="email"><br><br>
                       <input type="submit" class="button" value="수정">
-                      <input type="button" class="button" value="취소" onclick="location.href='/mypage'" style="float: right;">
+                      <input type="button" class="button" value="탈퇴" th:onclick="|location.href='/deleteMember'|">               
+                      <input type="button" class="button" value="취소" onclick="location.href='/mypage'">
                       </form>
                     </div>
                   </div>

@@ -12,18 +12,21 @@ import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
 import com.springproject.vo.MemberVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class PrincipalDetailsService implements UserDetailsService {
 	//소셜로그인 리턴값을 편하게 하기 위한 클래스
-	@Autowired
-	private MemberService memberservice;
+//	@Autowired
+	private final MemberService memberservice;
 
-	@Autowired
-	private MemberMapper memberMapper;
+	//@Autowired
+	private final MemberMapper memberMapper;
 
 	// 소셜로그인 정보를 담기위한 맵
-	@Autowired
-	private Map<String, Object> attributes;
+	//@Autowired
+	private final Map<String, Object> attributes;
 
 	@Override
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
