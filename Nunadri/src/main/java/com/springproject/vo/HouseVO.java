@@ -13,7 +13,4 @@ public class HouseVO {
 	
 	private double y;
 
-	
-	
-
 }

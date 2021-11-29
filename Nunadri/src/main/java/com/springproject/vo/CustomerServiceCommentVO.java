@@ -1,6 +1,5 @@
 package com.springproject.vo;
 
-
 import lombok.Data;
 
 @Data
@@ -13,7 +12,5 @@ public class CustomerServiceCommentVO {
 	private String nickname;
 	
 	private String qnaComment;
-	
 
-	
 }

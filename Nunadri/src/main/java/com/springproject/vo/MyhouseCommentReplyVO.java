@@ -16,6 +16,5 @@ public class MyhouseCommentReplyVO {
 	private String myhouseReplyComment;
 	
 	private String nickname;
-	
-	
+
 }

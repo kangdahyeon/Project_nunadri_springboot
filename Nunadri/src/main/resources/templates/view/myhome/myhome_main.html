@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
 
 <head>
   <meta charset="UTF-8">
@@ -55,13 +58,13 @@
       bottom: 0;
       width: 300px;
       margin: 0px 0 30px 10px;
-      padding: 5px;
+      padding: 15px;
       overflow-y: auto;
       background: white;
       z-index: 1;
       font-size: 12px;
       border-radius: 25px;
-      height: 25%;
+      height: 20%;
       overflow: hidden;
     }
 
@@ -183,58 +186,8 @@
 <body style="overflow: hidden;">
 
 
-  <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 100%; 
-    transform: translate(-10px,-12px);">
-      <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
-          aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav ">
-            <li class="img_1">
-              <a href="../main/index.html" title="">
-                <img src="../../assets/images/logo1-1.png" class="logoimg img_2">
-                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a href="../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../customerService/question_list.html" title="">질문했어요</a>
-                  <a href="../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-            <li style="margin-left: 400px;"><a href="../member/login.html" title=""><i class="fas fa-sign-in-alt"></i>
-                로그인</a></li>
-            <li><a href="../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+  <div th:replace="view/fragments/header::header"></div>
+  
   <!-- Add your site or app content here -->
   <div class="hero-full-container background-image-container white-text-container background-image-container"
     style="z-index: -1;">
@@ -260,7 +213,8 @@
                     <div>
                       <form onsubmit="searchPlaces(); return false;">
                         <!-- 매핑값 불러 올 곳 -->
-                        <input type="text" value="영등포구 선유로 277-8" id="keyword" size="auto"
+                        
+                        <input type="hidden" th:value="${memberInfo.address}" id="keyword" size="auto"
                           style="border-radius: 25px; text-align: center;">
                         <!-- <button type="submit">검색하기</button>  -->
                       </form>
@@ -279,13 +233,13 @@
                         <input type="button" class="button" value="공 지 사 항"
                           onclick="location.href='notice/boarder_inform.html'"><br>
                         <input type="button" class="button" value="도 와 주 세 요"
-                          onclick="location.href='help/boarder_help.html'"><br>
+                          th:onclick="|location.href='/help'|">
                         <input type="button" class="button" value="소 모 임"
                           onclick="location.href='smallGroup/boarder_smallgroup.html'"><br>
                         <input type="button" class="button" value="자 유 게 시 판"
                           onclick="location.href='free/boarder_free.html'"><br>
                         <input type="button" class="button" value="중 고 거 래"
-                          onclick="location.href='fleaMarket/fleamarket_list.html'">
+                          th:onclick="|location.href='/fleamarket'|">
                       </div>
                     </div>
                   </div>
@@ -333,13 +287,14 @@
     // 키워드 검색을 요청하는 함수입니다
     function searchPlaces() {
 
+	var keyword ='${memberInfo.address}';
+
       var keyword = document.getElementById('keyword').value;
 
       if (!keyword.replace(/^\s+|\s+$/g, '')) {
         alert('키워드를 입력해주세요!');
         return false;
       }
-
       // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
       ps.keywordSearch(keyword, placesSearchCB);
     }

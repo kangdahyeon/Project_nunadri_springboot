@@ -11,9 +11,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 
 @Configuration
 @PropertySource("classpath:/application.properties")
@@ -37,8 +40,8 @@ public class DatasourceConfiguration {
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
+		//Mybatis �������� ��ġ ����
 		sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis-config.xml"));
-		
 		sqlSessionFactoryBean.setMapperLocations(applicationContext
 									.getResources("classpath:/mapper/**/*-mapping.xml"));
 		return sqlSessionFactoryBean.getObject();
@@ -48,4 +51,21 @@ public class DatasourceConfiguration {
 	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
+	
+	@Configuration
+	public class LayOutConfig {
+		
+		// thymeleaf layout
+		@Bean
+		public LayoutDialect layoutDialect() {
+		    return new LayoutDialect();
+		}
+	}
+	
+	@Bean
+	public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
+	HiddenHttpMethodFilter filter = new HiddenHttpMethodFilter();
+	return filter;
+	}
+	
 }

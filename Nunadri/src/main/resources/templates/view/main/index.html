@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
 
 <head>
   <meta charset="UTF-8">
@@ -139,10 +140,9 @@
 
 <body class="minimal">
 
-<div th:replace="view/fragments/header::header"></div>
-
-
-<!-- 메인 이미지 배경 화면 -->
+	<div th:replace="view/fragments/header::header"></div>
+	
+  <!-- 메인 이미지 배경 화면 -->
   <div class="hero-full-container backgroundImg">
     <video autoplay muted loop id="myVideo">
       <source src="../../assets/images/index_video.mp4" type="video/mp4">
@@ -167,7 +167,6 @@
       </div>
     </div>
   </div>
- 
 
   <!-- 메인 홈페이지 소개글 영역 -->
   <div class="bg-color">
@@ -301,7 +300,6 @@
       </div>
     </div>
   </footer>
-
   <!-- <footer class="footer-container text-center" style="background-color: black;">
     <div class="container">
       <div class="row">

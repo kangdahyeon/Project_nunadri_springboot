@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" 
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 <head>
+
   <meta charset="UTF-8">
   <meta content="IE=edge" http-equiv="X-UA-Compatible">
   <meta content="width=device-width,initial-scale=1" name="viewport">
@@ -16,7 +18,7 @@
 
   <title>고객센터</title>
 
-  <link th:href="@{../../css/main.css}" rel="stylesheet">
+  <link href="../../css/main.css" rel="stylesheet">
   <style>
     .css-1lsq3kr {
       display: block;
@@ -282,67 +284,10 @@
 
 <body class="" style="overflow: hidden;">
   <video autoplay muted loop id="myVideo">
-    <source th:src="@{../../assets/images/sign_in.mp4}" type="video/mp4">
+    <source src="../../assets/images/sign_in.mp4" type="video/mp4">
   </video>
 
-  <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse">
-      <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
-          aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav ">
-            <li class="img_1">
-              <a th:href="@{../main/index.html}" title="">
-                <img th:src="@{../../assets/images/logo2-1.png}" class="logoimg img_2">
-                <img th:src="@{../../assets/images/logo1-2.png}" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a th:href="@{../myhome/myhome_main.html}" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a th:href="@{../community/feed/feed_list.html}" title="">자랑해요</a>
-                  <a th:href="@{../community/honey/boarder_honey.html}" title="">꿀팁있어요</a>
-                  <a th:href="@{../community/free/boarder_Communication.html}" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a href="../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../customerService/question_list.html" title="">질문했어요</a>
-                  <a href="../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-
-
-            <li class="font_col" style="margin-left: 400px;"><a href="../member/login.html" style="color: white;"><i
-                  class="fas fa-sign-in-alt"></i>
-                로그인</a></li>
-            <li class="font_col"><a href="../member/signup.html" style="color: white;"><i
-                  class="fas fa-folder-plus"></i> 회원가입</a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
+<div th:replace="view/fragments/member_header::memberHeader"></div>
 
   <div class="section-container" style="padding: 20px;">
     <div class="container">
@@ -352,6 +297,7 @@
             <div src="" class="css-1oylls0">
               <main class="css-1rpe30y">
               <form action="/signup" method="post">
+             <!-- <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
                 <div class="css-m4m9j2"
                   style="background-color: rgba(128, 128, 128, 0.349); border-radius: 6px; width: 400px; padding: 34px;">
                   <div class="css-nmz2w">회원가입</div>
@@ -362,7 +308,7 @@
                   </div>
 
                   <div class="css-k5snl0">
-                    <input name="pwd" class="css-17gk82d" placeholder="영문, 숫자, 특문 중 2개 조합 10자 이상"
+                    <input name="pwd" class="css-17gk82d" placeholder="8자 이상 16자 이하로 작성해주세요"
                       autocomplete="off" data-valid="false" type="password" value="">
                   </div>
 
@@ -396,7 +342,8 @@
                     <input name="email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
                       data-valid="false" type="email" value="">
                   </div>
-					
+
+
                   <div class="signup_checker_container css-1btp4cx">
                     <div class="css-ddiry1">
 
@@ -405,7 +352,7 @@
                     <br>
                   </div>
                   <div class="css-1ai28bz-&quot;SubmitButtonBlock&quot;"><button type="submit" class="css-11a3zmg"
-                      >계정 생성하기</button>
+                     >계정 생성하기</button>
                   </div>
 
                 </div>
@@ -420,7 +367,7 @@
 
 
 
-  <script>
+<script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
     });
@@ -492,10 +439,10 @@
   ga('send', 'pageview');
 </script>
 -->
-  <script type="text/javascript" th:src="@{../../js/main.js}"></script>
+  <script type="text/javascript" src="../../js/main.js"></script>
 
   <!--다음 API-->
-  <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 
 </html>

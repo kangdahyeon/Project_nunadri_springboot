@@ -14,6 +14,5 @@ public class MyhouseCommentVO {
 	private String myhouseComment;
 	
 	private String nickname;
-	
 
 }

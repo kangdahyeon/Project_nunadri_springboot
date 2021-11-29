@@ -1,42 +1,53 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mapper DTD 선언 -->
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="com.springproject.mapper.MemberMapper">
-
 	<select id="findId" parameterType="String" resultType="com.springproject.vo.MemberVO">
 		SELECT * FROM MEMBER
-			WHERE ID = #{id}
-	</select> 
-	
-	
+			WHERE ID = #{id} <!-- and PWD = #{password} -->
+	</select>
 	
 	<insert id="join" parameterType="com.springproject.vo.MemberVO">
-		INSERT INTO MEMBER(
+		INSERT INTO MEMBER (
 								ID
-							   ,PWD
-							   ,ADDRESS
-							   ,ADDRESS_DETAIL
-							   ,NAME
-							   ,NICKNAME
-							   ,PHONE
-							   ,EMAIL
-							   ,ROLE
-							 
-							)
-						VALUES (
+							  , PWD
+							  , ADDRESS
+							  , ADDRESS_DETAIL
+							  , NAME
+							  , NICKNAME
+							  , PHONE
+							  , EMAIL
+							  , ROLE
+						   )
+					VALUES (
 								#{id}
-							   ,#{pwd}
-							   ,#{address}
-							   ,#{addressDetail}
-							   ,#{name}
-							   ,#{nickname}
-							   ,#{phone}
-							   ,#{email}
-								,#{role}
-								)
-						
+							  , #{pwd}
+							  , #{address}
+							  , #{addressDetail}
+							  , #{name}
+							  , #{nickname}
+							  , #{phone}
+							  , #{email}
+							  , #{role}
+						   )
 	</insert>
+	
+	<select id="getMemberInfo" parameterType="String" resultType="com.springproject.vo.MemberVO">
+		select *
+		from MEMBER
+		where ID = #{id}
+	</select>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from MEMBER where ID = #{id};
+	</delete>
+	
+	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">
+		update MEMBER set  PWD=#{pwd}, NAME=#{name}, NICKNAME=#{nickname}, ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, PHONE=#{phone}, EMAIL=#{email}
+		where ID=#{id}
+	</update>
+	
+	
 </mapper>

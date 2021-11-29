@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- mapper DTD 선언 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springproject.mapper.MyHomeMapper">
+
+<!-- 	<resultMap type="com.springproject.vo.MemberVO" id="userResult">
+  		<result property="nickname" column="NICKNAME"/>
+  	</resultMap>
+  	
+  	<resultMap type="com.springproject.vo.HouseVO" id="houseResult">
+  		<result property="houseNo" column="HOUSE_NO"/>
+  		<result property="address" column="ADDRESS"/>
+  	</resultMap>
+
+	<resultMap type="com.springproject.vo.NoticeMyhouseVO" id="boardResult">
+		<result property="myhouseCategory" column="MYHOUSE_CATEGORY"/>
+		<result property="myhouseNo" column="MYHOUSE_NO"/>
+		<result property="houseNo" column="HOUSE_NO"/>
+		<result property="nickname" column="NICKNAME"/>
+		<result property="myhouseTitle" column="MYHOUSE_TITLE"/>
+		<result property="myhouseContent" column="MYHOUSE_CONTENT"/>
+		<result property="myhousePicture" column="MYHOUSE_PICTURE"/>
+		<result property="myhouseRegDate" column="MYHOUSE_REGDATE"/>
+		<result property="myhouseHit" column="MYHOUSE_HIT"/>
+		<result property="myhouseDate" column="MYHOUSE_DATE"/>
+	</resultMap> -->
+	
+	<!-- <select id="getMyHouseInfo" parameterType="HashMap" resultMap="boardResult">
+		select *
+		from NOTICE_MYHOUSE
+		where NICKNAME = #{nickname}
+	</select> -->
+	
+	<select id="getMyHomeBoardList" resultType="HashMap">
+		SELECT m.*, h.house_no, u.nickname
+  		FROM notice_myhouse m
+  		LEFT OUTER JOIN house h ON m.house_no = h.house_no
+  		LEFT OUTER JOIN member u ON m.nickname = u.nickname
+  		WHERE myhouse_category = 'h'
+  		ORDER BY myhouse_no DESC
+  	</select>
+	
+	<!-- <select id="getFreeBoardList" parameterType="HashMap" resultMap="boardResult">
+  		SELECT b.board_seq, b.board_type, b.user_id, b.hospital_seq, b.title, b.content, b.regDate, u.user_nickname
+  		FROM board AS b
+  		INNER JOIN user AS u
+  		ON b.user_id = u.user_id
+  		WHERE board_type = 'f'
+  		ORDER BY board_seq DESC
+  	</select> -->
+	
+	<!-- <select id="getBoardList" resultMap="NOTICE_MYHOUSE">
+		
+	</select> -->
+
+	
+	
+</mapper>
