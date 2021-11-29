@@ -22,7 +22,7 @@
 
 
   <title>메인페이지</title>
-
+<script type="text/javascript" src="../../js/jquery.js"></script>
   <link href="../../../css/main.css" rel="stylesheet">
   <style>
     /* 회원정보 수정 목록들 */
@@ -45,14 +45,14 @@
       height: 30px;
       padding: 10px 30px;
       /* width: -webkit-fill-available; */
-      width: 300px;
+      width: 280px;
       border-radius: 25px;
       background: rgb(10, 55, 50);
       font-size: 20px;
       font-family: Jua, Gugi sans-serif;
       -ms-text-size-adjust: 100%;
       -webkit-text-size-adjust: 100%;
-      color: pink;
+      color: black;
       float: right;
     }
 
@@ -68,12 +68,12 @@
       font-family: Jua, Gugi sans-serif;
       -ms-text-size-adjust: 100%;
       -webkit-text-size-adjust: 100%;
-      color :blank;
+      color: black;
     }
 
     .modify label {
       font-size: large;
-      color: white;
+      color: black;
       text-shadow: none;
       margin-top: 5px;
     }
@@ -84,6 +84,12 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+    
+    #mismatch{
+	 color: hotpink; 
+	 height: 20px; 
+	 font-size: 16px;
+}
   </style>
 </head>
 
@@ -100,43 +106,27 @@
         <div class="col-xs-12">
           <div class="hero-full-wrapper">
             <div class="text-content">
-              <div class="col-sm-8 col-sm-offset-2">
+              <div class="col-sm-8 col-sm-offset-2" style="transform: translateY(-30%);">
                 <!-- 회원정보 수정 폼  -->
                 <div id="member_modify">
                   <div class="text-center">
-                    <h1 class="h2">회원정보 수정</h1>
+                    <h1 class="h2" style="margin-bottom: 60px;">비밀번호 변경</h1>
                   </div>
+					
                   <div class="modify">
-                  
                     <div>
-                    <form>
-                      <label>아이디</label>
-                      <input type="text" class="form" name="id" th:value="${memberInfo.id}" placeholder="id_fix"><br>
+                      <label>비밀번호 </label>
+                      <input type="password" id="changePw" class="form" name="pwd" placeholder="password"><br>
                     </div>
                     <div>
-                      <label>이 름</label>
-                      <input type="text" class="form" name="name" th:value="${memberInfo.name}" placeholder="name"><br>
-                    </div>
-                    <div>
-                      <label>닉네임 </label>
-                      <input type="text" class="form" name="nickname" th:value="${memberInfo.nickname}" placeholder="nickname_fix"><br>
-                    </div>
-                    <div>
-                      <label>주 소 </label>
-                      <input type="text" class="form" name="address" th:value="${memberInfo.address}" placeholder="address"><br>
-                    </div>
-                    <div>
-                      <label>상세주소</label>
-                      <input type="text" class="form" name="addressDetail" th:value="${memberInfo.addressDetail}" placeholder="detail_address"><br>
-                    </div>
-                    <div>
-                      <label>이메일</label>
-                      <input type="text" class="form" name="email" th:value="${memberInfo.email}" placeholder="email"><br><br>
-                      <input type="submit" class="button" value="수정">
+                      <label>비밀번호 확인</label>
+                      <input type="password" id="checkPw" class="form" placeholder="password"><br><br>
+                   <div id="mismatch"></div >
+                      <input type="submit" id="submit" class="button" value="수정">
                       <input type="button" class="button" value="취소" onclick="location.href='/mypage'" style="float: right;">
-                      </form>
                     </div>
                   </div>
+					
                 </div>
               </div>
             </div>
@@ -144,8 +134,40 @@
         </div>
       </div>
     </div>
-
   </div>
+  
+  <script th:inline="javascript">
+  $("#submit").click(function(){
+	let pwd = $("#changePw").val();
+	let checkPwd = $("#checkPw").val();
+	
+	if(pwd.length > 16 || pwd.length < 8){
+		//alert("8자 이상, 16자 이하로 입력해주세요");
+		$("#mismatch").html("8자 이상, 16자 이하로 입력해주세요");
+	}
+	
+	else if(pwd != checkPwd){
+		//alert("비밀번호가 일치하지 않습니다.")
+		$("#mismatch").html("비밀번호가 일치하지 않습니다.");
+	}
+	else{
+			$.ajax({
+			type: 'post',
+			url : '/changePassword',
+			data:{
+				pwd:pwd
+			},
+			success:function(data){
+				alert("비밀번호가 변경되었습니다.")
+				console.log(data);
+				window.location=data;					 
+				  }
+		});
+	}
+})
+  
+  
+  </script >
 
   <script>
     const navbar = document.querySelector('#nav');

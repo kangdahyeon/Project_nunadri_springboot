@@ -9,7 +9,29 @@
 	<select id="findId" parameterType="String" resultType="com.springproject.vo.MemberVO">
 		SELECT * FROM MEMBER
 			WHERE ID = #{id}
+	</select>
+	
+	<select id="findEmail" parameterType="String" resultType="com.springproject.vo.MemberVO">
+		SELECT * FROM MEMBER
+			WHERE EMAIL = #{email}
 	</select> 
+	
+	<select id="findNickname" parameterType="String" resultType="com.springproject.vo.MemberVO">
+		SELECT * FROM MEMBER
+			WHERE NICKNAME = #{nickname}
+	</select> 
+	
+	<select id="getMemberInfo" parameterType="String" resultType="com.springproject.vo.MemberVO">
+		SELECT * FROM MEMBER
+			WHERE id = #{id}
+	</select>
+	
+	<update id="updatePwd" parameterType="com.springproject.vo.MemberVO">
+		UPDATE MEMBER SET PWD=#{pwd} WHERE ID=#{id}
+	</update>
+	
+	
+	
 	
 	
 	
@@ -21,7 +43,6 @@
 							   ,ADDRESS_DETAIL
 							   ,NAME
 							   ,NICKNAME
-							   ,PHONE
 							   ,EMAIL
 							   ,ROLE
 							 
@@ -33,10 +54,16 @@
 							   ,#{addressDetail}
 							   ,#{name}
 							   ,#{nickname}
-							   ,#{phone}
 							   ,#{email}
 								,#{role}
 								)
 						
 	</insert>
+	
+	
+	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">
+	
+		UPDATE MEMBER SET PWD=#{pwd}, ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
+		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email} WHERE ID = #{id}
+	</update>
 </mapper>

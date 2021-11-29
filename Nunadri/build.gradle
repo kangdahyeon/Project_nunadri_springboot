@@ -37,6 +37,12 @@ dependencies {
 	//값 검증 ex)@NotBlank, @Length, @Max, @Min 지정 가능
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+	
+	//이메일 인증 의존성 주입
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
+	
 }
 
 test {

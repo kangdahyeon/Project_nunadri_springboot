@@ -13,14 +13,13 @@
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
-  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css}" />
+	
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
   <title>고객센터</title>
 
-  <link th:href="@{../../css/main.css}" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  
-
+  <script type="text/javascript" src="../../js/jquery.js"></script>
+  <link href="../../css/main.css" rel="stylesheet">
 
   <style>
     .css-1lsq3kr {
@@ -254,7 +253,7 @@
 
     .sign div {
       display: block;
-      margin-top: 3.5%;
+      margin-top: 4%;
 
     }
 
@@ -278,22 +277,43 @@
       min-height: 100%;
     }
 
+    .code_bt:hover {
+      background-color: darkgray;
+      transition: all 300ms ease-in;
+    }
+
+    .find {
+      display: flex;
+      justify-content: left;
+      list-style-type: none;
+      align-items: center;
+      padding-right: 12px;
+    }
+
+    a {
+      text-decoration: none;
+      color: white;
+      /* font-size: 14px; */
+    }
+
+    a:hover {
+      color: white;
+    }
+
+    a:after {
+      color: white;
+    }
+
     .drop_down>a {
       color: white;
     }
-    
-     .fieldError {
-      color: hotpink;
-      height: 12px;
-      font-size: 15px;
-     }
   </style>
 
 </head>
 
 <body class="" style="overflow: hidden;">
   <video autoplay muted loop id="myVideo">
-    <source th:src="@{../../assets/images/sign_in.mp4}" type="video/mp4">
+    <source src="../../assets/images/login.mp4" type="video/mp4">
   </video>
 
   <header>
@@ -310,23 +330,23 @@
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav ">
             <li class="img_1">
-              <a th:href="@{/}" title="">
-                <img th:src="@{../../assets/images/logo2-1.png}" class="logoimg img_2">
-                <img th:src="@{../../assets/images/logo1-2.png}" class="logoimg img_3">
+              <a href="../main/index.html" title="">
+                <img src="../../assets/images/logo2-1.png" class="logoimg img_2">
+                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
               </a>
             </li>
             <li>
               <div class="drop_down">
-                <a th:href="@{../myhome/myhome_main.html}" title=""><i class="fas fa-home"></i> 우리집</a>
+                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
               </div>
             </li>
             <li>
               <div class="drop_down">
                 <a><i class="far fa-comment-alt"></i> 소통해요</a>
                 <div class="drop_down_content">
-                  <a th:href="@{../community/feed/feed_list.html}" title="">자랑해요</a>
-                  <a th:href="@{../community/honey/boarder_honey.html}" title="">꿀팁있어요</a>
-                  <a th:href="@{../community/free/boarder_Communication.html}" title="">잡담해요</a>
+                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
+                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
+                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
                 </div>
               </div>
             </li>
@@ -341,10 +361,10 @@
             </li>
 
 
-            <li class="font_col" style="margin-left: 400px;"><a href="/login" style="color: white;"><i
+            <li class="font_col" style="margin-left: 400px;"><a href="../member/login.html" style="color: white;"><i
                   class="fas fa-sign-in-alt"></i>
                 로그인</a></li>
-            <li class="font_col"><a href="/signup" style="color: white;"><i
+            <li class="font_col"><a href="../member/signup.html" style="color: white;"><i
                   class="fas fa-folder-plus"></i> 회원가입</a>
             </li>
 
@@ -354,7 +374,6 @@
     </nav>
   </header>
 
-
   <div class="section-container" style="padding: 20px;">
     <div class="container">
       <div class="row">
@@ -362,64 +381,36 @@
           <main class="css-1ht4m4x-Main e19xg79h1">
             <div src="" class="css-1oylls0">
               <main class="css-1rpe30y">
-              <form action="/signup" method="post" role="form" th:object="${memberVO}">
                 <div class="css-m4m9j2"
-                  style="background-color: rgba(128, 128, 128, 0.349); border-radius: 6px; width: 400px; padding: 34px;">
-                  <div class="css-nmz2w">회원가입</div>
+                  style="background-color: rgba(128, 128, 128, 0.349); border-radius: 6px; width: 450px; padding: 34px;">
+                  <div class="css-nmz2w">아이디 찾기</div>
 
-                  <div class="css-k5snl0">
-                    <input name="id" th:field="*{id}" class="css-17gk82d" placeholder="ID" autocomplete="off" data-valid="false"
-                      type="id">
-                        <div  style="height: 10px; margin:0"><p th:if="${#fields.hasErrors('id')}"
-               th:errors="*{id}" class="fieldError">Incorrect data</p></div   >
-                  </div>
-                  
-
-                  <div class="css-k5snl0">
-                    <input name="pwd" th:field="*{pwd}" class="css-17gk82d" placeholder="8자 이상, 16자 이하로 입력해주세요"
-                      autocomplete="off" data-valid="false" type="password">
-                      <div style="height: 10px; margin:0"><p th:if="${#fields.hasErrors('pwd')}"
-               th:errors="*{pwd}" class="fieldError">Incorrect data</p></div>
-                     
-                  </div>
-                 
-
-                  <div class="css-k5snl0">
-                    <input name="name" th:field="*{name}" class="css-17gk82d" autocomplete="off" placeholder="이름" type="text"
-                      >
-                       <div style="height: 10px; margin:0"> <p th:if="${#fields.hasErrors('name')}"
-                      th:errors="*{name}" class="fieldError">Incorrect data</p></div>
-                  </div>
-
-                  <div class="css-k5snl0">
-                    <input name="nickname" th:field="*{nickname}" class="css-17gk82d" placeholder="닉네임" autocomplete="off" data-valid="false"
-                      type="text">
-                    <div style="height: 10px; margin:0"><p th:if="${#fields.hasErrors('nickname')}"
-                      th:errors="*{nickname}" class="fieldError">Incorrect data</p></div>
-                  </div>
-
-                  <div class="css-k5snl0">
-                    <input id="member_post" type="text" placeholder="우편번호" readonly hidden>
-                    <input name="address" th:field="*{address}" id="member_addr" type="text" class="css-17gk82d" placeholder="주소" readonly
-                      onclick="findAddr()"> <br>
-                      <div style="height: 10px; margin:0"> <p th:if="${#fields.hasErrors('address')}"
-               th:errors="*{address}" class="fieldError">Incorrect data</p></div>
-                  </div>
-
-                  <div class="css-k5snl0">
-                    <input name="addressDetail" th:field="*{addressDetail}" class="css-17gk82d" placeholder="상세주소" autocomplete="off"
+				
+                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                   <input name="name" id="name" class="css-17gk82d" placeholder="이름을 입력해주세요" autocomplete="off"
                       data-valid="false" type="text">
-                     <div style="height: 10px; margin:0"> <p th:if="${#fields.hasErrors('addressDetail')}"
-               th:errors="*{addressDetail}" class="fieldError">Incorrect data</p></div>
+                  </div>
+                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                     <input name="email" id="email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
+                      data-valid="false" type="email">
+                    <button class="code_bt" id="find_id"
+                      style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인증번호 전송</button>
+                  </div>
+                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                    <input name="code" id="code" class="css-17gk82d" placeholder="인증번호 6자리 숫자 입력" autocomplete="off"
+                      data-valid="false" type="text">
+                    <button class="code_bt" id="check_code" style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인
+                      증</button>
+                  </div>
+                  <div>
+                    <ul class="find">
+                      <a href="/findpwd">
+                        <li>비밀번호 찾기</li>
+                      </a>
+                    </ul>
                   </div>
 
-                  <div class="css-k5snl0">
-                    <input name="email" th:field="*{email}" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
-                      data-valid="false" type="email">
-                      <div  style="height: 10px; margin:0"><p th:if="${#fields.hasErrors('email')}"
-                th:errors="*{email}" class="fieldError">Incorrect data</p></div >
-                  </div>
-					
+
                   <div class="signup_checker_container css-1btp4cx">
                     <div class="css-ddiry1">
 
@@ -427,13 +418,9 @@
 
                     <br>
                   </div>
-                  <div class="css-1ai28bz-&quot;SubmitButtonBlock&quot;"><button type="submit" class="css-11a3zmg"
-                      >계정 생성하기</button>
-                  </div>
+                 
 
                 </div>
-                	
-              </form>
             </div>
         </div>
 
@@ -441,23 +428,74 @@
       </div>
     </div>
   </div>
-  
-  <script th:inline="javascript">
-        $(document).ready(function (){
-           let errorMessage = [[${errorMessage}]];
-           console.log(errorMessage);
-            if (errorMessage != null) {
-                alert(errorMessage);
-            }
-        });
-    </script>
+
+<script>
+
+	let regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    let email;
+	let emailCode;
+	//인증번호 전송 ajax
+$("#find_id").click(function(){
+	let name = $("#name").val();
+	email = $("#email").val();
+	
+	//regEmail.test(email) 정규식 테스트
+	
+	if(!regEmail.test(email)){
+		
+		alert("이메일 형식으로 입력해주세요.");
+	}
+	 else{
+		$.ajax({
+			type: 'post',
+			url : '/checkMail',
+			data:{
+				email:email,
+				name:name
+			},
+			dataType:'json',
+			success:function(data){
+				alert("인증번호가 전송되었습니다.")		
+				emailCode = data			 
+				  },
+			error:function(e){
+				alert(e);
+			}
+
+		});
+	}
+
+})
 
 
 
 
-  <script >
-  
+$("#check_code").click(function(){
+	let code = $("#code").val();
+	
+	if(code != emailCode){
+		alert("인증코드가 일치하지 않습니다.");
+	}else{
+		$.ajax({
+			type:'post',
+			url : '/sendId',
+			data:{
+				email:email
+			},
+			dataType:'json'			
+		});
+		alert("");
+		window.location = "/login";
+		
+	}
+})
 
+
+</script>
+
+
+
+  <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
     });
@@ -491,51 +529,13 @@
 
 
 
-    //도로명 주소 API
-
-    function findAddr() {
-      new daum.Postcode({
-        oncomplete: function (data) {
-
-          console.log(data);
-
-          // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-          // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-          // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-          var roadAddr = data.roadAddress; // 도로명 주소 변수
-          var jibunAddr = data.jibunAddress; // 지번 주소 변수
-          // 우편번호와 주소 정보를 해당 필드에 넣는다.
-          document.getElementById('member_post').value = data.zonecode;
-          if (roadAddr !== '') {
-            document.getElementById("member_addr").value = roadAddr;
-          } else if (jibunAddr !== '') {
-            document.getElementById("member_addr").value = jibunAddr;
-          }
-        }
-      }).open();
-    }
-    
-    
-    
-     
-  </script >
-
-  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
-<script>
-  (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-  ga('create', 'UA-XXXXX-X', 'auto');
-  ga('send', 'pageview');
+   
 </script>
 -->
-  <script type="text/javascript" th:src="@{../../js/main.js}"></script>
+  <script type="text/javascript" src="../../js/main.js"></script>
 
   <!--다음 API-->
-  <script th:src="@{//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js}"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>
 
 </html>
