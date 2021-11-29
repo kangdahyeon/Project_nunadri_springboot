@@ -1,0 +1,14 @@
+
+      
+spring :         
+    mail :
+        host : smtp.gmail.com
+        port : 587
+        username : 'tempbitcamp@gmail.com'
+        password : 'qlxmzoavm^^2'
+        properties :
+            mail :
+                smtp :
+                    auth : true
+                    starttls :
+                        enable : true   

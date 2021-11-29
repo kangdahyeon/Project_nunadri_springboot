@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -16,7 +17,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
   <title>고객센터</title>
-
+  <script type="text/javascript" src="../../js/jquery.js"></script>
   <link href="../../css/main.css" rel="stylesheet">
 
   <style>
@@ -384,43 +385,32 @@
                   <div class="css-nmz2w">비밀번호 찾기</div>
 
                   <div class="css-k5snl0">
-                    <input name="id" class="css-17gk82d" placeholder="ID" autocomplete="off" data-valid="false"
+                    <input name="id" id="id" class="css-17gk82d" placeholder="ID" autocomplete="off" data-valid="false"
                       type="id" value="">
                   </div>
-
                   <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
-                    <input name=" email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
-                      data-valid="false" type="email" value="">
-                    <button class="code_bt"
-                      style="color: black; font-size: 14px; width: 140px; border-radius: 4px;">인증번호 전송</button>
+                    <input name=" email" id="email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
+                      data-valid="false" type="email">
+                    <button class="code_bt" id="find_pw"
+                      style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인증번호 전송</button>
                   </div>
 
                   <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
-                    <input name="code" class="css-17gk82d" placeholder="인증번호 6자리 숫자 입력" autocomplete="off"
+                    <input name="code" id="code" class="css-17gk82d" placeholder="인증번호 6자리 숫자 입력" autocomplete="off"
                       data-valid="false" type="text">
-                    <button class="code_bt" style="color: black; font-size: 14px; width: 140px; border-radius: 4px;">인
+                    <button class="code_bt" id="pw_code" style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인
                       증</button>
                   </div>
                   <div>
                     <ul class="find">
-                      <a href="../member/find_id.html">
+                      <a href="/findid">
                         <li>아이디 찾기</li>
                       </a>
                     </ul>
                   </div>
 
 
-                  <div class="signup_checker_container css-1btp4cx">
-                    <div class="css-ddiry1">
-
-                    </div>
-
-                    <br>
-                  </div>
-                  <div class="css-1ai28bz-&quot;SubmitButtonBlock&quot;"><button type="submit" class="css-11a3zmg"
-                      onclick="location.href='login.html'">로그인</button>
-                  </div>
-
+                
                 </div>
             </div>
         </div>
@@ -429,6 +419,68 @@
       </div>
     </div>
   </div>
+  
+  <!--비밀번호 찾기 JS-->
+  <script th:inline="javascript">
+  let regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    let email;
+	let emailCode;
+	let id;
+	$("#find_pw").click(function(){
+	id = $("#id").val();
+	email = $("#email").val();
+	
+	//regEmail.test(email) 정규식 테스트
+	
+	if(!regEmail.test(email)){
+		alert("이메일 형식으로 입력해주세요.");
+	}
+	 else{
+		$.ajax({
+			type: 'post',
+			url : '/checkPassword',
+			data:{
+				email:email,
+				id:id
+			},
+			dataType:'json',
+			success:function(data){
+				alert("인증번호가 전송되었습니다.")		
+				emailCode = data			 
+				  },
+			error:function(){
+				alert("해당하는 유저가 없습니다.");
+			}
+
+		});
+	}
+
+})
+
+
+$("#pw_code").click(function(){
+	let code = $("#code").val();
+	
+	if(code != emailCode){
+		alert("인증번호가 일치하지 않습니다.");
+	}else{
+		$.ajax({
+			type:'post',
+			url : '/checkPwdCode',
+			data:{
+				email:email,
+				id:id
+			},
+			success:function(data){
+				alert("임시비밀번호가 가입하신 이메일로 발급되었습니다.");
+				window.location = data;
+				}
+		});
+	}
+})
+  
+  
+  </script >
 
 
 

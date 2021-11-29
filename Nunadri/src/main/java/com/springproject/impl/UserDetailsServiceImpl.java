@@ -34,20 +34,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
       if(member == null) {
          throw new UsernameNotFoundException(id + "           ");
       } else {
-//         return new SecurityUser(member);
-    	 
-//    	  return User.builder()
-//    			  .username(member.getId())
-//    			  .password(member.getPwd())
-//    			  .roles(member.getRole().toString())
-//    			  .build();
-    	  
+
     	  SecurityUser user = 
     			  new SecurityUser(member.getId(),
     					  			member.getPwd(),
     					  			member.getNickname(),
     					  			AuthorityUtils.createAuthorityList(member.getRole().toString()));
-//    	  System.out.println(user.getNickname());	
     	  return user;
     	  
       }

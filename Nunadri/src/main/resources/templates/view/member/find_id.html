@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
   <meta charset="UTF-8">
@@ -17,6 +18,7 @@
 
   <title>고객센터</title>
 
+  <script type="text/javascript" src="../../js/jquery.js"></script>	
   <link href="../../css/main.css" rel="stylesheet">
 
   <style>
@@ -380,47 +382,35 @@
             <div src="" class="css-1oylls0">
               <main class="css-1rpe30y">
                 <div class="css-m4m9j2"
-                  style="background-color: rgba(128, 128, 128, 0.349); border-radius: 6px; width: 450px; padding: 34px;">
+                  style="background-color: rgba(128, 128, 128, 0.349); border-radius: 6px; width: 450px; padding: 28px;">
                   <div class="css-nmz2w">아이디 찾기</div>
 
-                  <div class="css-k5snl0">
-                    <input name="id" class="css-17gk82d" placeholder="ID" autocomplete="off" data-valid="false"
-                      type="id" value="">
-                  </div>
-
-                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
-                    <input name=" email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
-                      data-valid="false" type="email" value="">
-                    <button class="code_bt"
-                      style="color: black; font-size: 14px; width: 140px; border-radius: 4px;">인증번호 전송</button>
-                  </div>
-
-                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
-                    <input name="code" class="css-17gk82d" placeholder="인증번호 6자리 숫자 입력" autocomplete="off"
+                   <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                   <input name="name" id="name" class="css-17gk82d" placeholder="이름을 입력해주세요" autocomplete="off"
                       data-valid="false" type="text">
-                    <button class="code_bt" style="color: black; font-size: 14px; width: 140px; border-radius: 4px;">인
+                  </div>
+                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                     <input name="email" id="email" class="css-17gk82d" placeholder="이메일 (example@gmail.com)" autocomplete="off"
+                      data-valid="false" type="email">
+                    <button class="code_bt" id="find_id"
+                      style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인증번호 전송</button>
+                  </div>
+                  <div class="css-k5snl0" style="display: flex; justify-content: space-between;">
+                    <input name="code" id="code" class="css-17gk82d" placeholder="인증번호 6자리 숫자 입력" autocomplete="off"
+                      data-valid="false" type="text">
+                    <button class="code_bt" id="check_code" style="margin-left:6px; color: black; font-size: 14px; width: 140px; border-radius: 4px;">인
                       증</button>
                   </div>
                   <div>
                     <ul class="find">
-                      <a href="../member/find_pw.html">
+                      <a href="/findpwd">
                         <li>비밀번호 찾기</li>
                       </a>
                     </ul>
                   </div>
 
 
-                  <div class="signup_checker_container css-1btp4cx">
-                    <div class="css-ddiry1">
-
-                    </div>
-
-                    <br>
-                  </div>
-                  <div class="css-1ai28bz-&quot;SubmitButtonBlock&quot;"><button type="submit" class="css-11a3zmg"
-                      onclick="location.href='login.html'">로그인</button>
-                  </div>
-
+                
                 </div>
             </div>
         </div>
@@ -429,6 +419,66 @@
       </div>
     </div>
   </div>
+  
+  <!--아이디 찾기 JS-->
+<script th:inline="javascript">
+	
+	let regEmail = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    let email;
+	let emailCode;
+	//인증번호 전송 ajax
+$("#find_id").click(function(){
+	let name = $("#name").val();
+	email = $("#email").val();
+	
+	//regEmail.test(email) 정규식 테스트
+	//정규식으로 이메일 형식 검증
+	if(!regEmail.test(email)){
+		alert("이메일 형식으로 입력해주세요.");
+	}
+	 else{
+		$.ajax({
+			type: 'post',
+			url : '/checkMail',
+			data:{
+				email:email,
+				name:name
+			},
+			dataType:'json',
+			success:function(data){
+				alert("인증번호가 전송되었습니다.")		
+				emailCode = data			 
+				  },
+			error:function(){
+				alert("해당하는 유저가 없습니다.")
+			}
+		});
+	}
+
+})
+
+$("#check_code").click(function(){
+	let code = $("#code").val();
+	
+	if(code != emailCode){
+		alert("인증번호가 일치하지 않습니다.");
+	}else{
+		$.ajax({
+			type:'post',
+			url : '/sendId',
+			data:{
+				email:email
+			},
+			success:function(data){
+				alert("가입하신 이메일에서 아이디를 확인해주세요.")
+				window.location = data;
+			}
+		});
+		
+	}
+})
+</script >
+
 
 
   <script>
