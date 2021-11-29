@@ -37,11 +37,27 @@ dependencies {
 	// 테스트를 위한 롬복설정
 	testImplementation 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+  
 	//값 검증 ex)@NotBlank, @Length, @Max, @Min 지정 가능
 	implementation('org.springframework.boot:spring-boot-starter-validation')
 	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
-	// 페이징처리하려고 받음
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'javax.servlet:jstl'
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	
+	//값 검증 ex)@NotBlank, @Length, @Max, @Min 지정 가능
+	implementation('org.springframework.boot:spring-boot-starter-validation')
+	implementation('org.thymeleaf.extras:thymeleaf-extras-springsecurity5')
+	
+
+	//이메일 인증 의존성 주입
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.0'
+	
+  
 }
 
 test {
