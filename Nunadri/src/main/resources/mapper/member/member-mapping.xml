@@ -45,6 +45,7 @@
 							   ,NICKNAME
 							   ,EMAIL
 							   ,ROLE
+							   ,PROVIDER
 							 
 							)
 						VALUES (
@@ -56,6 +57,7 @@
 							   ,#{nickname}
 							   ,#{email}
 								,#{role}
+								,#{provider}
 								)
 						
 	</insert>

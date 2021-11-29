@@ -1,7 +1,5 @@
 package com.springproject.impl;
 
-
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,13 +8,14 @@ import com.springproject.service.MemberService;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @RequiredArgsConstructor
 @Service
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
-
+	@Autowired
 	private final MemberMapper memberMapper;
 
 	//회원가입

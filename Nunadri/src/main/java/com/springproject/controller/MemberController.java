@@ -1,20 +1,25 @@
 package com.springproject.controller;
 
-
 import javax.validation.Valid;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproject.role.Role;
 import com.springproject.service.MemberService;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
+import com.springproject.configuration.auth.PrincipalDetails;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,9 +27,9 @@ public class MemberController {
 	
 	private final MemberService memberservice;
 	
+
 	//비밀번호 암호화 관련 필드
 	private final PasswordEncoder encoder;
-	
 	
 	
 	//메인화면
@@ -103,11 +108,4 @@ public class MemberController {
 	 public String findPwd() {
 		 return "view/member/find_pw";
 	 }
-
-	 
-	 
-	 
-	
-	
-	
 }

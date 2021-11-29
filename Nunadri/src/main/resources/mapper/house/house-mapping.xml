@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.springproject.mapper.HouseMapper">
+	
+<!--  	<resultMap type="springproject.vo.MemberVO" id="MemberAddress">
+		<id property="house_no" column="HOUSE_NO"/>
+		<result property="address" column="ADDRESS"/>
+	</resultMap>
+-->	
+	
+
+	<insert id="insertHouse" parameterType="com.springproject.vo.HouseVO">
+		INSERT INTO HOUSE(
+						HOUSE_NO
+						,ADDRESS
+						)
+						VALUES(
+						22
+						,"영등포구 선유로277-8"
+						)
+  
+	</insert>
+</mapper>
+
