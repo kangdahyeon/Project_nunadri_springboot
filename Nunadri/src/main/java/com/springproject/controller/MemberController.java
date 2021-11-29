@@ -35,8 +35,6 @@ public class MemberController {
 	//메인화면
 	 @GetMapping("/")
 	 public String main() {
-		
-		 
 		 return "view/main/index";
 	 }
 	 

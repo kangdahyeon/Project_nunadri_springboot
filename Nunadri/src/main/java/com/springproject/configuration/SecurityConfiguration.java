@@ -33,14 +33,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity security) throws Exception {
             
-//     security.authorizeRequests()
-//                      .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
-//                      .antMatchers("/admin/**").hasRole("ADMIN")
-//                      .anyRequest().authenticated();
-//                           .antMatchers("/manager/**").hasRole("MANAGER")
-//                           .antMatchers("admin/**").hasAnyRole("ADMIN");
-      
-//    
+
+     security.authorizeRequests()
+                      .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
+                      .antMatchers("/admin/**").hasRole("ADMIN")
+                      .anyRequest().authenticated();
+                           .antMatchers("/manager/**").hasRole("MANAGER")
+                           .antMatchers("admin/**").hasAnyRole("ADMIN");
+        
       security.csrf().disable();
 
       security.formLogin()
@@ -83,6 +83,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    
    @Override
    public void configure(WebSecurity web) throws Exception {
+
        web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**", "/favicon.ico", "/resources/**", "/error"); //static 디렉터리 하위 파일은 인증을 무시하도록 설정
    }
    
@@ -91,5 +92,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    public PasswordEncoder passwordEncoder() {
       return PasswordEncoderFactories.createDelegatingPasswordEncoder();
    }   
-   
 }

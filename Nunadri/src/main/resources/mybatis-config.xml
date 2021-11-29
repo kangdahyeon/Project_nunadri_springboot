@@ -7,4 +7,7 @@
 		<setting name="callSettersOnNulls" value="true"/>
 		<setting name="jdbcTypeForNull" value="NULL"/>
 	</settings>
+	<typeAliases>
+		<typeAlias alias="CommunityVO" type="com.springproject.vo.CommunityVO"/>
+	</typeAliases>
 </configuration>
