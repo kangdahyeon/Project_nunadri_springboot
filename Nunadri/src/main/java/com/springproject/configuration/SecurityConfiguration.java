@@ -3,6 +3,7 @@ package com.springproject.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -15,6 +16,7 @@ import com.springproject.configuration.oauth.PrincipalOauth2UserService;
 import com.springproject.impl.UserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
 
 //import com.springproject.impl.UserDetailsServiceImpl;
 
@@ -31,13 +33,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    @Override
    protected void configure(HttpSecurity security) throws Exception {
             
-      security.authorizeRequests()
-                           .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
-                           .antMatchers("/admin/**").hasRole("ADMIN")
-                           .anyRequest().authenticated();
+//     security.authorizeRequests()
+//                      .antMatchers("/", "/login", "/signup", "/findid", "/findpwd","/login/error").permitAll()
+//                      .antMatchers("/admin/**").hasRole("ADMIN")
+//                      .anyRequest().authenticated();
 //                           .antMatchers("/manager/**").hasRole("MANAGER")
 //                           .antMatchers("admin/**").hasAnyRole("ADMIN");
-//      
+      
 //    
       security.csrf().disable();
 
@@ -71,6 +73,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //   public void authenticate(AuthenticationManagerBuilder auth) throws Exception {
 //      
 //   }
+   
+   
+   @Bean
+   @Override
+   public AuthenticationManager authenticationManagerBean() throws Exception {
+       return super.authenticationManagerBean();
+   }
    
    @Override
    public void configure(WebSecurity web) throws Exception {
