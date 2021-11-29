@@ -3,7 +3,6 @@ package com.springproject.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,13 +11,20 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.springproject.configuration.oauth.PrincipalOauth2UserService;
 import com.springproject.impl.UserDetailsServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 //import com.springproject.impl.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+	@Autowired
+	private PrincipalOauth2UserService principalOauth2UserService;
+	
    @Autowired
   private UserDetailsServiceImpl userDetailsServiceImpl;
    
@@ -44,7 +50,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .and()
       .logout()
       .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-      .logoutSuccessUrl("/");
+      .logoutSuccessUrl("/")
+      .and()
+      .oauth2Login()
+      .loginPage("/login") //구글 로그인된뒤의 후처리가 필요함
+      .userInfoEndpoint()
+      .userService(principalOauth2UserService);
+      
       
    
       
@@ -62,19 +74,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    
    @Override
    public void configure(WebSecurity web) throws Exception {
-       web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**"); //static 디렉터리 하위 파일은 인증을 무시하도록 설정
+       web.ignoring().antMatchers("/css/**", "/js/**", "/assets/**", "/favicon.ico", "/resources/**", "/error"); //static 디렉터리 하위 파일은 인증을 무시하도록 설정
    }
    
  
    @Bean
    public PasswordEncoder passwordEncoder() {
       return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-   }
+   }   
    
-//   @Override
-//   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//
-//       //userDetailsService를 구현하고 있는 객체로 memberService를 지정해주며, 비밀번호 암호화를 위해 passwordEncoder 지정
-//       auth.userDetailsService(userDetailsServiceImpl).passwordEncoder(passwordEncoder());
-//   }
 }

@@ -1,6 +1,7 @@
 package com.springproject.impl;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
-
+	@Autowired
 	private final MemberMapper memberMapper;
 	
 	

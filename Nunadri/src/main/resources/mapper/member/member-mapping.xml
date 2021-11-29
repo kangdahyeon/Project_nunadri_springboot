@@ -24,6 +24,7 @@
 							   ,PHONE
 							   ,EMAIL
 							   ,ROLE
+							   ,PROVIDER
 							 
 							)
 						VALUES (
@@ -36,6 +37,7 @@
 							   ,#{phone}
 							   ,#{email}
 								,#{role}
+								,#{provider}
 								)
 						
 	</insert>
