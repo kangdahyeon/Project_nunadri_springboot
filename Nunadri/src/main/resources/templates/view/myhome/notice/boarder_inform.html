@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
 
 <head>
   <meta charset="UTF-8">
@@ -31,6 +34,8 @@
 </head>
 
 <body class="">
+
+  <div th:replace="view/fragments/header::header"></div>
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
@@ -112,18 +117,6 @@
       </div>
     </div>
   </div>
-  <!--푸터-->
-  <!-- <footer class="footer-container text-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12" style="padding : 30px">
-          <p>© UNTITLED | Website created with <a href="http://www.mashup-template.com/"
-              title="Create website with free html template">Mashup Template</a>/<a href="https://www.unsplash.com/"
-              title="Beautiful Free Images">Unsplash</a></p>
-        </div>
-      </div>
-    </div>
-  </footer> -->
 
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {

@@ -16,6 +16,8 @@ public interface MemberService {
 	MemberVO findNickname(String nickname);
 	
 	MemberVO findEmail(String email);
+	
+	MemberVO findNickname(String nickname);
 
 	void updateMember(MemberVO vo);
 	

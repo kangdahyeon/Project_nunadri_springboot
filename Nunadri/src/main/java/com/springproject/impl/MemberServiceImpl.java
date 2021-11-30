@@ -98,6 +98,12 @@ public class MemberServiceImpl implements MemberService {
       return member;
    }
 
+@Override
+public MemberVO findNickname(String nickname) {
+	 MemberVO m = memberMapper.findNickname(nickname);
+     return m;
+}
+
 
 
 

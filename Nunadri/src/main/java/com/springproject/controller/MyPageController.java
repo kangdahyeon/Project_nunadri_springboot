@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 public class MyPageController {
-
+  
 	private final MemberService memberservice;
 
 	private final PasswordEncoder encoder;
