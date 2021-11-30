@@ -41,7 +41,7 @@ public class MemberServiceImpl implements MemberService {
 
    @Override
    public MemberVO findId(String id) {
-      MemberVO m = memberMapper.findEmail(id);
+      MemberVO m = memberMapper.findId(id);
       return m;
    }
 
@@ -50,6 +50,13 @@ public class MemberServiceImpl implements MemberService {
       MemberVO m = memberMapper.findEmail(email);
       return m;
    }
+   
+   @Override
+   public MemberVO findNickname(String nickname) {
+	   MemberVO m = memberMapper.findNickname(nickname);
+	      return m;
+   }
+
    
    
       @Override
@@ -90,6 +97,8 @@ public class MemberServiceImpl implements MemberService {
       MemberVO member = memberMapper.getMemberInfo(id); 
       return member;
    }
+
+
 
 
 
