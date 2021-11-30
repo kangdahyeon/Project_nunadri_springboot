@@ -14,6 +14,8 @@ public interface MemberService {
 	
 	MemberVO getMemberInfo(String id);
 	
+	MemberVO findNickname(String nickname);
+	
 	MemberVO findEmail(String email);
 	
 	boolean findAddress(String address);
