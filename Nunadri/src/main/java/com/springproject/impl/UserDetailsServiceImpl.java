@@ -14,13 +14,14 @@ import com.springproject.vo.SecurityUser;
 //import com.springproject.vo.SecurityUser;
 
 /*시큐리티가 /login 주소 요청이 오면 낚아채서 로그인 진행
- * 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)*/
+ /* 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)
+ */
 
 
 @Service											/*UserDetailsService : 데이터베이스에서 회원 정보를 가져오는 역할
-														loadUserByUsername() 메소드가 존재하며, 회원정보를 조회하여
-														사용자의 정보와 권한을 갖는 UserDetails 인터페이스를 반환
-														스프링 시큐리티에서 UserDetailService를 구현하고 있는 클래스를 통해 로그인 기능을 구현*/
+													loadUserByUsername() 메소드가 존재하며, 회원정보를 조회하여
+													사용자의 정보와 권한을 갖는 UserDetails 인터페이스를 반환
+													스프링 시큐리티에서 UserDetailService를 구현하고 있는 클래스를 통해 로그인 기능을 구현*/
 public class UserDetailsServiceImpl implements UserDetailsService {
    @Autowired
    private MemberMapper memberMapper;

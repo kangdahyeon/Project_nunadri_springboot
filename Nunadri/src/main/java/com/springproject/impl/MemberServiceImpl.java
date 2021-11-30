@@ -51,6 +51,13 @@ public class MemberServiceImpl implements MemberService {
       return m;
    }
    
+   @Override
+   public MemberVO findNickname(String nickname) {
+	   MemberVO m = memberMapper.findNickname(nickname);
+	      return m;
+   }
+
+   
    
       @Override
       public void updatePwd(MemberVO vo) {
@@ -90,6 +97,8 @@ public class MemberServiceImpl implements MemberService {
       MemberVO member = memberMapper.getMemberInfo(id); 
       return member;
    }
+
+
 
 
 
