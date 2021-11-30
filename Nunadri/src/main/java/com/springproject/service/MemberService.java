@@ -3,6 +3,7 @@ package com.springproject.service;
 
 
 
+import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
 public interface MemberService {
@@ -17,11 +18,13 @@ public interface MemberService {
 	
 	MemberVO findEmail(String email);
 	
-	MemberVO findNickname(String nickname);
+	boolean findAddress(String address);
 
 	void updateMember(MemberVO vo);
 	
 	void updatePwd(MemberVO vo);
 	
 	void deleteMember(String id);
+	
+	void insertHouse(HouseVO vo); 
 }

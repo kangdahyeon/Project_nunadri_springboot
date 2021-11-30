@@ -29,6 +29,7 @@ class MapperTests {
 	@Test
 	public void testOfinsert() {
 		CommunityVO cvo = new CommunityVO();
+
 		cvo.setNoticeTitle("카테고리1");
 		cvo.setNoticeCategory("1");
 		cvo.setNoticeContent("내용내용내용");

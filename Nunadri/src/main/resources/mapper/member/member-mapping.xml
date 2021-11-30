@@ -11,6 +11,11 @@
 			WHERE ID = #{id}
 	</select>
 	
+	<select id="findAddress" parameterType="String" resultType="String">
+		SELECT ADDRESS FROM HOUSE
+			WHERE ADDRESS = #{address}
+	</select>
+	
 	<select id="findEmail" parameterType="String" resultType="com.springproject.vo.MemberVO">
 		SELECT * FROM MEMBER
 			WHERE EMAIL = #{email}
@@ -65,7 +70,21 @@
 								,#{provider}
 								)
 						
+						
 	</insert>
+	
+	<insert id="insertHouse" parameterType="com.springproject.vo.HouseVO">
+		INSERT INTO HOUSE(
+							HOUSE_NO 
+							, ADDRESS
+						)
+						 VALUES(
+						 	(SELECT IFNULL(MAX(HOUSE_NO), 0) + 1 FROM projectdb.HOUSE ALIAS_FOR_SUBQUERY)
+						 	, #{address}
+						 )
+  
+	</insert>
+	
 	
 	
 	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">

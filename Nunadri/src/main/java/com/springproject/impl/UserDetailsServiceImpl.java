@@ -2,7 +2,6 @@ package com.springproject.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.springproject.mapper.MemberMapper;
 import com.springproject.vo.MemberVO;
 import com.springproject.vo.SecurityUser;
-//import com.springproject.vo.SecurityUser;
+//import com.springproject.vo.SecurityUser;				
 
 /*시큐리티가 /login 주소 요청이 오면 낚아채서 로그인 진행
  /* 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)
@@ -30,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
    @Override				//UserDetails : 회원의 정보를 담기 위해서 사용하는 인터페이스, 직접 구현하거나 스프링 시큐리티 User 클래스 사용
    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
       MemberVO member = memberMapper.findId(id);
-      
+    
       if(member == null) {
          throw new UsernameNotFoundException(id + "           ");
       } else {
@@ -39,7 +38,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     			  new SecurityUser(member.getId(),
     					  			member.getPwd(),
     					  			member.getNickname(),
+//    					  			member.getAddress(),
     					  			AuthorityUtils.createAuthorityList(member.getRole().toString()));
+    	 
     	  return user;
     	  
       }

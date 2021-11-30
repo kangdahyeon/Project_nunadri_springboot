@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
+import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -14,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
+	private MemberVO memberVo;
    
    private final MemberMapper memberMapper;
+   
 
    //회원가입
    @Override
@@ -24,7 +27,6 @@ public class MemberServiceImpl implements MemberService {
       validateDuplicateNickname(vo);
       validateDuplicateId(vo);
       memberMapper.join(vo);
-
    }
 
    //회원정보 수정
@@ -97,6 +99,22 @@ public class MemberServiceImpl implements MemberService {
       MemberVO member = memberMapper.getMemberInfo(id); 
       return member;
    }
+   
+	@Override
+	public void insertHouse(HouseVO vo) {
+		memberMapper.insertHouse(vo);
+	}
+	
+   	//주소찾기(HOUSE DB 필요)
+ 	@Override
+ 	public boolean findAddress(String address) {
+ 		String checkAddress = memberMapper.findAddress(address);
+ 		if(checkAddress == null || checkAddress.equals("")) {
+ 			return false;
+ 		} else {
+ 			return true;
+ 		}
+ 	}
 
 @Override
 public MemberVO findNickname(String nickname) {
