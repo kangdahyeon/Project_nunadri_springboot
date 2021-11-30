@@ -34,11 +34,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    protected void configure(HttpSecurity security) throws Exception {
             
 
-     security.authorizeRequests()
-                      .antMatchers("/", "/login", "/signup", "/findid",
-                    		  "/findpwd","/login/error","/checkPassword","/checkPwdCode","/checkMail","/sendId").permitAll()
-                      .antMatchers("/admin/**").hasRole("ADMIN") //권한 부분 추가(찾기 시리즈)
-                      .anyRequest().authenticated();
+//     security.authorizeRequests()
+//                      .antMatchers("/", "/login", "/signup", "/findid",
+//                    		  "/findpwd","/login/error","/checkPassword","/checkPwdCode","/checkMail","/sendId").permitAll()
+//                      .antMatchers("/admin/**").hasRole("ADMIN") //권한 부분 추가(찾기 시리즈)
+//                      .anyRequest().authenticated();
                  
         
       security.csrf().disable();
@@ -93,10 +93,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       return PasswordEncoderFactories.createDelegatingPasswordEncoder();
    }   
    
+   
    @Override
-	protected AuthenticationManager authenticationManager() throws Exception {
-		// TODO Auto-generated method stub
-		return super.authenticationManager();
-	}
-	
+   protected AuthenticationManager authenticationManager() throws Exception {
+      // TODO Auto-generated method stub
+      return super.authenticationManager();
+   }
 }

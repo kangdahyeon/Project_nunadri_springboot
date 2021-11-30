@@ -10,38 +10,47 @@ import com.springproject.mapper.CommunityMapper;
 import com.springproject.service.CommunityService;
 import com.springproject.vo.CommunityVO;
 
-@Service
+@Service("communityService")
 public class CommunityServiceImpl implements CommunityService {
+	
+	@Autowired
+	private CommunityMapper communityMapper;
 
 	@Override
-	public void insertBoard(CommunityVO cvo) {
-		// TODO Auto-generated method stub
-		
+	public void insertCommunity(CommunityVO cvo) {
+		communityMapper.insertCommunity(cvo);
 	}
 
 	@Override
-	public void updateBoard(CommunityVO cvo) {
-		// TODO Auto-generated method stub
-		
+	public void updateCommunity(CommunityVO cvo) {
+		communityMapper.updateCommunity(cvo);
 	}
 
 	@Override
 	public CommunityVO getCommunityDetail(CommunityVO cvo) {
-		// TODO Auto-generated method stub
-		return null;
+		return communityMapper.selectCommunityDetail(cvo);
 	}
 
 	@Override
-	public int deleteCommunity(CommunityVO cvo) {
-		// TODO Auto-generated method stub
-		return 0;
+	public void deleteCommunity(CommunityVO cvo) {
+		communityMapper.deleteCommunity(cvo);
 	}
 
 	@Override
 	public List<CommunityVO> getCommunityList(CommunityVO cvo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		List<CommunityVO> communotyList = Collections.emptyList();
 		
+		int CommunityTotalCount = communityMapper.selectCommunityTotalCount(cvo);
+		
+		if(CommunityTotalCount > 0) {
+			communotyList = communityMapper.selectCommunityList(cvo);
+		}
+		
+		return communotyList;
+	}
+	@Override
+	public int getCoummunityNo() {
+		return communityMapper.getCommunityNo();
+	}
 	
 }

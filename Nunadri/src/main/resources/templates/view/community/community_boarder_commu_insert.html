@@ -15,9 +15,9 @@
 
 
 
-  <link rel="stylesheet" href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css}" />
-  <link rel="stylesheet" href="@{../../../../../static/css/nice-select.css}">
-  <link rel="stylesheet" href="@{../../../../../static/css/main.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../../../../static/css/nice-select.css">
+  <link rel="stylesheet" href="../../../../../static/css/main.css">
 
   <title>글 작성</title>
   <style>
@@ -353,59 +353,9 @@
 </head>
 
 <body style="overflow: hidden;">
-  <!-- Add your content of header -->
- <!-- <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 98%;">
-      <div class="container">-->
-        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
-          aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
-<!--
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav2">
-            <li class="img_1">
-              <a href="../main/index.html" title="">
-                <img src="../../assets/images/logo2-1.png" class="logoimg img_2">
-                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../customerService/question_list.html" title="">질문했어요</a>
-                  <a href="../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-            <li style="margin-left: 400px;"><a href="../member/login.html" title=""><i class="fas fa-sign-in-alt"></i>
-                로그인</a></li>
-            <li><a href="../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>-->
-<th:block layout:fragment="content">
+
+<div th:replace="view/fragments/header::greenHeader"></div>
+
   <div class="hero-full-container white-text-container">
     <div class="section-container_detail">
       <div class="section-container-spacer text-center">
@@ -416,13 +366,13 @@
              <!-- <form>
               </form>-->
             </div>
-            <form th:action="@{/register}" th:object="${community}" method="post" onsubmit="return registerCommunity(this)">
+            <form th:action="@{/insertCommunity}" th:object="${cvo}" method="post">
                 <select th:field="*{noticeCategory}">
                   <option th:value="'1'">꿀팁있어요</option>
                   <option th:value="'2'">잡담해요</option>
                 </select>
-              <input type="hidden" th:if="*{noticeNo != null and noticeNo > 0}" th:field="*{noticeNo}"/>
-              <input type="hidden" th:field="*{nickname}"/>
+              <input type="hidden" th:field="*{noticeNo}"/>
+              <input type="text" th:field="*{nickname}"/>
               
 				<label for="noticeTitle"></label>
               	<input th:field="*{noticeTitle}" type="text" class="form-control textbox" name="noticeTitle" placeholder="제목을 입력해주세요." required>
@@ -444,21 +394,9 @@
 	    </div>
 	  </div>
 	</div>
-</th:block>
 <th:block layout:fragment="script">
 	<script th:inline="javascript">
 	/*<![CDATA[*/
-	function registerCommunity(form) {
-				var result = (
-						   isValid(form.noticeTitle, "제목", null, null)
-						&& isValid(form.noticeContent, "내용", null, null)
-				);
-				if ( result == false ) {
-					return false;
-				}
-			}
-			/*[- end of function -]*/
-			
 	  document.addEventListener("DOMContentLoaded", function (event) {
 	     navActivePage();
 	  });
@@ -481,9 +419,9 @@
 	 /*]]>*/
 	</script >
 </th:block>
-<!-- <script type="text/javascript" src="@{//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services}"></script> -->
-  	<script src="@{../../../../../static/js/main.js}"></script>
- 	<script src="@{../../../../../static/js/jquery.nice-select.js}"></script>
-	<script type="text/javascript" src="@{../../../../../static/js/main.js}"></script>
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
+  	<script src="../../../../../static/js/main.js"></script>
+ 	<script src="../../../../../static/js/jquery.nice-select.js"></script>
+	<script type="text/javascript" src="../../../../../static/js/main.js"></script>
 </body>
 </html>
