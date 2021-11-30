@@ -116,6 +116,12 @@ public class MemberServiceImpl implements MemberService {
  		}
  	}
 
+@Override
+public MemberVO findNickname(String nickname) {
+	 MemberVO m = memberMapper.findNickname(nickname);
+     return m;
+}
+
 
 
 

@@ -30,5 +30,5 @@ public interface CommunityMapper {
 		// 게시물 출력
 		public List<CommunityVO> selectCommunityList(CommunityVO cvo);
 
-
+		public int getCommunityNo();
 }

@@ -25,5 +25,30 @@ public class MyHouseController {
 	        System.out.println(member.getAddress());
 	        return "view/myhome/myhome_main";
 	     }
+	   
+	   @GetMapping("/fleamarket")
+		public String fleamarket() {
+			    return "view/myhome/fleamarket/fleamarket_list";
+			}
+	   
+	   @GetMapping("/free")
+			public String free() {
+				    return "view/myhome/free/boarder_free";
+				}
+	   
+	   @GetMapping("/help")
+			public String help() {
+				    return "view/myhome/help/boarder_help";
+				}
+	   
+	   @GetMapping("/notice")
+			public String notice() {
+				    return "view/myhome/notice/boarder_inform";
+				}
+	   
+	   @GetMapping("/smallGroup")
+			public String smallGroup() {
+				    return "view/myhome/smallGroup/boarder_smallGroup";
+				}
 
 }

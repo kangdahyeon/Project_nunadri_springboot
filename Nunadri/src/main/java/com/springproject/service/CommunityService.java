@@ -9,14 +9,19 @@ import com.springproject.vo.CommunityVO;
 public interface CommunityService {
 	
 	//글 등록
-	public void insertBoard(CommunityVO cvo);
+	public void insertCommunity(CommunityVO cvo);
 	//글 수정
-	public void updateBoard(CommunityVO cvo);
-
+	public void updateCommunity(CommunityVO cvo);
+	
+	//글 상세조회
 	public CommunityVO getCommunityDetail(CommunityVO cvo);
-
-	public int deleteCommunity(CommunityVO cvo);
-
+	
+	//글 삭제
+	public void deleteCommunity(CommunityVO cvo);
+	
+	//리스트조회
 	public List<CommunityVO> getCommunityList(CommunityVO cvo);
+	
+	public int getCoummunityNo();
 	
 }

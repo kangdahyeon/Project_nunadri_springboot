@@ -13,7 +13,7 @@ import com.springproject.vo.SecurityUser;
 //import com.springproject.vo.SecurityUser;				
 
 /*시큐리티가 /login 주소 요청이 오면 낚아채서 로그인 진행
- * 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)
+ /* 로그인 진행이 완료되면 시큐리티 session을 만들어줌(SecurityContenxtHolder)
  */
 
 

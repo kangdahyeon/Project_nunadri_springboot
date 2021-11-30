@@ -29,10 +29,11 @@ class MapperTests {
 	@Test
 	public void testOfinsert() {
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeTitle("번이와야한다");
+
+		cvo.setNoticeTitle("카테고리1");
 		cvo.setNoticeCategory("1");
-		cvo.setNoticeContent("제발 69번!!!!!!!!!!!");
-		cvo.setNickname("69번만 나오면되 제발");
+		cvo.setNoticeContent("내용내용내용");
+		cvo.setNickname("1-2번");
 		
 		int result = communityMapper.insertCommunity(cvo);
 		log.info("인서트확인용: {}", result);
@@ -42,8 +43,8 @@ class MapperTests {
 	public void testOfSelectDetail() {
 	
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeCategory("1");
-		cvo.setNoticeNo(5);
+		cvo.setNoticeCategory("2");
+		cvo.setNoticeNo(3);
 		cvo = communityMapper.selectCommunityDetail(cvo);
 		log.info("상세 확인용: {}, {}", cvo.getNickname(), cvo.getNoticeTitle());
 	}
@@ -51,11 +52,11 @@ class MapperTests {
 	@Test
 	public void testOfUpdate() {
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeNo(9);
-		cvo.setNoticeCategory("1");
-		cvo.setNoticeTitle("수정수정수정수정");
-		cvo.setNoticeContent("9번 게시글 내용을 수정합니다.");
-		cvo.setNickname("테스트1");
+		cvo.setNoticeNo(3);
+		cvo.setNoticeCategory("2");
+		cvo.setNoticeTitle("2-3번 수정");
+		cvo.setNoticeContent("2-3수정하기.");
+		cvo.setNickname("2-3수정");
 
 		int result = communityMapper.updateCommunity(cvo);
 		
@@ -74,8 +75,8 @@ class MapperTests {
 	@Test
 	public void testOfDelete() {
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeCategory("1");
-		cvo.setNoticeNo(5);
+		cvo.setNoticeCategory("2");
+		cvo.setNoticeNo(3);
 		
 		
 		int result = communityMapper.deleteCommunity(cvo);
@@ -86,7 +87,7 @@ class MapperTests {
 	@Test
 	public void testSelectList() {
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeCategory("1");
+		cvo.setNoticeCategory("2");
 		
 		int boardTotalCount = communityMapper.selectCommunityTotalCount(cvo);
 		
