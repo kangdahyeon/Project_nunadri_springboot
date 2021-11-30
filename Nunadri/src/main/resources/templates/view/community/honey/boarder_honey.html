@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -15,7 +15,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-  <title>소모임</title>
+  <title>꿀팁</title>
   <style>
     .navbar_display {
       background-color: white;
@@ -25,73 +25,27 @@
     }
   </style>
 
-  <link href="../../../css/main.css" rel="stylesheet">
+  <link href="../../css/main.css" rel="stylesheet">
 </head>
 
 <body class="">
-  <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 100%; 
-    transform: translate(-12px,-12px);">
-      <div class="container">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
-          aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav ">
-            <li class="img_1">
-              <a href="../../main/index.html" title="">
-                <img src="../../../assets/images/logo1-1.png" class="logoimg img_2">
-                <img src="../../../assets/images/logo1-2.png" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a href="../../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a href="../../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../../community/free/boarder_Communication.html" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down">
-                <a href="../../customerService/FAQ.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../../customerService/question_list.html" title="">질문했어요</a>
-                  <a href="../../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-            <li style="margin-left: 400px;"><a href="../../member/login.html" title=""><i
-                  class="fas fa-sign-in-alt"></i>
-                로그인</a></li>
-            <li><a href="../../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a></li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
-
+<div th:replace="view/fragments/header::header"></div>
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">소모임</h1>
+          <h1 class="h2">꿀팁</h1>
           <div id="divsize">
             <!--검색창-->
             <div class="div_right">
-              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search"></i>
+             <th:block layout:fragment="search">
+				<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
+					<input type="search" placeholder="Search..." class="input-search">
+					<button class="mdi mdi-magnify button-search" type="submit">
+						<i class="fa fa-search" aria-hidden="true"></i>
+					</button>
+				</form>
+			</th:block>
             </div>
             <!--게시판 목록 표출-->
             <table class="type04">
@@ -102,46 +56,51 @@
                 <th id="table_width_writer">작성일</th>
                 <th id="table_width_hit">조회수</th>
               </tr>
-              <tr onclick="location.href='borderDetail.html'" id="click">
-                <td>1</td>
-                <td id="table_text">제목제목제목</td>
-                <td>닉네임</td>
-                <td>2021-11-15</td>
-                <td>0</td>
-              </tr>
+             <tbody>
+					<tr th:each="cvo : ${communityList}">
+						<td scope="row" th:text="{cvo.noticeNo}"></td>
+						<td class="text-left">
+							<a th:href="@{/board/view( noticeNo=${cvo.noticeNo} )}" th:text="${cvo.noticeTitle}"></a>
+						</td>
+						<td th:text="${cvo.nickname}"></td>
+						<td th:text="${#temporals.format( cvo.noticeRegDate, 'yyyy-MM-dd HH:mm' )}"></td>
+						<td th:text="${cvo.noticeHit}"></td>
+					</tr>
+			  </tbody>
             </table>
 
           </div>
           <!--페이징-->
-          <div class="paging col-lg-11">
-            <a href="#">&#60;</a>
-            <a class="select" href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">&#62;</a>
-          </div>
+         <!--<th:block layout:fragment="paging">
+				<nav aria-label="Page navigation" class="text-center">
+					<ul class="pagination">
+						<li>
+							<a href="#" aria-label="Previous">
+								<span aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<li><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li>
+							<a href="#" aria-label="Next">
+								<span aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</ul>
+				</nav>
+			</th:block>-->
           <!--글쓰기 버튼-->
           <div class="div_right">
-            <a href="#" class="btn btn-default" id="writerBtn">글쓰기</a>
+            <a href="@{/board/insertCommunity}" class="btn btn-default" id="writerBtn">글쓰기</a>
           </div>
         </div>
       </div>
     </div>
   </div>
   <!--푸터-->
-  <footer class="footer-container text-center">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12" style="padding : 30px">
-          <p>© UNTITLED | Website created with <a href="http://www.mashup-template.com/"
-              title="Create website with free html template">Mashup Template</a>/<a href="https://www.unsplash.com/"
-              title="Beautiful Free Images">Unsplash</a></p>
-        </div>
-      </div>
-    </div>
-  </footer>
 
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {
@@ -162,7 +121,7 @@
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
-  <script type="text/javascript" src="../../../js/main.js"></script>
+  <script type="text/javascript" src="../../js/main.js"></script>
 </body>
 
 </html>
