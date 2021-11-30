@@ -13,6 +13,8 @@ public interface MemberService {
 	
 	MemberVO getMemberInfo(String id);
 	
+	MemberVO findNickname(String nickname);
+	
 	MemberVO findEmail(String email);
 
 	void updateMember(MemberVO vo);

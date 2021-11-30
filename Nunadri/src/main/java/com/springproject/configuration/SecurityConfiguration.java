@@ -92,4 +92,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
    public PasswordEncoder passwordEncoder() {
       return PasswordEncoderFactories.createDelegatingPasswordEncoder();
    }   
+   
+   
+   @Override
+   protected AuthenticationManager authenticationManager() throws Exception {
+      // TODO Auto-generated method stub
+      return super.authenticationManager();
+   }
 }
