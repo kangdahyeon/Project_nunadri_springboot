@@ -1,25 +1,21 @@
 package com.springproject.controller;
 
 import javax.validation.Valid;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.role.Role;
 import com.springproject.service.MemberService;
+import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
-import com.springproject.configuration.auth.PrincipalDetails;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,6 +27,7 @@ public class MemberController {
 	//비밀번호 암호화 관련 필드
 	private final PasswordEncoder encoder;
 	
+	UserDetailsServiceImpl detailsServiceImpl;
 	
 	//메인화면
 	 @GetMapping("/")
@@ -48,8 +45,7 @@ public class MemberController {
 	
 	//회원가입 컨트롤러
 	@PostMapping("/signup")
-	public String signUp(@Valid MemberVO vo, BindingResult bindingResult, Model model) {
-		
+	public String signUp(@Valid MemberVO vo, HouseVO vo2, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			
 			System.out.println("========================" + bindingResult.getErrorCount() + "================");
@@ -69,6 +65,14 @@ public class MemberController {
 			
 			memberservice.join(vo);
 			
+			String address = vo.getAddress();
+			
+			boolean existAddress = memberservice.findAddress(address);
+			if(existAddress == false) {
+				//하우스 db 칼럼 생성
+				memberservice.insertHouse(vo2);
+			}
+						
 		}catch (IllegalStateException e) {
 			//중복된 회원이 있을 시 예외발생
 			model.addAttribute("errorMessage", e.getMessage());
@@ -106,4 +110,6 @@ public class MemberController {
 	 public String findPwd() {
 		 return "view/member/find_pw";
 	 }
+	 
+	 
 }

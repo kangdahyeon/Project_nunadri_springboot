@@ -2,7 +2,6 @@ package com.springproject.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,23 +12,23 @@ import com.springproject.vo.MemberVO;
 import com.springproject.vo.SecurityUser;
 //import com.springproject.vo.SecurityUser;
 
-/*½ÃÅ¥¸®Æ¼°¡ /login ÁÖ¼Ò ¿äÃ»ÀÌ ¿À¸é ³¬¾ÆÃ¤¼­ ·Î±×ÀÎ ÁøÇà
- * ·Î±×ÀÎ ÁøÇàÀÌ ¿Ï·áµÇ¸é ½ÃÅ¥¸®Æ¼ sessionÀ» ¸¸µé¾îÁÜ(SecurityContenxtHolder)*/
+/*ï¿½ï¿½Å¥ï¿½ï¿½Æ¼ï¿½ï¿½ /login ï¿½Ö¼ï¿½ ï¿½ï¿½Ã»ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+ * ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½Ç¸ï¿½ ï¿½ï¿½Å¥ï¿½ï¿½Æ¼ sessionï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(SecurityContenxtHolder)*/
 
 
-@Service											/*UserDetailsService : µ¥ÀÌÅÍº£ÀÌ½º¿¡¼­ È¸¿ø Á¤º¸¸¦ °¡Á®¿À´Â ¿ªÇÒ
-														loadUserByUsername() ¸Þ¼Òµå°¡ Á¸ÀçÇÏ¸ç, È¸¿øÁ¤º¸¸¦ Á¶È¸ÇÏ¿©
-														»ç¿ëÀÚÀÇ Á¤º¸¿Í ±ÇÇÑÀ» °®´Â UserDetails ÀÎÅÍÆäÀÌ½º¸¦ ¹ÝÈ¯
-														½ºÇÁ¸µ ½ÃÅ¥¸®Æ¼¿¡¼­ UserDetailService¸¦ ±¸ÇöÇÏ°í ÀÖ´Â Å¬·¡½º¸¦ ÅëÇØ ·Î±×ÀÎ ±â´ÉÀ» ±¸Çö*/
+@Service											/*UserDetailsService : ï¿½ï¿½ï¿½ï¿½ï¿½Íºï¿½ï¿½Ì½ï¿½ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+														loadUserByUsername() ï¿½Þ¼Òµå°¡ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½, È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸ï¿½Ï¿ï¿½
+														ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ UserDetails ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½ï¿½ï¿½ ï¿½ï¿½È¯
+														ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¥ï¿½ï¿½Æ¼ï¿½ï¿½ï¿½ï¿½ UserDetailServiceï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ö´ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½*/
 public class UserDetailsServiceImpl implements UserDetailsService {
    @Autowired
    private MemberMapper memberMapper;
    
    
-   @Override				//UserDetails : È¸¿øÀÇ Á¤º¸¸¦ ´ã±â À§ÇØ¼­ »ç¿ëÇÏ´Â ÀÎÅÍÆäÀÌ½º, Á÷Á¢ ±¸ÇöÇÏ°Å³ª ½ºÇÁ¸µ ½ÃÅ¥¸®Æ¼ User Å¬·¡½º »ç¿ë
+   @Override				//UserDetails : È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ø¼ï¿½ ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ì½ï¿½, ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°Å³ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Å¥ï¿½ï¿½Æ¼ User Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
       MemberVO member = memberMapper.findId(id);
-      
+    
       if(member == null) {
          throw new UsernameNotFoundException(id + "           ");
       } else {
@@ -38,7 +37,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     			  new SecurityUser(member.getId(),
     					  			member.getPwd(),
     					  			member.getNickname(),
+//    					  			member.getAddress(),
     					  			AuthorityUtils.createAuthorityList(member.getRole().toString()));
+    	 
     	  return user;
     	  
       }

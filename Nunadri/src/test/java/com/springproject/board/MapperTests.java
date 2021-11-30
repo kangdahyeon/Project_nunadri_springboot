@@ -29,7 +29,7 @@ class MapperTests {
 	@Test
 	public void testOfinsert() {
 		CommunityVO cvo = new CommunityVO();
-		cvo.setNoticeTitle("69번이와야한다");
+		cvo.setNoticeTitle("번이와야한다");
 		cvo.setNoticeCategory("1");
 		cvo.setNoticeContent("제발 69번!!!!!!!!!!!");
 		cvo.setNickname("69번만 나오면되 제발");
