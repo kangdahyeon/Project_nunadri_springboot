@@ -55,6 +55,7 @@ public class MyPageController {
    @PostMapping("/update")
    public String updateMember(MemberVO member) {
       memberservice.updateMember(member);
+      System.out.println(member.toString());
     //세션 종료 후 로그아웃
       SecurityContextHolder.clearContext();
    
