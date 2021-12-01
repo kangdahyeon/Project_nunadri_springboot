@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -461,88 +463,34 @@
   <link href="../../css/main.css" rel="stylesheet">
 </head>
 
-<body>
+<body style= "overflow: hidden;">
   <div id="site-border-left"></div>
   <div id="site-border-right"></div>
   <div id="site-border-top"></div>
   <div id="site-border-bottom"></div>
   <!-- Add your content of header -->
-  <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav">
-      <div class="container">
-        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav2 ">
-            <li class="img_1">
-              <a href="../main/index.html" title="">
-                <img src="../../assets/images/logo2-1.png" class="logoimg img_2">
-                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../customerService/question_list.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../customerService/FAQ.html" title="">질문했어요</a>
-                  <a href="../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-            <li style="margin-left: 400px;" id="login-color">
-              <a href="../member/login.html" title=""><i class="fas fa-sign-in-alt"></i> 로그인</a>
-            </li>
-            <li>
-              <a href="../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+  
+   <div th:replace="view/fragments/green_header::header"></div>
 
   <div class="hero-full-container white-text-container">
     <div class="section-container_detail">
       <div class="section-container-spacer text-center">
         <div class="container">
           <h1 class="h2">글 작성</h1>
+        <form action="/insertMyhouseBoard" method="post">
           <div id="divsize">
             <div>
-              <form>
-                <select name="boardselect" class="div_right boarderselect">
-                  <option value="게시판선택">우리집게시판</option>
-                  <option value="게시판선택">공지사항</option>
-                  <option value="게시판선택">도와주세요</option>
-                  <option value="게시판선택">자유게시판</option>
+                <select name="myhouseCategory" class="div_right boarderselect">
+                  <option value="n">공지사항</option>
+                  <option value="h">도와주세요</option>
+                  <option value="f">자유게시판</option>
                 </select>
-              </form>
             </div>
-            <form action="writerAction" method="post">
-              <input type="hidden" name="bdGroup" value=<%=%>
-              <input type="hidden" name="bdOrder" value=<%=%> <input type="hidden" name="bdIndent" value=<%=%>
+              <input type="hidden" name="nickname" th:value="${nickname}">
 
-              <input type="text" class="form-control textbox" id="" name="" placeholder="제목을 입력해주세요." required>
+              <input type="text" class="form-control textbox" name="myhouseTitle" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
-                <textarea class="form-control" rows="11" name="" placeholder="내용을 입력해주세요" required></textarea>
+                <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
                     <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
                     <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
@@ -550,24 +498,14 @@
               </div>
               <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
               <div class="">
-                  <a class="btn btn-default" id="button_color" onclick="location.href=''">글올리기</a>
+                  <button type="submit" class="btn btn-default" id="button_color">글올리기</button >
               </div>
-          </form>
+		  </form>
         </div>
       </div>
     </div>
   </div>
 </div>
-<!--푸터-->
-<footer class="footer-container text-center footer_color">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12" style="padding : 30px">
-        <p>© UNTITLED | Website created with <a href="http://www.mashup-template.com/" title="Create website with free html template">Mashup Template</a>/<a href="https://www.unsplash.com/" title="Beautiful Free Images">Unsplash</a></p>
-      </div>
-    </div>
-  </div>
-</footer>
 
 <script>
   document.addEventListener("DOMContentLoaded", function (event) {
@@ -594,5 +532,5 @@
 <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
  <script type="text/javascript" src="../../js/main.js"></script>
-</body>
+</body >
 </html>

@@ -26,5 +26,5 @@ public interface MemberService {
 	
 	void deleteMember(String id);
 	
-	void insertHouse(HouseVO vo); 
+	void insertHouse(MemberVO vo); 
 }

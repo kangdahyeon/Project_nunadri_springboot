@@ -5366,11 +5366,12 @@ textarea {
 }
 .icon_search {
   position: absolute;
-  right: 19%;
+  right: 8%;
   top :158px;
   margin-right: 150px;
-  margin-top:10px;
+ /*margin-top:0px;*/ 
   color: #fff;
+  cursor: pointer;
 }
 .div_right2 > input {
   position: relative;
