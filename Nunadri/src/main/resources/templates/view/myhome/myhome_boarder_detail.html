@@ -447,70 +447,21 @@
 
 <body>
 
-  <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav">
-      <div class="container">
-        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav2 ">
-            <li class="img_1">
-              <a href="../main/index.html" title="">
-                <img src="../../assets/images/logo2-1.png" class="logoimg img_2">
-                <img src="../../assets/images/logo1-2.png" class="logoimg img_3">
-              </a>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../myhome/myhome_main.html" title=""><i class="fas fa-home"></i> 우리집</a>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a><i class="far fa-comment-alt"></i> 소통해요</a>
-                <div class="drop_down_content">
-                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="drop_down_detail">
-                <a href="../customerService/question_list.html"><i class="fas fa-headset"></i> 고객센터</a>
-                <div class="drop_down_content">
-                  <a href="../customerService/FAQ.html" title="">질문했어요</a>
-                  <a href="../customerService/questionboard.html" title="">건의해요</a>
-                </div>
-              </div>
-            </li>
-            <li style="margin-left: 400px;" id="login-color">
-              <a href="../member/login.html" title=""><i class="fas fa-sign-in-alt"></i> 로그인</a>
-            </li>
-            <li>
-              <a href="../member/signup.html" title=""><i class="fas fa-folder-plus"></i> 회원가입</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </header>
+ <div th:replace="view/fragments/green_header::header"></div>
 
   <div class="hero-full-container white-text-container">
     <div class="section-container_detail">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">OO게시판</h1>
+           <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('f')}">자유게시판</h1>
+         <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('n')}">공지사항</h1>
+          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('h')}">도와주세요</h1>
           <div id="divsize">
             <table class="type04">
               <td id="table_width_write">닉네임</td>
               <td>제목제목제목</td>
               <td id="table_width_write">작성시간</td>
-              <td><a href="#">수정</a>/<a href="#">삭제</a></td>
+              <td><a href="#">수정</a>/<td><a th:href="'/deleteMyhouseBoard/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >삭제</a  ></td>
             </table>
             <!--본문 내용, 이미지-->
             <div class="col-lg-4">
@@ -518,20 +469,16 @@
                 src="https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201807/04/fbc64469-49c5-42a2-9491-6d2e36f8288e.jpg"
                 alt="">
             </div>
-            <p>If the autocomplete attribute is not specified on an
-              textarea element, then the browser uses the autocomplete
-              attribute value of the element's form owner.
-              The form owner is either the form element that this
-              element is a descendant of or the form element whose id is
-              specified by the form attribute of the input element.
-              For more information, see the autocomplete attribute in form.</p>
+            <p th:text="${getBoard.myhouseContent}"></p >
             <table class="type04">
               <td id="table_width_write">닉네임</td>
               <td>댓글 내용 표출 </td>
               <td id="table_width_write">작성시간</td>
-              <td><a href="#">수정</a>/<a href="#">삭제</a></td>
+              <td><a>수정</a></td>
+              /
+              <td><a  >삭제</a  ></td>
             </table>
-
+            
             <div class="col-lg-10">
               <textarea id="comment" rows="2" placeholder="댓글을 작성해주세요"></textarea>
             </div>

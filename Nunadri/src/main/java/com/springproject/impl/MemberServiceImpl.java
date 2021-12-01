@@ -15,7 +15,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
-	private MemberVO memberVo;
    
    private final MemberMapper memberMapper;
    
@@ -101,7 +100,7 @@ public class MemberServiceImpl implements MemberService {
    }
    
 	@Override
-	public void insertHouse(HouseVO vo) {
+	public void insertHouse(MemberVO vo) {
 		memberMapper.insertHouse(vo);
 	}
 	
@@ -115,13 +114,6 @@ public class MemberServiceImpl implements MemberService {
  			return true;
  		}
  	}
-
-@Override
-public MemberVO findNickname(String nickname) {
-	 MemberVO m = memberMapper.findNickname(nickname);
-     return m;
-}
-
 
 
 

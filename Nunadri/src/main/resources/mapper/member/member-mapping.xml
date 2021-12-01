@@ -73,7 +73,7 @@
 						
 	</insert>
 	
-	<insert id="insertHouse" parameterType="com.springproject.vo.HouseVO">
+	<insert id="insertHouse" parameterType="com.springproject.vo.MemberVO">
 		INSERT INTO HOUSE(
 							HOUSE_NO 
 							, ADDRESS
@@ -92,4 +92,7 @@
 		UPDATE MEMBER SET ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
 		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email} WHERE ID = #{id}
 	</update>
+	
+	
+	
 </mapper>

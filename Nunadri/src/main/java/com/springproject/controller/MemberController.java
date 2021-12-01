@@ -44,8 +44,8 @@ public class MemberController {
 	
 	
 	//회원가입 컨트롤러
-	@PostMapping("/signup")
-	public String signUp(@Valid MemberVO vo, HouseVO vo2, BindingResult bindingResult, Model model) {
+	@PostMapping("/signup") //houseVO를 지우고 MemberVO로 대체
+	public String signUp(@Valid MemberVO vo, BindingResult bindingResult, Model model) {
 		if(bindingResult.hasErrors()) {
 			
 			System.out.println("========================" + bindingResult.getErrorCount() + "================");
@@ -70,7 +70,7 @@ public class MemberController {
 			boolean existAddress = memberservice.findAddress(address);
 			if(existAddress == false) {
 				//하우스 db 칼럼 생성
-				memberservice.insertHouse(vo2);
+				memberservice.insertHouse(vo);
 			}
 						
 		}catch (IllegalStateException e) {

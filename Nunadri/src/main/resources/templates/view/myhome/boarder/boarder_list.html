@@ -39,12 +39,26 @@
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">자유게시판</h1>
+          <h1 class="h2" th:if="${category.toString().equals('f')}">자유게시판</h1>
+         <h1 class="h2" th:if="${category.toString().equals('n')}">공지사항</h1>
+          <h1 class="h2" th:if="${category.toString().equals('h')}">도와주세요</h1>
+        <form action="/board/f" method="post" role="form" th:object="${noticeMyhouseVO}">
           <div id="divsize">
             <!--검색창-->
-            <div class="div_right">
-              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search"></i>
+                <div class="div_right" style="width: 33%;">
+               
+               <select name="searchCondition">
+                  <th:each>
+                     <option value="MYHOUSE_TITLE">제목
+                     <option value="MYHOUSE_CONTENT">내용
+                     <option value="NICKNAME">작성자
+                     <option value="MYHOUSE_TITLE_MYHOUSE_CONTENT">제목+내용
+                  </th:each>
+            </select> 
+              <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
+              <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
+          
             <!--게시판 목록 표출-->
             <table class="type04">
               <tr>
@@ -53,17 +67,19 @@
                 <th id="table_width_writer">작성자</th>
                 <th id="table_width_writer">작성일</th>
                 <th id="table_width_hit">조회수</th>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td id="table_text">제목제목제목</td>
-                <td>닉네임</td>
-                <td>2021-11-15</td>
-                <td>0</td>
-              </tr>
+              </tr >
+              <tr  th:each="board, status: ${boardList}">
+                <td th:text="${board.myhouseNo}"></td >
+              <td> 
+              <a th:text="${board.myhouseTitle}" th:href="'/myhouseBoardDetail/'+${board.myhouseCategory}+'/'+${board.myhouseNo}" ></a ></td>
+                <td th:text="${board.nickname}"></td >
+                <td th:text="${board.myhouseRegDate}"></td >
+                <td>0</td >
+              </tr >
             </table>
 
           </div>
+          </form>
           <!--페이징-->
           <div class="paging col-lg-11">
             <a href="#">&#60;</a>
@@ -76,7 +92,7 @@
           </div>
           <!--글쓰기 버튼-->
           <div class="div_right">
-            <a href="#" class="btn btn-default" id="writerBtn">글쓰기</a>
+            <a href="/freeInsert" class="btn btn-default" id="writerBtn">글쓰기</a>
           </div>
         </div>
       </div>
