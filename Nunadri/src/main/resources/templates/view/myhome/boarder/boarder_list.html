@@ -42,7 +42,10 @@
           <h1 class="h2" th:if="${category.toString().equals('f')}">자유게시판</h1>
          <h1 class="h2" th:if="${category.toString().equals('n')}">공지사항</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">도와주세요</h1>
-        <form action="/board/f" method="post" role="form" th:object="${noticeMyhouseVO}">
+        <form th:action="'/board/'+${category}" method="post" role="form">
+        <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
+         <input type="hidden" name="condition" th:value="${condition}"> 
+         <input type="hidden" name="keyword" th:value="${keyword}">  
           <div id="divsize">
             <!--검색창-->
                 <div class="div_right" style="width: 33%;">
@@ -52,12 +55,12 @@
                      <option value="MYHOUSE_TITLE">제목
                      <option value="MYHOUSE_CONTENT">내용
                      <option value="NICKNAME">작성자
-                     <option value="MYHOUSE_TITLE_MYHOUSE_CONTENT">제목+내용
                   </th:each>
             </select> 
               <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
               <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
+
           
             <!--게시판 목록 표출-->
             <table class="type04">
@@ -71,28 +74,62 @@
               <tr  th:each="board, status: ${boardList}">
                 <td th:text="${board.myhouseNo}"></td >
               <td> 
-              <a th:text="${board.myhouseTitle}" th:href="'/myhouseBoardDetail/'+${board.myhouseCategory}+'/'+${board.myhouseNo}" ></a ></td>
+              
+              <a th:text="${board.myhouseTitle}" th:href="'/myhouseBoardDetail/'+${board.houseNo}+'/'+${board.myhouseCategory}+'/'+${board.myhouseNo}" ></a ></td>
                 <td th:text="${board.nickname}"></td >
                 <td th:text="${board.myhouseRegDate}"></td >
-                <td>0</td >
+                <td th:text="${board.myhouseHit}"></td  >
               </tr >
             </table>
-
           </div>
+          <!--페이징 처리-->
+          <div>
+         <ul class="pagination">
+         
+         <!--처음으로 버튼
+         pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
+         pageNum = 게시글 넘어가는 페이지값-->
+            <li th:class="pagination_button" style="float:left;margin-left:5px;">
+               <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a>
+            </li>
+         <!--이전 버튼 마지막 페이지 이동 시 숨김-->
+            <span th:if="${pageMaker.cri.pageNum}!=1">
+               <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                  <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
+               </li>
+            </span>
+            <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
+            <span th:if="${pageMaker.endPage}!=0">
+               <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                  <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                     <a th:href="'/board/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
+                  </li>
+               </th:block>
+            </span>
+            <!--다음 버튼 마지막 페이지 이동 시 숨김-->
+            <span th:if="${pageMaker.cri.pageNum}!=${pageMaker.endPage + 1}">
+               <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                  <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a>
+               </li>
+            </span>
+         <!--마지막으로 버튼-->
+            <li th:class="pagination_button" style="float:left;margin-left:5px;">
+               <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.endPage+1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">>></a>
+            </li>
+            <!--검색 실험-->
+         </ul>
+      </div >
           </form>
-          <!--페이징-->
-          <div class="paging col-lg-11">
-            <a href="#">&#60;</a>
-            <a class="select" href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">&#62;</a>
-          </div>
+         
+         
+         
+         
+         
+         
           <!--글쓰기 버튼-->
           <div class="div_right">
-            <a href="/freeInsert" class="btn btn-default" id="writerBtn">글쓰기</a>
+			<a href="/myhome" class="btn btn-default" id="writerBtn" style="right: 22%;">뒤로가기</a>           
+            <a href="/boardInsert" class="btn btn-default" id="writerBtn">글쓰기</a>
           </div>
         </div>
       </div>

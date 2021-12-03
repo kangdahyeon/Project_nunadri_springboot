@@ -17,6 +17,7 @@
 		, MYHOUSE_TITLE
 		, MYHOUSE_CONTENT
 		, MYHOUSE_REGDATE
+		, MYHOUSE_HIT
 
 		) values (
 		(SELECT
@@ -24,50 +25,103 @@
 		FROM
 		NOTICE_MYHOUSE ALIAS_FOR_SUBQUERY
 		WHERE
-		MYHOUSE_CATEGORY = #{myhouseCategory})
+		MYHOUSE_CATEGORY = #{myhouseCategory}
+		AND 
+		HOUSE_NO = #{houseNo})
 		, #{myhouseCategory}
 		, #{nickname}
-		, (SELECT HOUSE_NO FROM house where address = (SELECT address
-		from member where nickname = #{nickname}))
+		, #{houseNo}
 		, #{myhouseTitle}
 		, #{myhouseContent}
 		, NOW()
+		,0
 		)
 	</insert>
 
-	<select id="getMyhouseBoardList" resultType="com.springproject.vo.NoticeMyhouseVO"> 
-		<!-- SELECT * FROM NOTICE_MYHOUSE WHERE MYHOUSE_CATEGORY = #{myhouseCategory} -->
-		SELECT MYHOUSE_NO,  MYHOUSE_CATEGORY, NICKNAME, MYHOUSE_TITLE, MYHOUSE_CONTENT, MYHOUSE_REGDATE
-        FROM NOTICE_MYHOUSE 
-        WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
-		<if test="searchCondition == 'MYHOUSE_TITLE'"> 
-            AND MYHOUSE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+	<select id="getMyhouseBoardList" resultType="com.springproject.vo.NoticeMyhouseVO" parameterType="HashMap"> 
+		SELECT * FROM NOTICE_MYHOUSE 
+		WHERE MYHOUSE_CATEGORY = #{boardList.myhouseCategory}
+		AND HOUSE_NO = #{boardList.houseNo}
+        
+		<if test="boardList.searchCondition == 'MYHOUSE_TITLE'"> 
+            AND MYHOUSE_TITLE LIKE CONCAT('%', #{boardList.searchKeyword}, '%')
           </if> 
-         <if test="searchCondition == 'MYHOUSE_CONTENT'">
-            AND MYHOUSE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+         <if test="boardList.searchCondition == 'MYHOUSE_CONTENT'">
+            AND MYHOUSE_CONTENT LIKE CONCAT('%', #{boardList.searchKeyword}, '%')
          </if> 
-         <if test="searchCondition == 'NICKNAME'">
-            AND NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
-         </if>
-         <if test="searchCondition == 'MYHOUSE_TITLE_MYHOUSE_CONTENT'">
-            AND MYHOUSE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
-            OR MYHOUSE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+         <if test="boardList.searchCondition == 'NICKNAME'">
+            AND NICKNAME LIKE CONCAT('%', #{boardList.searchKeyword}, '%')
          </if>
            
         ORDER BY MYHOUSE_NO DESC
+        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
 		
 		</select>
+		
+		
+		
+		<!-- 페이징 카운트 쿼리문 -->
+        <select id="selectMyHouseBoardCount" resultType="int">
+      SELECT COUNT(*) FROM NOTICE_MYHOUSE WHERE MYHOUSE_CATEGORY = #{myhouseCategory} 
+            <if test="searchCondition == 'MYHOUSE_TITLE'">
+               AND MYHOUSE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+            <if test="searchCondition == 'MYHOUSE_CONTENT'">
+               AND MYHOUSE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+            <if test="searchCondition == 'NICKNAME'">
+                  AND NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+               </if>
+      </select> 
+		
+		
+		
+		
+		
+		<!-- 조회수 증가 쿼리 -->
+		<update id="hitIncrease">
+			UPDATE NOTICE_MYHOUSE 
+			SET myhouse_hit = myhouse_hit + 1 
+			WHERE myhouse_no = #{myhouseNo}
+        	AND myhouse_category = #{myhouseCategory}
+        	AND HOUSE_NO = #{houseNo}
+		</update>
 
 	
 	<select id="getMyhouseBoard" resultType="com.springproject.vo.NoticeMyhouseVO">
-		SELECT * FROM NOTICE_MYHOUSE WHERE MYHOUSE_NO = #{myhouseNo} AND MYHOUSE_CATEGORY =#{myhouseCategory}
+		SELECT * FROM NOTICE_MYHOUSE 
+		WHERE MYHOUSE_NO = #{myhouseNo} 
+		AND MYHOUSE_CATEGORY =#{myhouseCategory}
+		AND HOUSE_NO = #{houseNo}
 	</select>
 	
 	   <delete id="deleteBoardSeq">
         DELETE FROM Notice_Myhouse
         WHERE myhouse_no = #{myhouseNo}
         AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo}
      </delete>
+     
+   
+     <select id="getHouseNo" resultType="int">
+     	SELECT HOUSE_NO FROM house WHERE address = (SELECT address
+		from member WHERE nickname = #{nickname})
+     </select>
+     
+     
+    <update id="updateMyhouseBoard" parameterType="com.springproject.vo.NoticeMyhouseVO">
+   
+      UPDATE Notice_Myhouse SET MYHOUSE_TITLE = #{myhouseTitle}, MYHOUSE_CONTENT = #{myhouseContent}, MYHOUSE_REGDATE = NOW()
+      WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory} AND HOUSE_NO = #{houseNo}
+   </update>
+	
+	
+	
+	
+	
+	
+	
 	
 
 </mapper>
