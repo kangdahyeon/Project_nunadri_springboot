@@ -19,6 +19,4 @@ public class FileCommunityVO {
 	
 	private String nickname;
 	
-
-
 }

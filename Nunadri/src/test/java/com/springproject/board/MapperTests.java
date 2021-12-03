@@ -45,7 +45,7 @@ class MapperTests {
 		CommunityVO cvo = new CommunityVO();
 		cvo.setNoticeCategory("2");
 		cvo.setNoticeNo(3);
-		cvo = communityMapper.selectCommunityDetail(cvo);
+		cvo = communityMapper.getCommunityDetail(cvo);
 		log.info("상세 확인용: {}, {}", cvo.getNickname(), cvo.getNoticeTitle());
 	}
 	
@@ -89,11 +89,11 @@ class MapperTests {
 		CommunityVO cvo = new CommunityVO();
 		cvo.setNoticeCategory("2");
 		
-		int boardTotalCount = communityMapper.selectCommunityTotalCount(cvo);
+		int boardTotalCount = communityMapper.getCommunityTotalCount(cvo);
 		
 		if(boardTotalCount > 0) {
-			List<CommunityVO> communityList = communityMapper.selectCommunityList(cvo);
-			for(CommunityVO list :communityList) {	//foreach문
+			List<CommunityVO> communityList = communityMapper.getCommunityList(cvo);
+			for(CommunityVO list :communityList) {
 				log.info("리스트 확인용 {},{},{}",list.getNoticeCategory(),list.getNoticeTitle(), list.getNoticeContent());
 			}
 		}	

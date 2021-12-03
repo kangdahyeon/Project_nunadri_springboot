@@ -2,13 +2,9 @@ package com.springproject.vo;
 
 import java.sql.Date;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@ToString
-@Getter
-@Setter
+@Data
 public class CommunityVO {
 
 	private String noticeCategory;
@@ -28,7 +24,5 @@ public class CommunityVO {
 	private String noticePicture;
 	
 	private String SearchCondition;
-	
 	private String SearchKeyword;
-	
 }

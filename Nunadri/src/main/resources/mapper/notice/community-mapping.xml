@@ -11,20 +11,8 @@
 			, NOTICE_HIT
 			, NOTICE_PICTURE
 	</sql>
-
-	<resultMap type="com.springproject.vo.CommunityVO" id="CommunityVOResultMap">
-		<id property="noticeCategory" column="NOTICE_CATEGORY"/>
-		<id property="noticeNo" column="NOTICE_NO"/>
-		<result property="nickname" column="NICKNAME"/>
-		<result property="noticeRegDate" column="NOTICE_REGDATE"/>
-		<result property="noticeTitle" column="NOTICE_TITLE"/>
-		<result property="noticeContent" column="NOTICE_CONTENT"/>
-		<result property="noticeHit" column="NOTICE_HIT"/>
-		<result property="noticePicture" column="NOTICE_PICTURE"/>
-	</resultMap>
 		
-	
-		<insert id="insertCommunity" parameterType="CommunityVO">
+		<insert id="insertCommunity">
 			INSERT INTO projectdb.NOTICE_COMMUNITY 
 		(
 			 NOTICE_NO
@@ -43,17 +31,17 @@
 					projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
 				WHERE 
 					NOTICE_CATEGORY = #{noticeCategory})
-				, #{noticeCategory}
-				, #{nickname}
-				, date_format(now(), '%Y-%m-%d %H:%m')
-				, #{noticeTitle}
-				, #{noticeContent}
-				, #{noticeHit}
-				, #{noticePicture}
+									, #{noticeCategory}
+									, #{nickname}
+									, date_format(now(), '%Y-%m-%d %H:%m')
+									, #{noticeTitle}
+									, #{noticeContent}
+									, #{noticeHit}
+									, #{noticePicture}
    		 )	
 		</insert>
 	
-		<select id="selectCommunityDetail" parameterType="CommunityVO" resultType="CommunityVO">
+		<select id="getCommunityDetail" parameterType="CommunityVO" resultType="CommunityVO">
 			SELECT
 				<include refid="communityColumns" />
 			FROM
@@ -81,24 +69,30 @@
 			AND NOTICE_CATEGORY = #{noticeCategory}
 		</delete>
 	
-		<select id="selectCommunityList" parameterType="CommunityVO" resultType="CommunityVO">
+		<select id="getCommunityList" resultType="CommunityVO">
 			SELECT 
 				<include refid="communityColumns" />
 			FROM
 			    projectdb.NOTICE_COMMUNITY
 			WHERE
 			    NOTICE_CATEGORY = #{noticeCategory}
-			    <if test="searchCondition == 'NOTICE_TITLE'">
-					AND TITLE LIKE '%' || #{searchKeyword} || '%'
-				</if>
-				<if test="searchCondition == 'NOTICE_CONTENT'">
-					AND CONTENT LIKE '%' || #{searchKeyword} || '%'
-				</if>
+			<if test="searchCondition == 'NOTICE_TITLE'"> 
+            AND 
+            	NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+          	</if> 
+         	<if test="searchCondition == 'NOTICE_CONTENT'">
+            AND 
+            	NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+         	</if> 
+         	<if test="searchCondition == 'NICKNAME'">
+            AND 
+            	NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+         	</if>
 			ORDER BY NOTICE_NO DESC
 			LIMIT 9
 		</select>
 	
-		<select id="selectCommunityTotalCount" parameterType="CommunityVO" resultType="int">
+		<select id="getCommunityTotalCount" parameterType="CommunityVO" resultType="int">
 			SELECT
 				COUNT(*)
 			FROM
@@ -106,4 +100,68 @@
 			WHERE
 				NOTICE_CATEGORY = #{noticeCategory}
 		</select>
+		
+		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
+			INSERT INTO projectdb.file_community
+            (
+                          FILE_NO
+                        , NICKNAME
+                        , NOTICE_CATEGORY
+                        , NOTICE_NO
+                        , NOTICE_FILENAME
+                        , NOTICE_FILE_PATH
+                        , NOTICE_FILE_SIZE
+            ) value (
+            (
+                   SELECT 
+                   		IFNULL(MAX(FILE_NO), 0) +1
+                   FROM   
+                   		file_community ALIAS_FOR_SUBQUERY
+                   WHERE  
+                   		NOTICE_NO = #{noticeNo}
+                   AND    
+                   		NOTICE_CATEGORY = #{noticeCategory}
+            )
+		            , #{nickname}
+		            , #{noticeCategory}
+		            , #{noticeNo}
+		            , #{noticeFileName}
+		            , #{noticeFilePath}
+		            , #{noticeFileSize}
+            );
+		</insert>
+		
+		<select id="getCommunityFileList" parameterType="FileCommunityVO"  resultType="FileCommunityVO">
+			SELECT * FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_NO = #{noticeNo}
+			AND
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+		
+		<!-- 파일만 삭제 -->
+		<delete id="deleteFile" parameterType="FileCommunityVO">
+			DELETE FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND 
+				NOTICE_NO = #{noticeNo}
+			AND
+				FILE_NO = #{fileNo}
+		</delete>
+		
+		<delete id="deleteFileList" parameterType="FileCommunityVO">
+			DELETE FROM FILE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND
+				NOTICE_NO = #{noticeNo}
+		</delete>
+		<select id="getCommunityNo" resultType="int">
+			SELECT 
+				IFNULL(MAX(NOTICE_NO), 0) + 1 
+			FROM 
+				NOTICE_COMMUNITY
+		</select>
+		
 </mapper>

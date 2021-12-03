@@ -98,9 +98,6 @@ public class MyHouseController {
 		return "view/myhome/myhome_boarder_insert";
 	}
 
-
-
-
 	//게시판 글 등록
 	@PostMapping("/insertMyhouseBoard")
 	public String insertMyhouseBoard(NoticeMyhouseVO noticeInsert) {

@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-  <title>자유게시판</title>
+  <title>우리집</title>
 
   <link href="../../../css/main.css" rel="stylesheet">
   <style>
@@ -42,10 +42,12 @@
           <h1 class="h2" th:if="${category.toString().equals('f')}">자유게시판</h1>
          <h1 class="h2" th:if="${category.toString().equals('n')}">공지사항</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">도와주세요</h1>
+
         <form th:action="'/board/'+${category}" method="post" role="form">
         <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
          <input type="hidden" name="condition" th:value="${condition}"> 
          <input type="hidden" name="keyword" th:value="${keyword}">  
+
           <div id="divsize">
             <!--검색창-->
                 <div class="div_right" style="width: 33%;">

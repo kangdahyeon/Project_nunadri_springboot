@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -12,16 +14,13 @@
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
-
-
-
+  <!-- <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-icon-180x180.png">
+  <link href="../../assets/favicon.ico" rel="icon"> -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-  <link rel="stylesheet" href="../../../../../static/css/nice-select.css">
-  <link rel="stylesheet" href="../../../../../static/css/main.css">
 
-  <title>글 작성</title>
+  <title>게시판-디테일</title>
   <style>
-	*,
+    *,
     :after,
     :before {
       -webkit-box-sizing: border-box;
@@ -36,6 +35,14 @@
         margin-bottom: 40px;
         background-color: rgb(10, 55, 50);
       }
+    }
+    #site-border-bottom,
+    #site-border-left,
+    #site-border-right,
+    #site-border-top {
+      background: rgb(80, 55, 27);
+      position: fixed;
+      z-index: 1;
     }
     #site-border-left,
     #site-border-right {
@@ -284,6 +291,39 @@
       max-height: 350px;
       padding: 10px;
     }
+    /*테이블 css*/
+    table.type04 {
+      width: 100%;
+      max-width: 1000px;
+      border-collapse: separate;
+      border-spacing: 1px;
+      line-height: 1.5;
+      border-top: 1px solid #fff;
+      /* margin : 20px 10px; */
+      color : #fff;
+      font-size: 14px;
+    }
+    table.type04 th {
+      padding: 10px;
+      font-weight: bold;
+      /* vertical-align: top; */
+      border-bottom: 1px solid #fff;
+    }
+    table.type04 td {
+      /* width: 350px; */
+      padding: 10px;
+      vertical-align: top;
+      border-bottom: 1px solid #fff;
+    }
+    #table_width_no {
+      width: 50px;
+    }
+    #table_width_writer {
+      width: 150px;
+    }
+    #table_width_hit {
+      width: 75px;
+    }
     .div_right {
       float: right;
       width: 21%;
@@ -307,17 +347,20 @@
       position: relative;
       left: 10%;
       margin-top: 10px;
-      padding: 5px;
+      padding: 5px 80px 5px 5px;
       border-radius: 5px; 
     }
     .position_comment {
       text-decoration: none;
       z-index: 2;
       position: absolute;
-      top: 86%;
-      right: 25%;
+      top: 25%;
+      right: -6.2%;
       margin-top:10px;
       color: #fff;
+    }
+    .position_comment:hover {
+      color: rgb(218, 162, 60);
     }
     .footer_color {
       color: #fff;
@@ -326,102 +369,93 @@
     .footer_color > a {
       text-decoration: none;
     }
-    #button_color {
-      color: #fff;
-      border: 1px solid #fff;
-      border-radius: 5px;
-    }
-    .boarderselect {
-      background-color: rgba(0, 0, 0, 0.0001);
-      border-radius: 5px;
-      padding: 8px;
-      margin-bottom: 10px;
+    td > a:hover {
       color: rgb(241, 175, 196);
-    }
-    .input-group > a {
-      position: relative;
-      right: -719%;
-    }
-    #divsize2 {
-      margin: 0px auto;
-      width: 60%;
-      text-align: center;
     }
   </style>
 
- 
+  <link href="../../css/main.css" rel="stylesheet">
 </head>
 
-<body style="overflow: hidden;">
-
-<div th:replace="view/fragments/header::greenHeader"></div>
+<body>
+  <!-- Add your content of header -->
+  
+  <div th:replace="view/fragments/green_header::greenHeader"></div>
 
   <div class="hero-full-container white-text-container">
     <div class="section-container_detail">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">글 작성</h1>
-          <div id="divsize2">
-            <div>
-             <!-- <form>
-              </form>-->
+         <h1 class="h2" th:if="${getCommunityDetail.noticeCategory.toString().equals('H')}">생활꿀팁</h1>
+         <h1 class="h2" th:if="${getCommunityDetail.noticeCategory.toString().equals('F')}">잡담해요</h1>
+          <div id="divsize">
+            <table class="type04">
+	            <tr>
+	              <td id="table_width_write" th:text="${getCommunityDetail.noticeNo}"></td>
+	              <td id="table_width_write" th:text="${getCommunityDetail.nickname}"></td>
+	              <td th:text="${getCommunityDetail.noticeTitle}"></td >
+	              <td id="table_width_write" th:text="${getCommunityDetail.noticeRegDate}"></td>
+	              <td hidden><a href="#">수정</a>/<a href="#">삭제</a></td>
+	            </tr>
+            </table>
+            <!--본문 내용, 이미지-->
+            <div class="col-lg-4">
+              <img class="img_detail"
+                src="https://pds.joongang.co.kr//news/component/htmlphoto_mmdata/201807/04/fbc64469-49c5-42a2-9491-6d2e36f8288e.jpg"
+                alt="">
             </div>
-            <form th:action="@{/insertCommunity}" th:object="${cvo}" method="post">
-                <select th:field="*{noticeCategory}">
-                  <option th:value="'1'">꿀팁있어요</option>
-                  <option th:value="'2'">잡담해요</option>
-                </select>
-              <input type="hidden" th:field="*{noticeNo}"/>
-              <input type="text" th:field="*{nickname}"/>
-              
-				<label for="noticeTitle"></label>
-              	<input th:field="*{noticeTitle}" type="text" class="form-control textbox" name="noticeTitle" placeholder="제목을 입력해주세요." required>
-	              <div class="form-group">
-	              	<label for="noticeContent"></label>
-	                <textarea th:field="*{noticeContent}" class="form-control" rows="11" name="noticeContent" placeholder="내용을 입력해주세요" required></textarea>
-	                  <div class="input-group">
-	                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
-	                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
-	                  </div>
-	              </div>
-	              <div>
-	              	<a th:href="@{communityList}" class="btn btn-default" id="button_color">뒤로가기</a>
-	              	<button type="submit" class="btn btn-default" id="button_color">글올리기</button>
-	              </div>
-	            </form>
-	        </div>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-<th:block layout:fragment="script">
-	<script th:inline="javascript">
-	/*<![CDATA[*/
-	  document.addEventListener("DOMContentLoaded", function (event) {
-	     navActivePage();
-	  });
-	
-	  $(document).ready(function() {
-	    $('select').niceSelect('niceselect');
-	  });
-	
-	  const navbar = document.querySelector('#nav');
-	    const navbarHeight = navbar.getBoundingClientRect().height;
-	
-	    document.addEventListener('scroll', () => {
-	      console.log(window.scrollY);
-	      if (window.scrollY > navbarHeight) {
-	        navbar.classList.add('navbar_display');
-	      } else {
-	        navbar.classList.remove('navbar_display');
-	      }
-	    });
-	 /*]]>*/
-	</script >
-</th:block>
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
-  	<script src="../../../../../static/js/main.js"></script>
- 	<script src="../../../../../static/js/jquery.nice-select.js"></script>
-	<script type="text/javascript" src="../../../../../static/js/main.js"></script>
+            <p th:text="${getCommunityDetail.noticeContent}"></p >
+            <table class="type04">
+              <td id="table_width_write">NO</td>
+              <td id="table_width_write">닉네임</td>
+              <td>댓글 내용 표출 </td>
+              <td id="table_width_write">작성시간</td>
+              <td hidden><a href="#">수정</a>/<a href="#">삭제</a></td>
+            </table>
+
+            <div class="col-lg-10">
+              <textarea id="comment" rows="2" placeholder="댓글을 작성해주세요"></textarea>
+              <a href="#" class="position_comment">댓글달기</a>
+            </div>
+            <!-- class="btn btn-default position_comment" id="commentBtn" -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--푸터-->
+  <!-- <footer class="footer-container text-center footer_color">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12" style="padding : 30px">
+          <p>© UNTITLED | Website created with <a href="http://www.mashup-template.com/"
+              title="Create website with free html template">Mashup Template</a>/<a href="https://www.unsplash.com/"
+              title="Beautiful Free Images">Unsplash</a></p>
+        </div>
+      </div>
+    </div>
+  </footer> -->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+      navActivePage();
+    });
+    const navbar = document.querySelector('#nav');
+    const navbarHeight = navbar.getBoundingClientRect().height;
+
+    document.addEventListener('scroll', () => {
+      console.log(window.scrollY);
+      if (window.scrollY > navbarHeight) {
+        navbar.classList.add('navbar_display');
+      } else {
+        navbar.classList.remove('navbar_display');
+      }
+    });
+  </script>
+
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
+
+  <script type="text/javascript" src="../../js/main.js"></script>
 </body>
-</html>
+
+</>
