@@ -1,20 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
       
-      <div th:fragment="greenHeader">
-      <header>
-    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 98%; 
-    ">
+<div th:fragment="greenHeader">
+  <header>
+    <nav class="navbar  navbar-fixed-top navbar-inverse" id="nav" style="width: 98%;">
       <div class="container">
-        <!-- <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse"
-          aria-expanded="false">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button> -->
-
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul class="nav navbar-nav2">
             <li class="img_1">
@@ -32,9 +23,9 @@
               <div class="drop_down_detail">
                 <a><i class="far fa-comment-alt"></i> 소통해요</a>
                 <div class="drop_down_content">
-                  <a href="../community/feed/feed_list.html" title="">자랑해요</a>
-                  <a href="../community/honey/boarder_honey.html" title="">꿀팁있어요</a>
-                  <a href="../community/free/boarder_Communication.html" title="">잡담해요</a>
+                  <a href="../community/feed/feed_list.html">자랑해요</a>
+                  <a th:onclick="|location.href='/commu/H'|">꿀팁있어요</a>
+                  <a th:onclick="|location.href='/commu/F'|">잡담해요</a>
                 </div>
               </div>
             </li>
@@ -59,6 +50,5 @@
       </div>
     </nav>
   </header>
-      
-      
+</div>
 </html>

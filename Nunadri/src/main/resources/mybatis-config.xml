@@ -9,5 +9,6 @@
 	</settings>
 	<typeAliases>
 		<typeAlias alias="CommunityVO" type="com.springproject.vo.CommunityVO"/>
+		<typeAlias alias="FileCommunityVO" type="com.springproject.vo.FileCommunityVO"/>
 	</typeAliases>
 </configuration>

@@ -8,7 +8,7 @@ public interface MyhouseService {
 	
 	void insertMyhouseBoard(NoticeMyhouseVO noticeInsert);
 	
-	List<NoticeMyhouseVO> getMyhouseBoardList(String category);
+	List<NoticeMyhouseVO> getMyhouseBoardList(NoticeMyhouseVO boardList);
 	
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 	

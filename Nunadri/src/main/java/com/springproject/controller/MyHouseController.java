@@ -56,19 +56,19 @@ public class MyHouseController {
 
 
 	@RequestMapping("/board/{category}")
-	public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO vo, Model model) {
-		
-		if(vo.getSearchCondition() == null) {
-	         vo.setSearchCondition("MYHOUSE_TITLE");
-	      }
-	      if(vo.getSearchKeyword() == null) {
-	         vo.setSearchKeyword("");
-	      }
-	      
-		model.addAttribute("category", category);
-		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(category));
-		return "view/myhome/boarder/boarder_list";
-	}
+	   public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO boardList, Model model) {
+	      boardList.setMyhouseCategory(category);
+	      if(boardList.getSearchCondition() == null) {
+	         boardList.setSearchCondition("MYHOUSE_TITLE");
+	         }
+	         if(boardList.getSearchKeyword() == null) {
+	            boardList.setSearchKeyword("");
+	         }
+	         
+	         model.addAttribute("category", category);
+	         model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList));
+	      return "view/myhome/boarder/boarder_list";
+	   }
 
 
 

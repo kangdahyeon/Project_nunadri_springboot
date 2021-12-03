@@ -45,9 +45,20 @@ button:hover, input:hover, a:hover {
     box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
     border-radius: 5px;
 }
-
+.container_view2 {
+    background-color: transparent;
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 500px;
+    top: 250px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%); */
+    /* border-radius: 5px; */
+}
 /* creator nickname */
-.v_nicknam {
+.v_nickname {
 	font-weight: bold;
 }
 
@@ -75,6 +86,20 @@ button:hover, input:hover, a:hover {
 	margin-top: 10px;
 	margin-left: 10px;
 }
+
+.v_leftbox2 {
+	width: 55%;
+	position: relative;
+    border-radius: 5px;
+}
+.v_leftbox2>img {
+	width: 96%;
+	height: 60%;
+	object-fit: cover;
+	margin-top: 10px;
+	margin-left: 10px;
+}
+
 
 /* tag icon */
 .v_leftbox>button>img {
@@ -118,6 +143,13 @@ button:hover, input:hover, a:hover {
 	padding-left: 80%;
 	top: 30px;
 }
+.v_profile > .v_nickname2 {
+	position: absolute;
+	padding-left: 30%;
+	top: 30px;
+	padding-right: 10px;
+	font-weight: 600;
+}
 
 .edit_div {
     position:absolute;
@@ -135,6 +167,23 @@ button:hover, input:hover, a:hover {
     border-radius: 5px;
 	top: 150px;
 }
+
+.edit_div2 {
+    position:absolute;
+    right:100px;
+    background-color: white;
+    box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+    border-radius: 5px;
+    top: 90%;
+}
+.delete_div2 {
+	position:absolute;
+	right:25px;
+	background-color: white;
+    box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+    border-radius: 5px;
+	top: 90%;
+}
 .feedview_btn {
 	display: block;
 	width: 60px;
@@ -147,6 +196,7 @@ button:hover, input:hover, a:hover {
 	border-radius: 5px;
 }
 
+
 /* contents div */
 .contents {
 	padding-top: 15%;
@@ -158,6 +208,7 @@ button:hover, input:hover, a:hover {
 }
 /* discription */
 .contents>p {
+	text-align: left;
 	padding-left: 10%;
 	line-height: 1.5;
 	font-size: 15px;
@@ -180,10 +231,13 @@ button:hover, input:hover, a:hover {
 	overflow-y: auto;
 	overflow-x: hidden;
 	height: 1500px;
-	border-top: 1px solid #C9C0AE;
+	/* border-top: 1px solid #C9C0AE; */
 	white-space: normal;
 	word-break: break-all;
 	
+}
+.commentbox > div > p {
+	text-align: left;
 }
 
 /* commentbox  */
@@ -244,7 +298,7 @@ button:hover, input:hover, a:hover {
 	flex-direction: column;
 	bottom: 0;
 	height: 160px;
-	border-top: 1px solid #C9C0AE;
+	border-top: 1px solid #fff;
 }
 /* commenting nav */
 .buttonline {

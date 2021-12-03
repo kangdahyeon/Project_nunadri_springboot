@@ -24,9 +24,9 @@ public class MyhouseServiceImpl implements MyhouseService {
 	}
 
 	@Override
-	public List<NoticeMyhouseVO> getMyhouseBoardList(String category) {
+	public List<NoticeMyhouseVO> getMyhouseBoardList(NoticeMyhouseVO boardList) {
 		
-		return myhouseMapper.getMyhouseBoardList(category);
+		return myhouseMapper.getMyhouseBoardList(boardList);
 	}
 
 	@Override

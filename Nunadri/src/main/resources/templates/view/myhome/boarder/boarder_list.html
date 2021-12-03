@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
-  <title>자유게시판</title>
+  <title>우리집</title>
 
   <link href="../../../css/main.css" rel="stylesheet">
   <style>
@@ -42,7 +42,7 @@
           <h1 class="h2" th:if="${category.toString().equals('f')}">자유게시판</h1>
          <h1 class="h2" th:if="${category.toString().equals('n')}">공지사항</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">도와주세요</h1>
-        <form action="/board/f" method="post" role="form" th:object="${noticeMyhouseVO}">
+      	 <form th:action="'/board/'+${category}" method="post" role="form" th:object="${noticeMyhouseVO}">
           <div id="divsize">
             <!--검색창-->
                 <div class="div_right" style="width: 33%;">

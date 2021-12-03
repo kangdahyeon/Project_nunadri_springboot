@@ -3,6 +3,7 @@ package com.springproject.service;
 import java.util.List;
 
 import com.springproject.vo.CommunityVO;
+import com.springproject.vo.FileCommunityVO;
 
 
 
@@ -23,5 +24,13 @@ public interface CommunityService {
 	public List<CommunityVO> getCommunityList(CommunityVO cvo);
 	
 	public int getCoummunityNo();
+	
+	public void insertCommunityFileList(List<FileCommunityVO> fileList);
+	
+	public List<FileCommunityVO> getCommunityFileList(FileCommunityVO fvo);
+	
+	public void deleteFile(FileCommunityVO fvo);
+	
+	public void deleteFileList(FileCommunityVO fvo);
 	
 }

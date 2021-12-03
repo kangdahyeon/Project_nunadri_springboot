@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -14,8 +16,11 @@
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-
-  <title>꿀팁</title>
+  <link href="../../css/main.css" rel="stylesheet">
+  <link rel="stylesheet" href="../../css/nice-select.css/">
+  
+  
+  <title>소통해요</title>
   <style>
     .navbar_display {
       background-color: white;
@@ -25,27 +30,32 @@
     }
   </style>
 
-  <link href="../../css/main.css" rel="stylesheet">
+
 </head>
+<div th:replace="view/fragments/header::header"></div>
 
 <body class="">
-<div th:replace="view/fragments/header::header"></div>
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">꿀팁</h1>
+         <h1 class="h2" th:if="${category.toString().equals('H')}">생활꿀팁</h1>
+         <h1 class="h2" th:if="${category.toString().equals('F')}">잡담해요</h1>
+          <form th:action="'/commu/'+${category}" method="post" role="form" th:object="${communityVO}">
           <div id="divsize">
             <!--검색창-->
-            <div class="div_right">
-             <th:block layout:fragment="search">
-				<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
-					<input type="search" placeholder="Search..." class="input-search">
-					<button class="mdi mdi-magnify button-search" type="submit">
-						<i class="fa fa-search" aria-hidden="true"></i>
-					</button>
-				</form>
-			</th:block>
+            <!--검색창-->
+             <div class="div_right" style="width: 33%;"> 
+               <select name="searchCondition" class="select">
+                  <th:each>
+                     <option value="NOTICE_TITLE">제목
+                     <option value="NOTICE_CONTENT">내용
+                     <option value="NICKNAME">작성자
+                     <option value="NOTICE_TITLE_NOTICE_CONTENT">제목+내용
+                  </th:each>
+          	  </select> 
+              <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
+              <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
             <!--게시판 목록 표출-->
             <table class="type04">
@@ -57,14 +67,14 @@
                 <th id="table_width_hit">조회수</th>
               </tr>
              <tbody>
-					<tr th:each="cvo : ${communityList}">
-						<td scope="row" th:text="{cvo.noticeNo}"></td>
+					<tr th:each="list, status : ${communityList}">
+						<td scope="row" th:text="${list.noticeNo}"></td>
 						<td class="text-left">
-							<a th:href="@{/board/view( noticeNo=${cvo.noticeNo} )}" th:text="${cvo.noticeTitle}"></a>
+							<a th:text="${list.noticeTitle}" th:href="'/communityDetail/'+${list.noticeCategory}+'/'+${list.noticeNo}"></a>
 						</td>
-						<td th:text="${cvo.nickname}"></td>
-						<td th:text="${#temporals.format( cvo.noticeRegDate, 'yyyy-MM-dd HH:mm' )}"></td>
-						<td th:text="${cvo.noticeHit}"></td>
+						<td th:text="${list.nickname}"></td>
+						<td th:text="${list.noticeRegDate}"></td>
+						<td th:text="${list.noticeHit}"></td>
 					</tr>
 			  </tbody>
             </table>
@@ -94,7 +104,7 @@
 			</th:block>-->
           <!--글쓰기 버튼-->
           <div class="div_right">
-            <a href="@{/board/insertCommunity}" class="btn btn-default" id="writerBtn">글쓰기</a>
+            <a href="/insertCommu" class="btn btn-default" id="writerBtn">글쓰기</a>
           </div>
         </div>
       </div>
@@ -117,11 +127,16 @@
         navbar.classList.remove('navbar_display');
       }
     });
+    
+     $(document).ready(function() {
+	    $('select').niceSelect('niceselect');
+	  });
   </script>
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="../../js/main.js"></script>
+  <script src="../../js/jquery.nice-select.js"></script>
 </body>
 
 </html>

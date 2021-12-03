@@ -15,10 +15,8 @@ public class FileCommunityVO {
 	
 	private String noticeFilePath;
 	
-	private String noticeFileSize;
+	private Long noticeFileSize;
 	
 	private String nickname;
 	
-
-
 }
