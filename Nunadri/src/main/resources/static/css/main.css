@@ -5394,7 +5394,18 @@ textarea {
   color: black;
 }
 
+
 /*페이징 처리용 */
+.pagination{
+   width:50%;
+   display:inline-block;
+   list-style:none;
+   margin-left:30%;
+   margin-top: 10px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+
 .paging {
   position: relative;
   padding: 10px 0 0 100px;

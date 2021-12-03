@@ -29,8 +29,8 @@ public class NoticeMyhouseVO {
 	private Date myhouseDate;
 
 	//검색용 필드
-	private String SearchCondition;
-	private String SearchKeyword;
+	private String searchCondition;
+	private String searchKeyword;
 
 
 
