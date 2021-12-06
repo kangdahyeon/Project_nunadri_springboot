@@ -642,7 +642,7 @@
     }
   </style>
 
-  <link href="../../css/main.css" rel="stylesheet">
+  <link href="../../../css/main.css" rel="stylesheet">
 </head>
 
 
@@ -655,22 +655,20 @@
       <div class="section-container-spacer text-center">
         <div class="container">
             <h1 class="h2">글 작성</h1>
-        <form action="/insertMyhouseBoard" method="post" enctype="multipart/form-data">
+        <form action="/insertMyhouseBoard" method="post">
           <div id="divsize">
             <div>
-                <select name="myhouseCategory" class="div_right boarderselect">
-                  <option value="n">공지사항</option>
-                  <option value="h">도와주세요</option>
-                  <option value="f">자유게시판</option>
-                </select>
+                <input type="number" name="price" class="div_right boarderselect form-control textbox" placeholder="가격을 입력해주세요." required>
+                <p style="color: white; position:absolute; right:250px; top:160px;">원</p >
             </div>
+            
               <input type="hidden" name="nickname" th:value="${nickname}">
 
               <input type="text" class="form-control textbox" name="myhouseTitle" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
                 <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
-                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
+                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
                     <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
                   </div>
               </div>
@@ -705,6 +703,6 @@
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
-  <script type="text/javascript" src="/../../js/main.js"></script>
+  <script type="text/javascript" src="../../../js/main.js"></script>
 </body>
 </html>
