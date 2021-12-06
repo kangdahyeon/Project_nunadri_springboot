@@ -39,8 +39,7 @@
 	<delete id="deleteMember" parameterType="String">
       delete from MEMBER where ID = #{id};
    </delete>
-	
-	
+   
 	
 	
 	

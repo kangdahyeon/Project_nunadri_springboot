@@ -1,25 +1,37 @@
 package com.springproject.controller;
 
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.springproject.common.FileUtils;
 import com.springproject.service.MemberService;
+import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
+import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.MemberVO;
 import com.springproject.vo.NoticeMyhouseVO;
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MyHouseController {
@@ -27,6 +39,7 @@ public class MyHouseController {
 
 	private final MemberService memberService;
 	private final MyhouseService myhouseService;
+	private final MyhouseFileService myhouseFileService;
 	
 	static String condition ="";
 	   static String keyword="";
@@ -56,7 +69,6 @@ public class MyHouseController {
 		boardList.setMyhouseCategory(category);
 		//
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
-		//System.out.println("얘는 타지롱"+boardList.toString());
 		
 		  //검색값 없을때 기본 값 설정 
         if(boardList.getSearchCondition() == null) {
@@ -72,8 +84,6 @@ public class MyHouseController {
            
            int total = myhouseService.selectMyHouseBoardCount(boardList);
 		
-           System.out.println(12344);
-           System.out.println("과연이놈은~~"+myhouseService.getMyhouseBoardList(boardList, cri));
 
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
@@ -89,6 +99,11 @@ public class MyHouseController {
 	public String fleamarket() {
 		return "view/myhome/fleamarket/fleamarket_list";
 	}
+	
+	@GetMapping("/fleamarketInsert")
+	public String fleamarketInsert() {
+		return "view/myhome/fleamarket/fleamarket_insert";
+	}
 
 
 
@@ -100,11 +115,29 @@ public class MyHouseController {
 
 	//게시판 글 등록
 	@PostMapping("/insertMyhouseBoard")
-	public String insertMyhouseBoard(NoticeMyhouseVO noticeInsert) {
+	public String insertMyhouseBoard(NoticeMyhouseVO noticeInsert,
+			HttpServletRequest request, MultipartHttpServletRequest mhsr) {
 		//
-		noticeInsert.setHouseNo(myhouseService.getHouseNo(noticeInsert.getNickname()));
-
+		
+		log.info(noticeInsert.toString());
+		
+		try {
+			noticeInsert.setHouseNo(myhouseService.getHouseNo(noticeInsert.getNickname()));
+			int myhouseNo = myhouseService.getMyhouseNo(noticeInsert);
+			String category = noticeInsert.getMyhouseCategory();
+			System.out.println(category);
+			FileUtils fileUtils = new FileUtils();
+			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(noticeInsert.getHouseNo(), 
+												category, myhouseNo, request, mhsr);
+		
+		if(!CollectionUtils.isEmpty(fileList)) {
+			myhouseFileService.insertMyhouseFileList(fileList);
+		}
 		myhouseService.insertMyhouseBoard(noticeInsert);
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
 		return "redirect:/board/" + noticeInsert.getMyhouseCategory();
 	}
@@ -112,20 +145,13 @@ public class MyHouseController {
 
 	//게시글 상세 페이지
 	@GetMapping("/myhouseBoardDetail/{houseNo}/{myhouseCategory}/{myhouseNo}")
-	public String myhouseBoardDetail(@PathVariable("myhouseCategory")String category, 
-			@PathVariable("myhouseNo") int myhouseNo, 
-			@PathVariable("houseNo")int houseNo, Model model) {
+	public String myhouseBoardDetail(NoticeMyhouseVO vo, Model model) {
 
-		NoticeMyhouseVO vo = new NoticeMyhouseVO();
-		//houseNo 추가
-		vo.setHouseNo(houseNo);
-
-		vo.setMyhouseCategory(category);
-		vo.setMyhouseNo(myhouseNo); 
 		//조회수 증가 기능
 		myhouseService.hitIncrease(vo);
-
+		
 		model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
+		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
 
 		return "view/myhome/myhome_boarder_detail";
 	}
@@ -133,34 +159,18 @@ public class MyHouseController {
 
 	//게시글 삭제 기능
 	@GetMapping("/deleteMyhouseBoard/{houseNo}/{myhouseCategory}/{myhouseNo}")
-	public String deleteMyhouseBoard(@PathVariable("myhouseNo") int myhouseNo, 
-			@PathVariable("myhouseCategory") String category, 
-			@PathVariable("houseNo") int houseNo) {
-
-		NoticeMyhouseVO vo = new NoticeMyhouseVO();
-		//houseNo 추가
-		vo.setHouseNo(houseNo);
-
-		vo.setMyhouseNo(myhouseNo);
-		vo.setMyhouseCategory(category);
+	public String deleteMyhouseBoard(NoticeMyhouseVO vo) {
 
 		myhouseService.deleteBoardSeq(vo);
+		//게시글 삭제 시 댓글 목록 삭제
+		myhouseService.deleteMyhouseCommentList(vo);
 
-
-		return "redirect:/board/" + category;
+		return "redirect:/board/" + vo.getMyhouseCategory();
 	}
 
 	
 	@GetMapping("/updateMyhouseBoard/{houseNo}/{myhouseCategory}/{myhouseNo}")
-	public String updateMyhouseBoard(@PathVariable("myhouseCategory")String category, 
-									@PathVariable("myhouseNo") int myhouseNo,  
-									@PathVariable("houseNo") int houseNo, Model model) {
-
-		NoticeMyhouseVO update = new NoticeMyhouseVO();
-
-		update.setHouseNo(houseNo);
-		update.setMyhouseCategory(category);
-		update.setMyhouseNo(myhouseNo); 
+	public String updateMyhouseBoard(NoticeMyhouseVO update, Model model) {
 
 		model.addAttribute("updateBoard",myhouseService.getMyhouseBoard(update));
 
@@ -198,5 +208,4 @@ public class MyHouseController {
 
 			return "redirect:/smallGroup";
 		}
-
 }

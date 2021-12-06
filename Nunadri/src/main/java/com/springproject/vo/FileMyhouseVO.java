@@ -9,13 +9,15 @@ public class FileMyhouseVO {
    
    private String myhouseCategory;
    
-   private int myhouseNO;
+   private int houseNo;
+   
+   private int myhouseNo;
    
    private String myhouseFilename;
    
    private String myhouseFilePath;
    
-   private String myhouseFileSize;
+   private long myhouseFileSize;
    
    private String nickname;
 
