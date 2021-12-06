@@ -51,29 +51,51 @@
 			AND
 				NOTICE_NO = #{noticeNo}
 		</select>
+		
+		<!-- 조회수 증가 쿼리 -->
+		<update id="hitIncrease">
+			UPDATE NOTICE_COMMUNITY
+			SET 
+				NOTICE_HIT = NOTICE_HIT + 1 
+			WHERE
+				 NOTICE_CATEGORY = #{noticeCategory}
+        	AND 
+        		NOTICE_NO = #{noticeNo}	
+		</update>
 	
 		<update id="updateCommunity" parameterType="CommunityVO">
-			UPDATE projectdb.NOTICE_COMMUNITY
+			UPDATE NOTICE_COMMUNITY
 			SET
 			NOTICE_CATEGORY = #{noticeCategory}
 				, NOTICE_TITLE = #{noticeTitle}
 				, NOTICE_CONTENT = #{noticeContent}
-				, NICKNAME = #{nickname}
 			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND
 				NOTICE_NO = #{noticeNo}
 		</update>
+		
+		<select id="getCommunity" resultType="CommunityVO">
+			SELECT * FROM NOTICE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND
+				NOTICE_NO = #{noticeNo}
+		</select>
 	
 		<delete id="deleteCommunity" parameterType="CommunityVO">
-			DELETE FROM projectdb.NOTICE_COMMUNITY
-			WHERE NOTICE_NO = #{noticeNo} 
-			AND NOTICE_CATEGORY = #{noticeCategory}
+			DELETE FROM NOTICE_COMMUNITY
+			WHERE 
+				NOTICE_NO = #{noticeNo} 
+			AND 
+				NOTICE_CATEGORY = #{noticeCategory}
 		</delete>
 	
-		<select id="getCommunityList" resultType="CommunityVO">
+		<select id="getCommunityList" resultType="CommunityVO" parameterType="HashMap">
 			SELECT 
 				<include refid="communityColumns" />
 			FROM
-			    projectdb.NOTICE_COMMUNITY
+			    NOTICE_COMMUNITY
 			WHERE
 			    NOTICE_CATEGORY = #{noticeCategory}
 			<if test="searchCondition == 'NOTICE_TITLE'"> 
@@ -92,15 +114,6 @@
 			LIMIT 9
 		</select>
 	
-		<select id="getCommunityTotalCount" parameterType="CommunityVO" resultType="int">
-			SELECT
-				COUNT(*)
-			FROM
-				projectdb.NOTICE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-		</select>
-		
 		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
 			INSERT INTO projectdb.file_community
             (
@@ -112,16 +125,14 @@
                         , NOTICE_FILE_PATH
                         , NOTICE_FILE_SIZE
             ) value (
-            (
-                   SELECT 
+            	  (SELECT 
                    		IFNULL(MAX(FILE_NO), 0) +1
                    FROM   
                    		file_community ALIAS_FOR_SUBQUERY
                    WHERE  
                    		NOTICE_NO = #{noticeNo}
                    AND    
-                   		NOTICE_CATEGORY = #{noticeCategory}
-            )
+                   		NOTICE_CATEGORY = #{noticeCategory})
 		            , #{nickname}
 		            , #{noticeCategory}
 		            , #{noticeNo}
@@ -163,5 +174,25 @@
 			FROM 
 				NOTICE_COMMUNITY
 		</select>
+		
+		<!-- 페이징 카운트 쿼리문 -->
+        <select id="selectCommunityCount" resultType="int">
+		      SELECT COUNT(*) FROM NOTICE_COMMUNITY 
+		      WHERE 
+		      		NOTICE_CATEGORY = #{noticeCategory}
+            <if test="searchCondition == 'NOTICE_TITLE'">
+               AND 
+               		NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+            <if test="searchCondition == 'NOTICE_CONTENT'">
+               AND 
+               		NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+            <if test="searchCondition == 'NICKNAME'">
+                  AND 
+                  		NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+      </select> 
+		
 		
 </mapper>

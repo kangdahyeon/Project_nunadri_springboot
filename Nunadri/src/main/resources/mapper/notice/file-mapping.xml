@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springproject.mapper.CommunityFileMapper">		
+		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
+			INSERT INTO projectdb.file_community
+            (
+                          FILE_NO
+                        , NICKNAME
+                        , NOTICE_CATEGORY
+                        , NOTICE_NO
+                        , NOTICE_FILENAME
+                        , NOTICE_FILE_PATH
+                        , NOTICE_FILE_SIZE
+            ) value (
+            	  (SELECT 
+                   		IFNULL(MAX(FILE_NO), 0) +1
+                   FROM   
+                   		file_community ALIAS_FOR_SUBQUERY
+                   WHERE  
+                   		NOTICE_NO = #{noticeNo}
+                   AND    
+                   		NOTICE_CATEGORY = #{noticeCategory})
+		            , #{nickname}
+		            , #{noticeCategory}
+		            , #{noticeNo}
+		            , #{noticeFileName}
+		            , #{noticeFilePath}
+		            , #{noticeFileSize}
+            );
+		</insert>
+		
+		<select id="getCommunityFileList" parameterType="FileCommunityVO"  resultType="FileCommunityVO">
+			SELECT * FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_NO = #{noticeNo}
+			AND
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+		
+		<!-- 파일만 삭제 -->
+		<delete id="deleteFile" parameterType="FileCommunityVO">
+			DELETE FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND 
+				NOTICE_NO = #{noticeNo}
+			AND
+				FILE_NO = #{fileNo}
+		</delete>
+		
+		<delete id="deleteFileList" parameterType="FileCommunityVO">
+			DELETE FROM FILE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+			AND
+				NOTICE_NO = #{noticeNo}
+		</delete>
+</mapper>

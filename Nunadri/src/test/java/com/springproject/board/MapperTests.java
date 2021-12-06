@@ -89,13 +89,13 @@ class MapperTests {
 		CommunityVO cvo = new CommunityVO();
 		cvo.setNoticeCategory("2");
 		
-		int boardTotalCount = communityMapper.getCommunityTotalCount(cvo);
+//		int boardTotalCount = communityMapper.getCommunityTotalCount(cvo);
 		
-		if(boardTotalCount > 0) {
+//		if(boardTotalCount > 0) {
 			List<CommunityVO> communityList = communityMapper.getCommunityList(cvo);
 			for(CommunityVO list :communityList) {
 				log.info("리스트 확인용 {},{},{}",list.getNoticeCategory(),list.getNoticeTitle(), list.getNoticeContent());
 			}
-		}	
+//		}	
 	}
 }
