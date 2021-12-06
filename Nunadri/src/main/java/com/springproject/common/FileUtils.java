@@ -117,7 +117,7 @@ public class FileUtils {
           
 					fileList.add(boardFile);
 					
-					file = new File(root_path + attach_path + fileName);
+					file = new File(root_path + attach_path + mf.getOriginalFilename());
 					mf.transferTo(file);
 				} else {
 					fileList = null;
