@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,8 +32,9 @@ public class FileUtils {
 		List<FileCommunityVO> fileList = new ArrayList<FileCommunityVO>();
 		
 		//서버의 절대 경로 얻기
-		String root_path = request.getSession().getServletContext().getRealPath("/");
-		String attach_path = "/upload/";
+		String root_path = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
+		String attach_path = "/files/";
+		UUID uuid = UUID.randomUUID();
 		
 		//위 경로의 폴더가 없으면 폴더 생성
 		File file = new File(root_path + attach_path);
@@ -52,14 +54,17 @@ public class FileUtils {
 			for(MultipartFile mf : list) {
 				if(mf.getSize() > 0) {
 					FileCommunityVO boardFile = new FileCommunityVO();
+					
+					String fileName = uuid + "_" + mf.getOriginalFilename();
 					boardFile.setNoticeNo(seq);
 					boardFile.setNoticeCategory(category);
 					boardFile.setNoticeFileSize(mf.getSize());
-					boardFile.setNoticeFileName(mf.getOriginalFilename());
-					boardFile.setNoticeFilePath(root_path + attach_path); 
+
+					boardFile.setNoticeFileName(fileName);
+					boardFile.setNoticeFilePath(root_path + attach_path);
 					fileList.add(boardFile);
 					
-					file = new File(root_path + attach_path + mf.getOriginalFilename());
+					file = new File(root_path + attach_path + fileName);
 					mf.transferTo(file);
 				} else {
 					fileList = null;
@@ -109,9 +114,10 @@ public class FileUtils {
 					boardFile.setMyhouseFileSize(mf.getSize());
 					boardFile.setMyhouseFilename(mf.getOriginalFilename());
 					boardFile.setMyhouseFilePath(root_path + attach_path); 
+          
 					fileList.add(boardFile);
 					
-					file = new File(root_path + attach_path + mf.getOriginalFilename());
+					file = new File(root_path + attach_path + fileName);
 					mf.transferTo(file);
 				} else {
 					fileList = null;

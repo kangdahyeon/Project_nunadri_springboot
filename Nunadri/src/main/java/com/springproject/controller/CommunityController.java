@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,7 @@ import com.springproject.service.MemberService;
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.FileCommunityVO;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.NoticeMyhouseVO;
 import com.springproject.vo.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
@@ -45,6 +47,7 @@ public class CommunityController {
 		return "view/community/community_insert";
 	}
 	
+	// 게시글 등록
 	@PostMapping(value="/insertCommunity")
 	public String insertCommunity(CommunityVO communityInsert, 
 			HttpServletRequest request, MultipartHttpServletRequest mhsr) {
@@ -55,7 +58,7 @@ public class CommunityController {
 			
 			FileUtils fileUtils = new FileUtils();			List<FileCommunityVO> fileList = fileUtils.parseFileInfo(seq, category, request, mhsr);
 			
-			if(CollectionUtils.isEmpty(fileList) ==false) {
+			if(CollectionUtils.isEmpty(fileList) == false) {
 				communityService.insertCommunityFileList(fileList);
 				log.info("파일업로드 확인용 {}",fileList);
 			}
@@ -69,6 +72,7 @@ public class CommunityController {
 		return "redirect:/commu/" + communityInsert.getNoticeCategory();
 	}
 	
+	// 게시물 리스트
 	@RequestMapping("/commu/{category}")
 	public String communityMain(@AuthenticationPrincipal SecurityUser user,
 			@PathVariable("category")String category, CommunityVO communityList, Model model) {
@@ -89,33 +93,73 @@ public class CommunityController {
 		return "view/community/communityList";
 	}
 	
-	@RequestMapping(value="/updateCommunity")
-	public String updateCommunity(@ModelAttribute("community") CommunityVO cvo, 
-			HttpServletRequest request) throws IOException {
-		log.info("게시물 수정 : {}, {}, {}, {}, {}, {}"
-					,cvo.getNoticeCategory(),cvo.getNoticeNo(), cvo.getNickname()
-					,cvo.getNoticeTitle(), cvo.getNoticeContent(), cvo.getNoticeRegDate());
+	// 게시물 삭제
+	@GetMapping("/deleteCommunity/{noticeCategory}/{noticeNo}")
+	public String deleteCommunity(@PathVariable("noticeNo") int noticeNo, 
+			@PathVariable("noticeCategory") String category) {
+		FileCommunityVO fvo = new FileCommunityVO();
+		CommunityVO cvo = new CommunityVO();
+		cvo.setNoticeNo(noticeNo);
+		cvo.setNoticeCategory(category);
+		fvo.setNoticeCategory(category);
 		
-		int no = cvo.getNoticeNo();
-		
-		communityService.updateCommunity(cvo);
-		return "redirect:communityList";
-	}
-	
-	@RequestMapping(value="/deleteCommunity/{noticeCategory}/{noticeNo}")
-	public String deleteCommunity(CommunityVO cvo) {
-		log.info("게시물 삭제 : {}, {}", cvo.getNoticeCategory(), cvo.getNoticeNo());
+
 		communityService.deleteCommunity(cvo);
-		return "redirect:communityList";
+		communityService.deleteFileList(fvo);
+
+
+		return "redirect:/commu/" + category;
 	}
 	
-	@GetMapping("/communityDetail/{noticeCategory}/{noticeNo}")
+	@GetMapping("/updateCommunity/{noticeCategory}/{noticeNo}")
+	public String updateMyhouseBoard(@PathVariable("noticeCategory")String category, 
+									@PathVariable("noticeNo") int noticeNo, Model model) {
+
+		CommunityVO cvo = new CommunityVO();
+
+		cvo.setNoticeCategory(category);
+		cvo.setNoticeNo(noticeNo);
+
+		model.addAttribute("updateCommunity", communityService.getCommunity(cvo));
+
+		return "view/community/community_update";
+	}
+	
+	
+	@PostMapping("/updateCommunity")
+	public String updateMyhouse(CommunityVO cvo, HttpServletRequest request, MultipartHttpServletRequest mhsr,
+			FileUtils fileUtils) {
+		communityService.updateCommunity(cvo);
+				
+		try {
+			int seq = cvo.getNoticeNo();
+			String category = cvo.getNoticeCategory();
+			List<FileCommunityVO> fileList = fileUtils.parseFileInfo(seq, category, request, mhsr);
+			
+			if(CollectionUtils.isEmpty(fileList) == false) {
+				communityService.insertCommunityFileList(fileList);
+			}
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return "redirect:/communityDetail/"+ cvo.getNoticeCategory()+ "/" + cvo.getNoticeNo();
+	}
+	
+	
+	
+	@GetMapping(value="/communityDetail/{noticeCategory}/{noticeNo}")
 	public String getCommunityDetail(@PathVariable("noticeCategory")String Category,
 									@PathVariable("noticeNo") int noticeNo, Model model) {
 		log.info("디테일 확인용");
 		CommunityVO cvo = new CommunityVO();
+		FileCommunityVO fvo = new FileCommunityVO();
 		cvo.setNoticeCategory(Category);
 		cvo.setNoticeNo(noticeNo);
+		fvo.getNoticeFileName();
+		
+		communityService.hitIncrease(cvo);
 		
 		model.addAttribute("getCommunityDetail", communityService.getCommunityDetail(cvo));
 		return "view/community/boarder_detail";

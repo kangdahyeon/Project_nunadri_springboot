@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.NoticeMyhouseVO;
 
 @Mapper
 public interface CommunityMapper {
@@ -15,6 +16,7 @@ public interface CommunityMapper {
 		
 		//글 수정
 		int updateCommunity(CommunityVO cvo);
+		CommunityVO getCommunity(CommunityVO cvo);
 		
 		//글 삭제
 		int deleteCommunity(CommunityVO cvo);
@@ -22,11 +24,13 @@ public interface CommunityMapper {
 		//상세페이지 조회
 		CommunityVO getCommunityDetail(CommunityVO cvo);
 		
-		// 게시물 총 갯수
-		int getCommunityTotalCount(CommunityVO cvo);
-		
 		// 게시물 출력
 		List<CommunityVO> getCommunityList(CommunityVO communityList);
+		
+		// 조회수
+		void hitIncrease(CommunityVO hitNotice);
+		
+		int selectCommunityCount(CommunityVO paging);
 
 		int getCommunityNo();
 		

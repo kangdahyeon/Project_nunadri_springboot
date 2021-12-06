@@ -4,33 +4,38 @@ import java.util.List;
 
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.NoticeMyhouseVO;
 
 
 
 public interface CommunityService {
 	
 	//글 등록
-	public void insertCommunity(CommunityVO cvo);
+	void insertCommunity(CommunityVO cvo);
 	//글 수정
-	public void updateCommunity(CommunityVO cvo);
+	void updateCommunity(CommunityVO cvo);
+	CommunityVO getCommunity(CommunityVO cvo);
 	
 	//글 상세조회
-	public CommunityVO getCommunityDetail(CommunityVO cvo);
-	
+	CommunityVO getCommunityDetail(CommunityVO cvo);
 	//글 삭제
-	public void deleteCommunity(CommunityVO cvo);
+	void deleteCommunity(CommunityVO cvo);
 	
 	//리스트조회
-	public List<CommunityVO> getCommunityList(CommunityVO cvo);
+	List<CommunityVO> getCommunityList(CommunityVO cvo);
 	
-	public int getCoummunityNo();
+	// 조회수
+	void hitIncrease(CommunityVO cvo);
 	
-	public void insertCommunityFileList(List<FileCommunityVO> fileList);
 	
-	public List<FileCommunityVO> getCommunityFileList(FileCommunityVO fvo);
+	int getCoummunityNo();
 	
-	public void deleteFile(FileCommunityVO fvo);
+	void insertCommunityFileList(List<FileCommunityVO> fileList);
 	
-	public void deleteFileList(FileCommunityVO fvo);
+	List<FileCommunityVO> getCommunityFileList(FileCommunityVO fvo);
+	
+	void deleteFile(FileCommunityVO fvo);
+	
+	void deleteFileList(FileCommunityVO fvo);
 	
 }

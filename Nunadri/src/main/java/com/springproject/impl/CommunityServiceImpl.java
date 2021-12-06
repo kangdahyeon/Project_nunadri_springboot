@@ -31,6 +31,11 @@ public class CommunityServiceImpl implements CommunityService {
 	public void updateCommunity(CommunityVO communityUpdate) {
 		communityMapper.updateCommunity(communityUpdate);
 	}
+	
+	@Override
+	public CommunityVO getCommunity(CommunityVO cvo) {
+		return communityMapper.getCommunity(cvo);
+	}
 
 	@Override
 	public CommunityVO getCommunityDetail(CommunityVO communityDetail) {
@@ -38,6 +43,11 @@ public class CommunityServiceImpl implements CommunityService {
 		List<FileCommunityVO> fileList = communityMapper.getCommunityFileList(fvo);
 		
 		return communityMapper.getCommunityDetail(communityDetail);
+	}
+	
+	@Override
+	public void hitIncrease(CommunityVO cvo) {
+		communityMapper.hitIncrease(cvo);
 	}
 
 	@Override
