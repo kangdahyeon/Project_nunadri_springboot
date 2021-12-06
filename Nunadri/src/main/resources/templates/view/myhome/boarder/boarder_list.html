@@ -75,9 +75,7 @@
               </tr >
               <tr  th:each="board, status: ${boardList}">
                 <td th:text="${board.myhouseNo}"></td >
-              <td> 
-              
-              <a th:text="${board.myhouseTitle}" th:href="'/myhouseBoardDetail/'+${board.houseNo}+'/'+${board.myhouseCategory}+'/'+${board.myhouseNo}" ></a ></td>
+              <td><a th:text="${board.myhouseTitle}" th:href="'/myhouseBoardDetail/'+${board.houseNo}+'/'+${board.myhouseCategory}+'/'+${board.myhouseNo}" ></a ></td>
                 <td th:text="${board.nickname}"></td >
                 <td th:text="${board.myhouseRegDate}"></td >
                 <td th:text="${board.myhouseHit}"></td  >
@@ -118,7 +116,6 @@
             <li th:class="pagination_button" style="float:left;margin-left:5px;">
                <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.endPage+1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">>></a>
             </li>
-            <!--검색 실험-->
          </ul>
       </div >
           </form>

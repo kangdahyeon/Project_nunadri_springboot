@@ -56,7 +56,7 @@ public class MyHouseController {
 		boardList.setMyhouseCategory(category);
 		//
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
-		System.out.println(boardList.toString());
+		//System.out.println("얘는 타지롱"+boardList.toString());
 		
 		  //검색값 없을때 기본 값 설정 
         if(boardList.getSearchCondition() == null) {
@@ -73,7 +73,7 @@ public class MyHouseController {
            int total = myhouseService.selectMyHouseBoardCount(boardList);
 		
            System.out.println(12344);
-           System.out.println(myhouseService.getMyhouseBoardList(boardList, cri));
+           System.out.println("과연이놈은~~"+myhouseService.getMyhouseBoardList(boardList, cri));
 
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
@@ -175,4 +175,28 @@ public class MyHouseController {
 
 		return "redirect:/myhouseBoardDetail/"+ updateNotice.getHouseNo() + "/" + updateNotice.getMyhouseCategory() + "/" +updateNotice.getMyhouseNo();
 	}
+	
+	//소모임 게시판 리스트
+	@RequestMapping("/smallGroup")
+	public String smallGroup() {
+		return "view/myhome/smallGroup/boarder_smallgroup_list";
+	}
+	
+	//소모임 글 작성 폼
+		@GetMapping("/smallGroupInsert")
+		public String smallGroupInsert() {
+			return "view/myhome/smallGroup/boarde_boarde_smallgroupinsert";
+		}
+		
+	//소모임 글 등록
+	@PostMapping("/insertSmallGroup")
+	public String insertSmallGroupBoard(NoticeMyhouseVO smallGroupInsert) {
+		//
+		smallGroupInsert.setHouseNo(myhouseService.getHouseNo(smallGroupInsert.getNickname()));
+
+			myhouseService.insertMyhouseBoard(smallGroupInsert);
+
+			return "redirect:/smallGroup";
+		}
+
 }

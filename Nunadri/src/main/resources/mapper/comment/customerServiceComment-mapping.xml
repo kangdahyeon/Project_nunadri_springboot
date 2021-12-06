@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springproject.mapper.CustomerServiceCommentMapper">
+
+	<insert id="insertCustomerServiceComment">
+		INSERT INTO CUSTOMERSERVICE_COMMENT(
+											QNA_COMMENT_NO
+											,QNA_NO
+											,QNA_COMMENT
+											,NICKNAME
+											,ID
+											) VALUES(
+											 (SELECT
+											 IFNULL(MAX(QNA_COMMENT_NO), 0) + 1
+   											  FROM
+    										  CUSTOMERSERVICE_COMMENT ALIAS_FOR_SUBQUERY
+    										  WHERE
+    										  QNA_NO = #{qnaNo})
+    										  , #{qnaNo}
+    										  , #{qnaComment}
+    										  , #{nickname}
+    										  , #{id}
+										)
+
+	</insert>
+	
+	<select id="getCustomerServiceComment" resultType="com.springproject.vo.CustomerServiceCommentVO">
+		SELECT * FROM CUSTOMERSERVICE_COMMENT
+		WHERE QNA_NO = #{qnaNo}
+		AND ID = #{id}
+	    ORDER BY QNA_COMMENT_NO ASC
+	</select>
+	
+	<delete id="deleteCustomerServiceComment">
+		DELETE FROM CUSTOMERSERVICE_COMMENT
+		WHERE QNA_COMMENT_NO = #{qnaCommentNo}
+		AND QNA_NO = #{qnaNo}
+		AND ID = #{id}
+	</delete>
+	
+	<!--  <delete id="deleteCustomerServiceCommentList">
+		DELETE FROM CUSTOMERSERVICE_COMMENT
+		WHERE QNA_COMMENT_NO = #{qnaCommentNo}
+		AND QNA_NO = #{qnaNo}
+		AND ID = #{id}
+	</delete> -->
+   		
+	
+	<!--  <delete id="deleteMyhouseCommentList">
+        DELETE FROM myhouse_comment
+        WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo} 
+     </delete> -->
+        
+
+</mapper>
