@@ -5426,10 +5426,10 @@ textarea {
   border-radius: 5px;
   border-color: white;
 }
-/*#table_text {
+#table_text {
   padding-left: 30px;
-  text-align: left;
-}*/
+  text-align: center;
+}
 #admin {
   text-decoration: none;
   cursor: pointer;

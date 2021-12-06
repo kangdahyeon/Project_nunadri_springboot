@@ -54,5 +54,4 @@
       AND HOUSE_NO = #{houseNo}
    </delete>
      
-
 </mapper>

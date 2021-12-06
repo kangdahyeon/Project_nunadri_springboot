@@ -186,10 +186,26 @@ public class MyHouseController {
 		return "redirect:/myhouseBoardDetail/"+ updateNotice.getHouseNo() + "/" + updateNotice.getMyhouseCategory() + "/" +updateNotice.getMyhouseNo();
 	}
 	
+	//소모임 게시판 리스트
+	@RequestMapping("/smallGroup")
+	public String smallGroup() {
+		return "view/myhome/smallGroup/boarder_smallgroup_list";
+	}
 	
-	
-	
-	
-	
-	
+	//소모임 글 작성 폼
+		@GetMapping("/smallGroupInsert")
+		public String smallGroupInsert() {
+			return "view/myhome/smallGroup/boarde_boarde_smallgroupinsert";
+		}
+		
+	//소모임 글 등록
+	@PostMapping("/insertSmallGroup")
+	public String insertSmallGroupBoard(NoticeMyhouseVO smallGroupInsert) {
+		//
+		smallGroupInsert.setHouseNo(myhouseService.getHouseNo(smallGroupInsert.getNickname()));
+
+			myhouseService.insertMyhouseBoard(smallGroupInsert);
+
+			return "redirect:/smallGroup";
+		}
 }
