@@ -24,6 +24,10 @@ public interface MyhouseMapper {
 	
 	void deleteBoardSeq(NoticeMyhouseVO noticeDelete);
 	
+	void deleteMyhouseCommentList(NoticeMyhouseVO deleteComment);
+	
+	
+	
 	void hitIncrease(NoticeMyhouseVO hitNotice);
 	
 	int getHouseNo(String nickname);
@@ -31,6 +35,8 @@ public interface MyhouseMapper {
 	void updateMyhouseBoard(NoticeMyhouseVO updateNotice);
 	
 	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
+	
+	int getMyhouseNo(NoticeMyhouseVO getSeq);
 	
 	
 }

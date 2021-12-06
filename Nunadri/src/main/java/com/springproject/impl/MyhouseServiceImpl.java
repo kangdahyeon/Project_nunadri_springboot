@@ -33,27 +33,6 @@ public class MyhouseServiceImpl implements MyhouseService {
 	
 	
 	
-	public void insertFile(FileCommunityVO vo, MultipartFile file) {
-		//저장할 경로 지정
-				String projectPath = System.getProperty("user.dir") + "\\src\\main\\resources\\static\\files";
-				
-				UUID uuid = UUID.randomUUID();
-				
-				String fileName = uuid + "_" + file.getOriginalFilename();
-				File saveFile = new File(projectPath, fileName);
-				
-				try {
-					file.transferTo(saveFile);
-				} catch (IllegalStateException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	}
-
-	
 	
 	@Override
 	public List<NoticeMyhouseVO> getMyhouseBoardList(NoticeMyhouseVO boardList, Criteria cri) {
@@ -98,6 +77,21 @@ public class MyhouseServiceImpl implements MyhouseService {
 	   public int selectMyHouseBoardCount(NoticeMyhouseVO paging) {
 	      return myhouseMapper.selectMyHouseBoardCount(paging);
 	   }
+
+
+
+	@Override
+	public void deleteMyhouseCommentList(NoticeMyhouseVO deleteComment) {
+		myhouseMapper.deleteMyhouseCommentList(deleteComment);
+		
+	}
+
+
+
+	@Override
+	public int getMyhouseNo(NoticeMyhouseVO getSeq) {
+		return myhouseMapper.getMyhouseNo(getSeq);
+	}
 	
 	
 

@@ -102,6 +102,17 @@
         AND HOUSE_NO = #{houseNo}
      </delete>
      
+     
+     
+     <delete id="deleteMyhouseCommentList">
+     	DELETE FROM myhouse_comment
+     	WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo} 
+     </delete>
+	     
+     
+     
    
      <select id="getHouseNo" resultType="int">
      	SELECT HOUSE_NO FROM house WHERE address = (SELECT address
@@ -115,9 +126,52 @@
       WHERE myhouse_no = #{myhouseNo}
         AND MYHOUSE_CATEGORY = #{myhouseCategory} AND HOUSE_NO = #{houseNo}
    </update>
+   
+   
+   
+   
+   
+   
+   	<insert id="insertFleaMarket">
+		INSERT INTO NOTICE_MYHOUSE
+		(
+		MYHOUSE_NO
+		, MYHOUSE_CATEGORY
+		, NICKNAME
+		,HOUSE_NO
+		, MYHOUSE_TITLE
+		, MYHOUSE_CONTENT
+		, MYHOUSE_REGDATE
+		, MYHOUSE_HIT
+
+		) values (
+		(SELECT
+		IFNULL(MAX(MYHOUSE_NO), 0) + 1
+		FROM
+		NOTICE_MYHOUSE ALIAS_FOR_SUBQUERY
+		WHERE
+		MYHOUSE_CATEGORY = #{myhouseCategory}
+		AND 
+		HOUSE_NO = #{houseNo})
+		, #{myhouseCategory}
+		, #{nickname}
+		, #{houseNo}
+		, #{myhouseTitle}
+		, #{myhouseContent}
+		, NOW()
+		,0
+		)
+	</insert>
+   
+
 	
-	
-	
+	<select id="getMyhouseNo" resultType="int">
+		SELECT IFNULL(MAX(MYHOUSE_NO),0) + 1
+		FROM NOTICE_MYHOUSE
+		WHERE HOUSE_NO = #{houseNo}
+		AND
+		MYHOUSE_CATEGORY = #{myhouseCategory}
+	</select>
 	
 	
 	

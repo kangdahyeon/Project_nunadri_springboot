@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class MyhouseCommentController {
 
 
-   private final MyhouseService myhouseService;
    private final MyhouseCommentService myhouseCommentService;
 
 
