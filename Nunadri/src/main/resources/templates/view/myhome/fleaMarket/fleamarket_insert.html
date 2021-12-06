@@ -21,8 +21,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <link rel="stylesheet" href="../../css/nice-select.css">
 
-  <title>건의해요</title>
-   <style>
+  <title>글 작성</title>
+  <style>
        .commentDetail {
    display : flex;
    justify-content: left;
@@ -640,9 +640,11 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
-   </style>
-  <link href="../../css/main.css" rel="stylesheet">
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
 </head>
+
 
 <body style= "overflow: hidden;">
 <div th:replace="view/fragments/header::header"></div>
@@ -652,16 +654,19 @@
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2">건의해요</h1>
-          <form action="/CustomerServiceBoard" method="post">
+            <h1 class="h2">글 작성</h1>
+        <form action="/insertMyhouseBoard" method="post">
           <div id="divsize">
-    
+            <div>
+                <input type="number" name="price" class="div_right boarderselect form-control textbox" placeholder="가격을 입력해주세요." required>
+                <p style="color: white; position:absolute; right:250px; top:160px;">원</p >
+            </div>
+            
               <input type="hidden" name="nickname" th:value="${nickname}">
-              <input type="hidden" name="id" th:value="${id}">
 
-              <input type="text" class="form-control textbox" name="qnaTitle" placeholder="제목을 입력해주세요." required>
+              <input type="text" class="form-control textbox" name="myhouseTitle" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
-                <textarea class="form-control" rows="11" name="qnaContent" placeholder="내용을 입력해주세요" required></textarea>
+                <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
                     <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
                     <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
@@ -669,19 +674,17 @@
               </div>
               <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
               <div class="">
-                  <button type="submit" class="btn btn-default" id="button_color">건의하기</button >
-                  <a class="btn btn-default" id="button_color" href="/question_list" >목록으로</a  >
+                  <button type="submit" class="btn btn-default" id="button_color">글올리기</button >
+                  <a class="btn btn-default" id="button_color" href="/myhome" >목록으로</a  >
               </div>
-          </form>
+        </form>
+          </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--푸터-->
-
-
- <script>
+  <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
     });
@@ -698,8 +701,8 @@
     });
   </script>
 
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
-<script type="text/javascript" src="../../js/main.js"></script>
+  <script type="text/javascript" src="../../../js/main.js"></script>
 </body>
 </html>

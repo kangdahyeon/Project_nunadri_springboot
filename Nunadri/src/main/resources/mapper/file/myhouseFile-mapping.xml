@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springproject.mapper.MyhouseFileMapper">
+
+
+
+
+	<insert id="insertMyhouseFileList"
+		parameterType="com.springproject.vo.FileMyhouseVO">
+		INSERT INTO file_myhouse
+		(
+		FILE_NO
+		, HOUSE_NO
+		, MYHOUSE_NO
+		, MYHOUSE_CATEGORY
+		, NICKNAME
+		, MYHOUSE_FILENAME
+		, MYHOUSE_FILE_PATH
+		, MYHOUSE_FILE_SIZE
+
+		) values (
+		(SELECT
+		IFNULL(MAX(FILE_NO), 0) + 1
+		FROM
+		file_myhouse ALIAS_FOR_SUBQUERY
+		WHERE
+		MYHOUSE_CATEGORY = #{myhouseCategory}
+		AND
+		HOUSE_NO = #{houseNo}
+		AND
+		MYHOUSE_NO = #{myhouseNo})
+		, #{houseNo}
+		, #{myhouseNo}
+		, #{myhouseCategory}
+		, #{nickname}
+		, #{myhouseFilename}
+		, #{myhouseFilePath}
+		, #{myhouseFileSize}
+		)
+	</insert>
+	
+	  <delete id="deleteMyhouseFileList">
+        DELETE FROM file_myhouse
+        WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo}
+        AND FILE_NO = #{fileNo}
+     </delete>
+
+
+
+
+	<select id="getMyhouseFileList" resultType="com.springproject.vo.FileMyhouseVO">
+      SELECT * FROM file_myhouse
+      WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo}
+   </select>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+</mapper>

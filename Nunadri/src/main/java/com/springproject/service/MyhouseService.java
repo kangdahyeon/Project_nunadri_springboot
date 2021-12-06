@@ -13,8 +13,11 @@ public interface MyhouseService {
 
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 
+
 	void deleteBoardSeq(NoticeMyhouseVO noticeDelete);
 
+	void deleteMyhouseCommentList(NoticeMyhouseVO deleteComment);
+	
 	void hitIncrease(NoticeMyhouseVO hitNotice);
 
 	int getHouseNo(String nickname);
@@ -22,6 +25,10 @@ public interface MyhouseService {
 	void updateMyhouseBoard(NoticeMyhouseVO updateNotice);
 
 	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
+	
+	int getMyhouseNo(NoticeMyhouseVO getSeq);
+	
+	
 
 
 }

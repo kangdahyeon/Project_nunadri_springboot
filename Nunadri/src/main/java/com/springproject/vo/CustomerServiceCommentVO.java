@@ -14,6 +14,8 @@ public class CustomerServiceCommentVO {
 	
 	private String qnaComment;
 	
-
+	private String id;
+	
+	//조회수랑 등록시간 필요??
 	
 }

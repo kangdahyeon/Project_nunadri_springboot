@@ -21,8 +21,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <link rel="stylesheet" href="../../css/nice-select.css">
 
-  <title>건의해요</title>
-   <style>
+  <title>질문했어요 수정</title>
+ <style>
        .commentDetail {
    display : flex;
    justify-content: left;
@@ -640,28 +640,31 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
-   </style>
+  </style>
+
   <link href="../../css/main.css" rel="stylesheet">
 </head>
 
-<body style= "overflow: hidden;">
 <div th:replace="view/fragments/header::header"></div>
 
 <body class="" style="color:white; overflow: hidden;">
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
-        <div class="container">
-          <h1 class="h2">건의해요</h1>
-          <form action="/CustomerServiceBoard" method="post">
+      <div class="container">
+          <h1 class="h2">질문했어요 수정</h1>
+         <form action= "/CustomerServiceBoardUpdate" method="post">
           <div id="divsize">
-    
-              <input type="hidden" name="nickname" th:value="${nickname}">
-              <input type="hidden" name="id" th:value="${id}">
-
-              <input type="text" class="form-control textbox" name="qnaTitle" placeholder="제목을 입력해주세요." required>
+          <br>
+          <br>
+   
+            
+           <input type="hidden" name="qnaNo" th:value="${customerBoardUpdate.qnaNo}">
+            <input type="hidden" name="nickname" th:value="${customerBoardUpdate.nickname}"> 
+            <input type="hidden" name="id" th:value="${customerBoardUpdate.id}"> 
+            <input type="text" class="form-control textbox" name="qnaTitle" th:value="${customerBoardUpdate.qnaTitle}" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
-                <textarea class="form-control" rows="11" name="qnaContent" placeholder="내용을 입력해주세요" required></textarea>
+                <textarea class="form-control"  th:text="${customerBoardUpdate.qnaContent}" rows="11" name="qnaContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
                     <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
                     <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
@@ -669,19 +672,18 @@
               </div>
               <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
               <div class="">
-                  <button type="submit" class="btn btn-default" id="button_color">건의하기</button >
-                  <a class="btn btn-default" id="button_color" href="/question_list" >목록으로</a  >
+                  <button type="submit" class="btn btn-default" id="button_color">수정하기</button >
+                  <a class="btn btn-default" id="button_color" th:href="'/CustomerServiceBoardDetail/'+${customerBoardUpdate.qnaNo}+'/'+${customerBoardUpdate.id}" >뒤로가기</a  >
               </div>
-          </form>
+              </div>
+        </form >
+        </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<!--푸터-->
-
-
- <script>
+  <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
     });
@@ -698,8 +700,8 @@
     });
   </script>
 
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
-<script type="text/javascript" src="../../js/main.js"></script>
+  <script type="text/javascript" src="/../../js/main.js"></script>
 </body>
 </html>

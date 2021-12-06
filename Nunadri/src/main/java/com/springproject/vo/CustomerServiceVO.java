@@ -17,4 +17,10 @@ public class CustomerServiceVO {
 	
 	private Date qnaRegDate;
 
+	//검색용 필드
+	private String searchCondition;
+	private String searchKeyword;
+	
+	private String id;
+
 }

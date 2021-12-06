@@ -168,6 +168,8 @@
 			AND
 				NOTICE_NO = #{noticeNo}
 		</delete>
+		
+		
 		<select id="getCommunityNo" resultType="int">
 			SELECT 
 				IFNULL(MAX(NOTICE_NO), 0) + 1 

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.springproject.mapper.CustomerServiceMapper">
+
+	<insert id="insertCustomerServiceBoard">
+			INSERT INTO customerservice(
+										QNA_NO
+										,NICKNAME
+										,ID
+										,QNA_TITLE
+										,QNA_CONTENT
+										,QNA_REGDATE
+										
+										
+										)VALUES(
+										(SELECT
+										IFNULL(MAX(QNA_NO), 0) + 1
+										FROM
+										CUSTOMERSERVICE ALIAS_FOR_SUBQUERY
+										WHERE NICKNAME = #{nickname})
+										, #{nickname}
+										, #{id}
+										, #{qnaTitle}
+										, #{qnaContent}
+										, NOW()
+										
+										)
+											
+	</insert>
+	
+	<select id="getCustomerServiceBoardList" resultType="com.springproject.vo.CustomerServiceVO" parameterType="HashMap">
+			SELECT * FROM customerservice
+			WHERE NICKNAME = #{customerBoardList.nickname}
+			
+			<if test="customerBoardList.searchCondition == 'QNA_TITLE'">
+               AND QNA_TITLE LIKE CONCAT('%', #{customerBoardList.searchKeyword}, '%')
+            </if>
+            <if test="customerBoardList.searchCondition == 'QNA_CONTENT'">
+               AND QNA_CONTENT LIKE CONCAT('%', #{customerBoardList.searchKeyword}, '%')
+            </if>
+         
+                ORDER BY QNA_NO DESC 
+       			LIMIT #{criteria.amount} OFFSET #{criteria.startNum} 
+	</select> 
+	
+		<!-- 페이징 카운트 쿼리문 -->
+        <select id="selectCustomerServiceBoardCount" resultType="int">
+      SELECT COUNT(*) FROM customerservice
+       WHERE NICKNAME = #{nickname}
+            <if test="searchCondition == 'QNA_TITLE'">
+               AND QNA_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+            <if test="searchCondition == 'QNA_CONTENT'">
+               AND QNA_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+            </if>
+          
+      </select> 
+	
+	<select id="getCustomerServiceBoard" resultType="com.springproject.vo.CustomerServiceVO">
+			SELECT * FROM customerservice 
+			WHERE QNA_NO = #{qnaNo}
+			AND ID = #{id}
+	</select>
+		
+	<delete id="deleteCustomerServiceBoard">
+     		 DELETE FROM customerservice
+    		 WHERE QNA_NO = #{qnaNo}
+    		 AND Id = #{id}
+   	</delete>
+   	
+   		
+    <update id="updateCustomerServiceBoard" parameterType="com.springproject.vo.CustomerServiceVO">
+      		UPDATE customerservice SET QNA_TITLE = #{qnaTitle}, QNA_CONTENT = #{qnaContent}, QNA_REGDATE = NOW()
+      	 	WHERE QNA_NO = #{qnaNo}
+      	 	AND ID = #{id}
+    </update>
+    
+    
+
+</mapper>

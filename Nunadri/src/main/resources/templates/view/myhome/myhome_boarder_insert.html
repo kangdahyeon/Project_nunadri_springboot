@@ -655,7 +655,7 @@
       <div class="section-container-spacer text-center">
         <div class="container">
             <h1 class="h2">글 작성</h1>
-        <form action="/insertMyhouseBoard" method="post">
+        <form action="/insertMyhouseBoard" method="post" enctype="multipart/form-data">
           <div id="divsize">
             <div>
                 <select name="myhouseCategory" class="div_right boarderselect">
@@ -670,7 +670,7 @@
               <div class="form-group">
                 <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
-                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
+                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
                     <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
                   </div>
               </div>

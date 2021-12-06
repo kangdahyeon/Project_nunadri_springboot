@@ -12,17 +12,13 @@
 
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
-  
-  
-  <!-- 캐러셀 구현을 위한 css -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <link href="/../../css/main.css" rel="stylesheet">
   <script type="text/javascript" src="/../../js/jquery.js"></script>
 
-  <title>게시판-디테일</title>
+  <title>고객센터-디테일</title>
   <style>
      .commentDetail {
    display : flex;
@@ -217,22 +213,6 @@
     #writerBtn:hover {
       background-color: rgb(218, 162, 60);
     }
-    
-    .bx-wrapper {
-      margin-bottom: 0px;
-    }
-   .bxslider>li{
-	height: 330px;
-	width: 540px;
-}
-.bxslider>li>img{
-	height: 100%;
-	width: 100%;
-	 box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-    border-radius: 5px;
-}
-
-    
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -245,47 +225,37 @@
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
-        <div class="container">
-          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('f')}">자유게시판</h1>
-         <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('n')}">공지사항</h1>
-          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('h')}">도와주세요</h1>
-          <div id="divsize">
+   		<form action="'/CustomerServiceBoardDetail/'+${getCustomerService.qnaNo}" method="post">
+   		 <div class="container">
+   		   <h1 class="h2">질문했어요</h1>
+   		 <div id="divsize">
             <!-- <div class="background"> -->
               <section class="container_view2">
                 <!-- feed photo START -->
                 <section class="v_leftbox2">
-          
                   <!-- feed photo -->
-                  <ul class="bxslider">
-			          <li  th:each="file :${fileList}"><img th:src="@{'/upload/'+${file.myhouseFilename}}" /></li  >
-		         </ul>
-		         
-          
+                  <img src="https://www.popco.net/zboard/data/photo_gallery/2015/07/19/83310533755ab3b834bc6a.jpg" alt="feed-img">
           
                   <!-- profile START -->
                   <div class="v_profile">
-                    <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>
+                    <p class="v_title" th:text="${getCustomerService.qnaTitle}"></p>
                     <!-- feed creator nickname -->
-                    <a href="" class="v_nickname2" th:text="${getBoard.nickname}">닉네임</a>
+                    <a href="" class="v_nickname2" th:text="${getCustomerService.nickname}">닉네임</a>
                     <!-- feed contents -->
                     <div class="contents">
-                      <p th:text="${getBoard.myhouseContent}"></p >
+                      <p th:text="${getCustomerService.qnaContent}"></p >
                     </div>
                   </div>
                   <!-- profile END -->
-                  
-                  
-                  
-                  
                  
                   <div class="edit_div2" style="right: 155px;">
- 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >수정</a   >
+ 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/CustomerServiceBoardUpdate/'+${getCustomerService.qnaNo}+'/'+${getCustomerService.id}" >수정</a   >
                   </div>
                   <div class="delete_div2" style="right: 90px;">
-                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >삭제</a   >
-                  </div>
+                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/CustomerServiceBoardDelete/'+${getCustomerService.qnaNo}+'/'+${getCustomerService.id}">삭제</a   >
+                  </div> 
                   <div class="delete_div2">
-                  <a class="v_edit feedview_btn" id="writerBtn" th:href="'/board/'+${getBoard.myhouseCategory}" >목록으로</a  >
+                  <a class="v_edit feedview_btn" id="writerBtn" th:href="'/CustomerServiceBoardList'">목록으로</a  >
                   </div>
                 </section>
                 <!-- feed photo END -->
@@ -307,18 +277,18 @@
           
                   <!-- commenting START -->
                   <section class="commentingbox">
-          
-          <form action="/insertMyhouseComment" method="post">
+                  </form >
+         
+       <form action="/insertCustomerServiceComment" method="post">
           <input type="hidden" name="nickname" th:value="${nickname}">
-            <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
-            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
-            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
+            <input type="hidden" id="qnaNo" name="qnaNo" th:value="${getCustomerService.qnaNo}">
+            <input type="hidden" id="id" name="id" th:value="${getCustomerService.id}">
                     <!-- commenting form START -->
                     <form method="post" enctype="multipart/form-data">
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" placeholder="댓글달기" name="myhouseComment" autofocus required>
+                          <input type="text" placeholder="댓글달기" name="qnaComment" autofocus required>
                         </div>
                         <div class="submitbox">
                           <input type="submit" id="comment_submit" value="게시" onclick="commentSubmit()">
@@ -326,7 +296,7 @@
           
                       </div>
                     </form>
-          </form>
+          </form> 
                     <!-- commenting form END -->
           
                   </section>
@@ -343,8 +313,6 @@
       </div>
     </div>
   </div>
-  
-  
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
@@ -362,57 +330,12 @@
     });
   </script>
   
-  <!--캐러셀 기능 스크립트-->
-  <script>
-    $(document).ready(function () {
-
-      var main = $('.bxslider').bxSlider({
-
-        mode: 'fade',
-
-        auto: true, //자동으로 슬라이드 
-
-        controls: true, //좌우 화살표	
-
-        pager: true, //페이징 
-
-        pause: 3000,
-
-        autoDelay: 0,
-
-        slideWidth: 500, //이미지 박스 크기설정
-        
-
-        speed: 500,
-
-        stopAutoOnclick: true
-
-      });
-
-
-    });
-  </script>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
     <!--댓글 기능 ajax-->
 <script th:inline="javascript">
 
-let houseNo = $("#houseNo").val();
-let myhouseCategory = $("#myhouseCategory").val();
-let myhouseNo = $("#myhouseNo").val();   
-
+let qnaNo = $("#qnaNo").val();
+let nickname = $("#nickname").val();
+let id = $("#id").val();
      $(document).ready(function(){
       getCommentList();
       
@@ -422,11 +345,10 @@ function getCommentList(){
    
    $.ajax({
       type:'GET',
-      url:'/getMyhouseComment',
+      url:'/getCustomerServiceComment',
       data: {
-            'myhouseCategory' : myhouseCategory,
-            'houseNo' : houseNo,
-            'myhouseNo':myhouseNo
+            'qnaNo' : qnaNo,
+            'id' : id
       },
       success:function(result){
          $("#comment").html("");
@@ -434,8 +356,8 @@ function getCommentList(){
             let str = "";
             str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
-            str+="<div class='commentContent'>" + result[i].myhouseComment+
-            "</div><button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button></div><hr>" 
+            str+="<div class='commentContent'>" + result[i].qnaComment+
+            "</div><button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].qnaCommentNo + ")'>삭제</button></div><hr>" 
             
             $("#comment").append(str);
          }
@@ -443,16 +365,15 @@ function getCommentList(){
    })
 }
 
-function deleteComment(myhouseCommentNo){
+function deleteComment(qnaCommentNo){
    if(confirm("댓글을 삭제하시겠습니까?")){
    $.ajax({
       type:'POST',
-      url:'/deleteMyhouseComment',   
+      url:'/deleteCustomerServiceComment',   
       data:{
-         'myhouseCategory' : myhouseCategory,
-         'houseNo' : houseNo,
-         'myhouseNo':myhouseNo,
-         'myhouseCommentNo' : myhouseCommentNo
+         'qnaNo' : qnaNo,
+         'id' : id,
+         'qnaCommentNo' : qnaCommentNo
       },
       success:function(data){
          console.log(data); 
@@ -469,15 +390,9 @@ function deleteComment(myhouseCommentNo){
 
 </script >
 
-
-
-
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="/../../js/main.js"></script>
-  
-  <!-- 캐러셀 구현을 위한 js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
 </body>
 
 </html>
