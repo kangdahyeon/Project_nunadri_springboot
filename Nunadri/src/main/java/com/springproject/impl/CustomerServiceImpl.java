@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.springproject.mapper.CustomerServiceMapper;
 import com.springproject.service.CustomerService;
 import com.springproject.vo.Criteria;
-import com.springproject.vo.CustomerServiceCommentVO;
 import com.springproject.vo.CustomerServiceVO;
 
 import lombok.RequiredArgsConstructor;
@@ -43,16 +42,9 @@ public class CustomerServiceImpl implements CustomerService{
 		customerServiceMapper.updateCustomerServiceBoard(customerBoardUpdate);
 	}
 
-//	@Override
-//	public void deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete, CustomerServiceCommentVO customerCommentDelete) {
-//		customerServiceMapper.deleteCustomerServiceBoard(customerBoardDelete, customerCommentDelete);
-//	}
 
 	@Override
 	public void deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete) {
-//		Map<String, Object> paramMap = new HashMap<String, Object>();
-//		paramMap.put("customerBoardDelete", customerBoardDelete);
-//		paramMap.put("customerCommentDelete", customerCommentDelete);
 		 customerServiceMapper.deleteCustomerServiceBoard(customerBoardDelete);
 	}
 
@@ -68,11 +60,10 @@ public class CustomerServiceImpl implements CustomerService{
 	}
 
 
-//	@Override
-//	public void deleteCustomerServiceComment(CustomerServiceCommentVO customerCommentDelete) {
-//		customerServiceMapper.deleteCustomerServiceComment(customerCommentDelete);
-//		
-//	}
+	@Override
+	public void deleteCustomerServiceComment(CustomerServiceVO customerCommentDelete) {
+		customerServiceMapper.deleteCustomerServiceComment(customerCommentDelete);
+	}
 
 
 	

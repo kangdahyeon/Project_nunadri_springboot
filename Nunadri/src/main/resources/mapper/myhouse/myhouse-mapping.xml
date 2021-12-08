@@ -19,6 +19,11 @@
 		, MYHOUSE_REGDATE
 		, MYHOUSE_HIT
 		,PRICE
+		, MYHOUSE_DATE
+		, MYHOUSE_TIME
+		, PEOPLE_MAX
+		, PEOPLE_JOIN
+
 
 		) values (
 		(SELECT
@@ -37,6 +42,10 @@
 		, NOW()
 		,0
 		, #{price}
+		, #{myhouseDate}
+		, #{myhouseTime}
+		, #{peopleMax}
+		,1
 		)
 	</insert>
 
@@ -97,6 +106,7 @@
 		AND HOUSE_NO = #{houseNo}
 	</select>
 	
+		
 	   <delete id="deleteBoardSeq">
         DELETE FROM Notice_Myhouse
         WHERE myhouse_no = #{myhouseNo}
@@ -173,11 +183,33 @@
 		WHERE HOUSE_NO = #{houseNo}
 		AND
 		MYHOUSE_CATEGORY = #{myhouseCategory}
+	</select>	
+	
+	
+	<!--소모임 상세 -->
+	<select id="getSmallGroupBoard" resultType="com.springproject.vo.NoticeMyhouseVO">
+		SELECT * FROM NOTICE_MYHOUSE 
+		WHERE MYHOUSE_NO = #{myhouseNo} 
+		AND MYHOUSE_CATEGORY = 's'
+		AND HOUSE_NO = #{houseNo}
 	</select>
 	
+	<!-- 소모임 참여 인원 증가 쿼리 -->
+	<update id="peopleJoinIncrease">
+			UPDATE NOTICE_MYHOUSE 
+			SET PEOPLE_JOIN = PEOPLE_JOIN + 1 
+			WHERE myhouse_no = #{myhouseNo}
+        	AND myhouse_category = 's'
+        	AND HOUSE_NO = #{houseNo}
+	</update>
 	
-	
-	
-	
+	<!-- 소모임 참여 인원 감소 쿼리 -->
+	<update id="peopleJoinDecrease">
+			UPDATE NOTICE_MYHOUSE 
+			SET PEOPLE_JOIN = PEOPLE_JOIN - 1 
+			WHERE myhouse_no = #{myhouseNo}
+        	AND myhouse_category = 's'
+        	AND HOUSE_NO = #{houseNo}
+	</update>
 
 </mapper>

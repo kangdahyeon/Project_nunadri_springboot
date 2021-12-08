@@ -19,11 +19,13 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.springproject.common.FileUtils;
 import com.springproject.service.MemberService;
+import com.springproject.service.MyhouseCommentService;
 import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.MyhouseCommentVO;
 import com.springproject.vo.NoticeMyhouseVO;
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
@@ -40,6 +42,7 @@ public class MyHouseController {
 	private final MemberService memberService;
 	private final MyhouseService myhouseService;
 	private final MyhouseFileService myhouseFileService;
+	private final MyhouseCommentService myhouseCommentService;
 	
 	static String condition ="";
 	   static String keyword="";
@@ -225,10 +228,37 @@ public class MyHouseController {
 	}
 	
 	//소모임 게시판 리스트
-	@RequestMapping("/smallGroup")
-	public String smallGroup() {
+	@RequestMapping("/board/s")  //
+	public String smallGroup(NoticeMyhouseVO boardList, @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
+		String s= "s";
+		
+		boardList.setMyhouseCategory(s);
+		//
+		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+		
+		  //검색값 없을때 기본 값 설정 
+        if(boardList.getSearchCondition() == null) {
+           boardList.setSearchCondition("MYHOUSE_TITLE");
+           }
+           if(boardList.getSearchKeyword() == null) {
+              boardList.setSearchKeyword("");
+           }
+           
+           //검색, 키워드 값(페이징 처리시 필요)
+           condition = boardList.getSearchCondition();
+           keyword = boardList.getSearchKeyword();
+           
+           int total = myhouseService.selectMyHouseBoardCount(boardList);
+		
+
+		model.addAttribute("category", s);
+		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
+		model.addAttribute("pageMaker", new PageVO(cri, total));
+        model.addAttribute("condition", boardList.getSearchCondition());
+        model.addAttribute("keyword", boardList.getSearchKeyword());
 		return "view/myhome/smallGroup/boarder_smallgroup_list";
 	}
+
 	
 	//소모임 글 작성 폼
 		@GetMapping("/smallGroupInsert")
@@ -236,37 +266,63 @@ public class MyHouseController {
 			return "view/myhome/smallGroup/boarde_boarde_smallgroupinsert";
 		}
 		
-	//소모임 글 등록
-	@PostMapping("/insertSmallGroup")
-	public String insertSmallGroupBoard(NoticeMyhouseVO smallGroupInsert) {
-		//
-		smallGroupInsert.setHouseNo(myhouseService.getHouseNo(smallGroupInsert.getNickname()));
+	//소모임 상세 페이지
+		@GetMapping("/smallGroupDetail/{houseNo}/{myhouseCategory}/{myhouseNo}")
+		public String getSmallGroupBoard(NoticeMyhouseVO vo, Model model) {
 
-			myhouseService.insertMyhouseBoard(smallGroupInsert);
+			//조회수 증가 기능
+			myhouseService.hitIncrease(vo);
+			
+			
+	
+			model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
+			model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
 
-			return "redirect:/smallGroup";
-		}
+			return "view/myhome/smallGroup/boarder_smallgroup_detail";
+		}	
 	
+	//소모임 참여
+		@PostMapping("/peopleJoin")
+				public String peopleJoin(NoticeMyhouseVO vo, MyhouseCommentVO commentVO,
+						@AuthenticationPrincipal SecurityUser user, Model model) {
+					String joinComment = "참석합니다 ~ ^0^";
+					
+					if (commentVO.getNickname() == null) {
+						commentVO.setNickname(user.getNickname());
+					}if(commentVO.getMyhouseComment() == null) {
+						commentVO.setMyhouseComment(joinComment);
+					}if(commentVO.getSmallGroupJoin() == null) {
+						commentVO.setSmallGroupJoin("O");
+					}
+					
+					//소모임 참여 인원 증가 기능
+					myhouseService.peopleJoinIncrease(vo);
+					
+					//참여 댓글 인서트
+					myhouseCommentService.insertMyhouseComment(commentVO);
+					
+		
+					model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
+					return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
+				}			
 	
-	
-	
-	//중고 게시판
-	@GetMapping("/fleamarket")
-	public String fleamarket() {
-		return "view/myhome/fleamarket/fleamarket_list";
-	}
-	
-	//중고 게시판 글 등록
-	@GetMapping("/fleamarketInsert")
-	public String fleamarketInsert() {
-		return "view/myhome/fleamarket/fleamarket_insert";
-	}
-	
-	
+		//소모임참여 취소	
+		@PostMapping("/deletePeopleJoin")
+		public String deletepeopleJoin(NoticeMyhouseVO vo, MyhouseCommentVO commentVO,
+				@AuthenticationPrincipal SecurityUser user, Model model) {
 
-	
-	
-	
-	
-	
+			if (commentVO.getNickname() == null) {
+				commentVO.setNickname(user.getNickname());
+			}if(commentVO.getSmallGroupJoin() == null) {
+				commentVO.setSmallGroupJoin("O");
+			}
+			
+//			소모임 참여 인원 감소 기능
+			myhouseService.peopleJoinDecrease(vo);
+			myhouseCommentService.deleteSmallGroupComment(commentVO);
+			
+			model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
+
+			return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
+		}			
 }

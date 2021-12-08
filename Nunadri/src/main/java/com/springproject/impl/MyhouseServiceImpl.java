@@ -1,20 +1,15 @@
 package com.springproject.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.mapper.MyhouseMapper;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
-import com.springproject.vo.FileCommunityVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
 import lombok.RequiredArgsConstructor;
@@ -92,6 +87,30 @@ public class MyhouseServiceImpl implements MyhouseService {
 	public int getMyhouseNo(NoticeMyhouseVO getSeq) {
 		return myhouseMapper.getMyhouseNo(getSeq);
 	}
+
+
+	//소모임 보드 상세페이지
+	@Override
+	public NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup) {
+		return myhouseMapper.getSmallGroupBoard(getSmallGroup);
+	}
+	
+	//소모임 참여인원 증가
+	@Override
+	public void peopleJoinIncrease(NoticeMyhouseVO peopleJoin) {
+		myhouseMapper.peopleJoinIncrease(peopleJoin);
+	}
+
+	//소모임 참여인원 감소
+	@Override
+	public void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease) {
+	    myhouseMapper.peopleJoinDecrease(peopleDecrease);
+	}
+
+
+
+
+
 	
 	
 

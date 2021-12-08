@@ -367,12 +367,8 @@
           <h1 class="h2">글 수정</h1>
            <form action="/updateCommunity" method="post" enctype="multipart/form-data">
           	<div id="divsize2">
-          	<div>
-                <select name="noticeCategory" class="div_right boarderselect">
-                  <option value="H">꿀팁있어요</option>
-                  <option value="F">잡담해요</option>
-                </select>
-          	</div>
+          	<br/>
+          	<br/>
           		
               <input type="hidden" name="nickname" th:value="${updateCommunity.nickname}">
               <input type="hidden" name="noticeCategory" th:value="${updateCommunity.noticeCategory}">
@@ -382,7 +378,7 @@
 	              <div class="form-group">
 	                <textarea class="form-control" rows="11" name="noticeContent" th:text="${updateCommunity.noticeContent}" placeholder="내용을 입력해주세요" required></textarea>
 	                  <div class="input-group">
-	                  <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
+	                  <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" th:value="${}">
 	                    <a ><i class="far fa-image"></i></a>
 	                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
 	                  </div>
