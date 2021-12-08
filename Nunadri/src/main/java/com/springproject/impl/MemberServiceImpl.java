@@ -17,7 +17,11 @@ import com.springproject.common.FileUtils;
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
+
+import com.springproject.vo.HouseVO;
+
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.NoticeMyhouseVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,7 +30,6 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
-   
    private final MemberMapper memberMapper;
    
 
@@ -108,23 +111,40 @@ public class MemberServiceImpl implements MemberService {
       MemberVO member = memberMapper.getMemberInfo(id); 
       return member;
    }
+  
+  	@Override
+	public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
+
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("adminInfo", vo);
+		cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+		paramMap.put("criteria", cri);
+
+		return memberMapper.getAdminInfo(paramMap);
+	}
    
 	@Override
 	public void insertHouse(MemberVO vo) {
 		memberMapper.insertHouse(vo);
 	}
+
+	// 주소찾기(HOUSE DB 필요)
+	@Override
+	public boolean findAddress(String address) {
+		String checkAddress = memberMapper.findAddress(address);
+		if (checkAddress == null || checkAddress.equals("")) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	
-   	//주소찾기(HOUSE DB 필요)
- 	@Override
- 	public boolean findAddress(String address) {
- 		String checkAddress = memberMapper.findAddress(address);
- 		if(checkAddress == null || checkAddress.equals("")) {
- 			return false;
- 		} else {
- 			return true;
- 		}
- 	}
- 	
+	 @Override 
+  public int selectMyHouseMemberCount(MemberVO paging) {
+     return memberMapper.selectMyHouseMemberCount(paging); 
+  }
+	 
 
     @Override
     public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {

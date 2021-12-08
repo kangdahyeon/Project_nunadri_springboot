@@ -18,7 +18,12 @@ public interface MyhouseMapper {
 	
 	List<NoticeMyhouseVO> getMyhouseBoardList(Map<String,Object> map);
 	
+
+	List<NoticeMyhouseVO> memberMyhouseBoardList(Map<String,Object> map);
+	
+
 	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
+
 	
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 	

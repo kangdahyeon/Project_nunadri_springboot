@@ -100,7 +100,7 @@ public class FileUtils {
 
    public List<FileCommunityVO> parseFileInfo(int seq, String category, HttpServletRequest request, 
          MultipartHttpServletRequest mhsr) throws Exception {
-      
+
       if(ObjectUtils.isEmpty(mhsr)) {
          return null;
       }
@@ -108,6 +108,7 @@ public class FileUtils {
       List<FileCommunityVO> fileList = new ArrayList<FileCommunityVO>();
       
       //서버의 절대 경로 얻기
+
       String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
       String attach_path = "\\upload\\";
 //      UUID uuid = UUID.randomUUID();
@@ -126,7 +127,7 @@ public class FileUtils {
     	  List<MultipartFile> list = mhsr.getFiles(iterator.next());
 
           String imgName = "";
-        
+
          //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
          for(MultipartFile mf : list) {
             if(mf.getSize() > 0) {
@@ -148,4 +149,3 @@ public class FileUtils {
       return fileList;
    }   
 }
-

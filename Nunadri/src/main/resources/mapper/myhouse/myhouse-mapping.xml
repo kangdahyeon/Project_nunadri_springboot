@@ -69,6 +69,27 @@
 		
 		</select>
 		
+			<select id="memberMyhouseBoardList" resultType="com.springproject.vo.NoticeMyhouseVO" parameterType="HashMap"> 
+		SELECT * FROM NOTICE_MYHOUSE 
+		WHERE MYHOUSE_CATEGORY = #{paramList.myhouseCategory}
+		AND HOUSE_NO = #{paramList.houseNo}
+		AND NICKNAME = #{paramList.nickname}
+        
+	<if test="paramList.searchCondition == 'MYHOUSE_TITLE'"> 
+            AND MYHOUSE_TITLE LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+          </if> 
+         <if test="paramList.searchCondition == 'MYHOUSE_CONTENT'">
+            AND MYHOUSE_CONTENT LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if> 
+         <if test="paramList.searchCondition == 'NICKNAME'">
+            AND NICKNAME LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if>
+           
+        ORDER BY MYHOUSE_NO DESC
+        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+		
+		</select>
+		
 		
 		
 		<!-- 페이징 카운트 쿼리문 -->

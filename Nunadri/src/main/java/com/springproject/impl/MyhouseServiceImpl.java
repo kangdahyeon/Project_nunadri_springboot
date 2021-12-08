@@ -39,6 +39,17 @@ public class MyhouseServiceImpl implements MyhouseService {
 	      
 		return myhouseMapper.getMyhouseBoardList(paramMap);
 	}
+	
+	@Override
+	public List<NoticeMyhouseVO> memberMyhouseBoardList(NoticeMyhouseVO myhouseBoardList, Criteria cri) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("paramList", myhouseBoardList);
+		cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+		paramMap.put("criteria", cri);
+		
+		return myhouseMapper.memberMyhouseBoardList(paramMap);
+	}
 
 	@Override
 	public NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice) {

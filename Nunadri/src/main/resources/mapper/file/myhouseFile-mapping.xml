@@ -40,7 +40,7 @@
 		, #{myhouseImgUrl}
 		)
 	</insert>
-	
+  
 	  <delete id="deleteMyhouseFileList">
         DELETE FROM file_myhouse
         WHERE myhouse_no = #{myhouseNo}
