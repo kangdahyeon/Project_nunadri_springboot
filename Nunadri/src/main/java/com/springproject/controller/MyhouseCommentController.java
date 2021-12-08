@@ -5,12 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproject.service.MyhouseCommentService;
-import com.springproject.service.MyhouseService;
 import com.springproject.vo.MyhouseCommentVO;
 
 import lombok.RequiredArgsConstructor;
@@ -46,9 +44,6 @@ public class MyhouseCommentController {
 
    }
    
-   
-
-
    //게시글 삭제 기능
    @PostMapping("/deleteMyhouseComment")
    @ResponseBody
@@ -59,4 +54,25 @@ public class MyhouseCommentController {
 
       return 1 ;
    }
+   
+   //소모임 댓글
+   @PostMapping("/smallGroupComment")
+   public String insertsmallGroupComment(MyhouseCommentVO commentInsert) {
+
+      myhouseCommentService.insertMyhouseComment(commentInsert);
+      
+      return "redirect:/smallGroupDetail/"+ commentInsert.getHouseNo() + "/s/" +commentInsert.getMyhouseNo();
+
+   }
+   
+   //소모임 삭제 기능
+   @PostMapping("/smallGroupCommentDelete")
+   public String deletesmallGroupComment(MyhouseCommentVO deleteSmallGroupComment) {
+	   System.out.println(deleteSmallGroupComment.getMyhouseCommentNo());
+      myhouseCommentService.deleteMyhouseComment(deleteSmallGroupComment);
+
+
+      return "redirect:/smallGroupDetail/"+ deleteSmallGroupComment.getHouseNo() + "/s/" +deleteSmallGroupComment.getMyhouseNo(); 
+   }
+   
 }

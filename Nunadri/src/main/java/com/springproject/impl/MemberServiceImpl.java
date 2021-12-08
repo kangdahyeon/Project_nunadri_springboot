@@ -1,11 +1,15 @@
 package com.springproject.impl;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
-import com.springproject.vo.HouseVO;
+import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
@@ -114,6 +118,29 @@ public class MemberServiceImpl implements MemberService {
  			return true;
  		}
  	}
+ 	
+ 	
+    @Override
+    public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
+
+       Map<String, Object> paramMap = new HashMap<String, Object>();
+       paramMap.put("adminInfo", vo);
+       cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+       paramMap.put("criteria", cri);
+
+       return memberMapper.getAdminInfo(paramMap);
+    }
+
+    @Override public int selectMyHouseMemberCount(MemberVO paging) { 
+    	return
+    memberMapper.selectMyHouseMemberCount(paging); }
+    
+
+
+   
+ 	
+ 	
+ 	
 
 
 

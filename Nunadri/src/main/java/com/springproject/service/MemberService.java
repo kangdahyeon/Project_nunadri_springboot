@@ -3,7 +3,9 @@ package com.springproject.service;
 
 
 
-import com.springproject.vo.HouseVO;
+import java.util.List;
+
+import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
 
 public interface MemberService {
@@ -27,4 +29,8 @@ public interface MemberService {
 	void deleteMember(String id);
 	
 	void insertHouse(MemberVO vo); 
+	
+	   List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri);
+	   
+	   int selectMyHouseMemberCount(MemberVO paging);
 }

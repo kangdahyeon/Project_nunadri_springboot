@@ -14,7 +14,6 @@ import com.springproject.vo.CommunityCommentVO;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
 @RequiredArgsConstructor
 public class CommunityCommentController {
 

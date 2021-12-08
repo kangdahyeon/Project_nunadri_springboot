@@ -21,5 +21,6 @@ public class MyhouseCommentVO {
 	
 	private Date myhouseCommentRegDate;
 	
+	private String smallGroupJoin;
 
 }

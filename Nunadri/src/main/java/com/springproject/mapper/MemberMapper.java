@@ -1,9 +1,11 @@
 package com.springproject.mapper;
 
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
 
@@ -32,4 +34,7 @@ public interface MemberMapper {
 	void insertHouse(MemberVO vo); 
 	
 
+	List<MemberVO> getAdminInfo(Map<String,Object> map);
+	   
+	   int selectMyHouseMemberCount(MemberVO paging);
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.springproject.service.CustomerService;
-import com.springproject.service.CustomerServiceCommentService;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.CustomerServiceVO;
 import com.springproject.vo.PageVO;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerServiceController {
 	private final CustomerService customerService;
-	private final CustomerServiceCommentService customerServiceCommentService;
 	
 	static String condition ="";
 	static String keyword="";
@@ -95,12 +93,11 @@ public class CustomerServiceController {
 	
 	//게시글 삭제 기능
 	@GetMapping("/CustomerServiceBoardDelete/{qnaNo}/{id}")
-	public String deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete, //CustomerServiceCommentVO customerCommentDelete, 
-												Model model) {
+	public String deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete) {
 		
 		customerService.deleteCustomerServiceBoard(customerBoardDelete);
-//		customerService.deleteCustomerServiceBoard(customerBoardDelete, customerCommentDelete);
-//		customerServiceCommentService.deleteCustomerServiceComment(customerCommentDelete);
+		//삭제시 댓글도 같이 삭제
+		customerService.deleteCustomerServiceComment(customerBoardDelete);
 		
 		return "redirect:/CustomerServiceBoardList";
 	}
