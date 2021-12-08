@@ -50,6 +50,13 @@
          
 
           <div id="divsize">
+         <form th:action="'/admin'" method="post" role="form">
+                  <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
+         <input type="hidden" name="condition" th:value="${condition}"> 
+         <input type="hidden" name="keyword" th:value="${keyword}">  
+         
+
+          <div id="divsize">
             <!--검색창-->
                 <div class="div_right" style="width: 33%;">
                
@@ -63,6 +70,7 @@
               <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
               <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
+                    
             <!--게시판 목록 표출-->
             <table class="type04">
               <tr>
@@ -124,8 +132,6 @@
             </li>
          </ul>
       </div >
-
-
         </div>
   </form>
       </div>

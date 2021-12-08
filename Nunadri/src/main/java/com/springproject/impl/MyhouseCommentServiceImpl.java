@@ -33,6 +33,11 @@ public class MyhouseCommentServiceImpl implements MyhouseCommentService {
       myhouseCommentMapper.deleteMyhouseComment(commentDelete);
    }
 
+   //소모임 댓글 삭제
+   @Override
+	public void deleteSmallGroupComment(MyhouseCommentVO smallGroupCommentDelete) {
+	  myhouseCommentMapper.deleteSmallGroupComment(smallGroupCommentDelete);
+   }
 
 
 

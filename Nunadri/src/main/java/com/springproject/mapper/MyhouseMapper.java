@@ -18,8 +18,12 @@ public interface MyhouseMapper {
 	
 	List<NoticeMyhouseVO> getMyhouseBoardList(Map<String,Object> map);
 	
+
 	List<NoticeMyhouseVO> memberMyhouseBoardList(Map<String,Object> map);
 	
+
+	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
+
 	
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 	
@@ -36,9 +40,17 @@ public interface MyhouseMapper {
 	
 	void updateMyhouseBoard(NoticeMyhouseVO updateNotice);
 	
-	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
 	
 	int getMyhouseNo(NoticeMyhouseVO getSeq);
+
+	//소모임 보드 상세페이지
+	NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup);
+//	NoticeMyhouseVO getSmallGroupBoard(Map<String,Object> map);
 	
+	//소모임 참여인원 증가
+	void peopleJoinIncrease(NoticeMyhouseVO peopleJoin);
+	
+	//소모임 참여인원 감소
+	void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease);
 	
 }

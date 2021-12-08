@@ -47,6 +47,11 @@
     width: 70%;
     margin: auto;
   }
+  .fileDrop {
+    height: 300px;
+    border: 5px solid white;
+    border-radius: 20px;
+}
 
 </style>
 
@@ -55,33 +60,31 @@
   <!-- Add your content of header -->
  <div th:replace="view/fragments/header::header"></div>
 
-  <div class="hero-full-container white-text-container">
+<div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
             <div class="section-container-spacer text-center">
               <h1 class="h2">마이페이지</h1>
-            </div>
-
+              </div>
             <div>
-
               <div id="map" style="width:100%;height:350px; ">
-
-
                 <div class="row" style="display: flex; justify-content: center; text-align: center;">
-
-
-
-                  <div class="col-4 col-md-4" style="height:300px;  border: 5px solid white;
-              border-radius: 20px;" id="removeLine">
+                  <div class="col-4 col-md-4 fileDrop" id="removeLine">
                     <h2>프로필</h2>
                     <br>
                     <a href="">
                       <img style="border-radius: 20px;"
-                        src="../../../assets/images/default.png" width="100px" alt="">
+                        th:src="@{'/profile/'+${memberInfo.profile}}" width="100px" alt="">
                     </a>
                    <br><br>
+                 
+                  <form action="/upload/uploadForm" method="post" enctype="multipart/form-data">
+                    <input type="hidden" id="id" name="id" th:value=${memberInfo.id}>
+                     <input type="file" name="profile" id="profile">
+                     <input type="submit" value="업로드">
+                  </form>
                    <div class="my_profile">
                       <div>
                         <a href="/mypagemodify" class="btn btn-default" style="border-radius: 4px; border: 1px solid white;">내 정보
@@ -113,21 +116,14 @@
                         소통해요 목록</a>
                       </div>
                     </div>
-
-
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>
       </div>
-
-
-
-
     </div>
+</div>
 
     <script>
       document.addEventListener("DOMContentLoaded", function (event) {
@@ -135,45 +131,8 @@
       });
     </script>
 
-    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
     <script>
-      var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-          level: 3 // 지도의 확대 레벨
-        };
-
-      // 지도를 생성합니다    
-      var map = new kakao.maps.Map(mapContainer, mapOption);
-
-      // 주소-좌표 변환 객체를 생성합니다
-      var geocoder = new kakao.maps.services.Geocoder();
-
-      // 주소로 좌표를 검색합니다
-      geocoder.addressSearch('제주특별자치도 제주시 첨단로 242', function (result, status) {
-
-        // 정상적으로 검색이 완료됐으면 
-        if (status === kakao.maps.services.Status.OK) {
-
-          var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
-          // 결과값으로 받은 위치를 마커로 표시합니다
-          var marker = new kakao.maps.Marker({
-            map: map,
-            position: coords
-          });
-
-          // 인포윈도우로 장소에 대한 설명을 표시합니다
-          var infowindow = new kakao.maps.InfoWindow({
-            content: '<div style="width:150px;text-align:center;padding:6px 0;">우리회사</div>'
-          });
-          infowindow.open(map, marker);
-
-          // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-          map.setCenter(coords);
-        }
-      });
-
+    
       const navbar = document.querySelector('#nav');
       const navbarHeight = navbar.getBoundingClientRect().height;
 
@@ -186,36 +145,55 @@
         }
       });
     </script>
-
-    <!-- <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=f227d02def2a3ff8e10e918268f049ab"></script>
-  <script>
-    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-        mapOption = { 
-          center: new kakao.maps.LatLng(36.179624087037986, 128.66445747903668)
-, // 지도의 중심좌표
-            level: 3 // 지도의 확대 레벨
-        };
     
-    // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-    var map = new kakao.maps.Map(mapContainer, mapOption); 
-    </script> -->
+   <!-- <script>
+    $(document).ready(function() {
+        $(".fileDrop").on("dragenter dragover", function(event){
+            event.preventDefault(); // 기본효과 막기
+        });
+        
+         $(".fileDrop").on("drop", function(event) {
+            event.preventDefault();// 기본효과 막기 
+            // 드래그된 파일의 정보
+            var files = event.originalEvent.dataTransfer.files;
+            // 첫번째 파일
+            var file = files[0];
+            // 콘솔에서 파일정보 확인
+            console.log(file);
+            // ajax로 전달할 폼 객체
+            var formData = new FormData();
+            // 폼 객체에 파일추가, append("변수명", 값)
+            formData.append("file", file);
+            
+            $.ajax({
+                type: "post",
+                url: "{path}/upload/uploadAjax",
+                data: formData,
+                dataType: "text",
+                // true : get , false : post
+                processData: false,
+                // false : multipart/form-data
+                contentType: false,
+                // 업로드 성공시
+                success : function(data) {
+                    alert(data);
+                    var str = "";
+                    if(checkImageType(data)) {
+                        str = "<div><a href='${path}/upload/displayFile?fileName="+getImageLink(data)+"'>";
+                        str += "<img src='${path}/upload/displayFile?fileName="+ data +"'></a>";
+                    }
+                    str += "<span data-src="+data+">[삭제]</span></div>";
+                    $(".uploadedList").append(str);
+                }
+        
+                 });
+            });
+        });    
+    </script>-->
 
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
-
-<script>
-  (function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-      (i[r].q = i[r].q || []).push(arguments)
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-  ga('create', 'UA-XXXXX-X', 'auto');
-  ga('send', 'pageview');
-</script>
-
--->
     <script type="text/javascript" src="../../../js/main.js"></script>
+    <script type="text/javascript" src="../../../js/jquery.js"></script>
 </body>
 
 </html>

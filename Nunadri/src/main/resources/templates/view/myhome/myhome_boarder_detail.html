@@ -256,12 +256,11 @@
                 <section class="v_leftbox2">
           
                   <!-- feed photo -->
-                 <ul class="bxslider">
-                   <li  th:each="file :${fileList}"><img th:src="@{/upload/} + ${file.myhouseImgUrl}" /></li  >
-               </ul>
-		         
-          
-          
+
+                  <ul class="bxslider">
+			         <li  th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.myhouseImgUrl}}" /></li  >
+		         </ul>
+
                   <!-- profile START -->
                   <div class="v_profile">
                     <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>

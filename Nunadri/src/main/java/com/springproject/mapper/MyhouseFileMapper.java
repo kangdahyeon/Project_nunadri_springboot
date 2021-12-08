@@ -16,6 +16,8 @@ public interface MyhouseFileMapper {
 	void deleteMyhouseFileList(FileMyhouseVO fileDelete);
 
 	List<FileMyhouseVO> getMyhouseFileList(NoticeMyhouseVO fileGet);
+	
+	void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll);
 
 }
 

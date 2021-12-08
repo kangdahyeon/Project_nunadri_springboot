@@ -8,9 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import com.springproject.vo.CommunityCommentVO;
 
 
-
-
-
 @Mapper
 public interface CommunityCommentMapper {
    

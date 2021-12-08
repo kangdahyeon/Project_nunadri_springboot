@@ -42,7 +42,7 @@
                AND QNA_CONTENT LIKE CONCAT('%', #{customerBoardList.searchKeyword}, '%')
             </if>
          
-                ORDER BY QNA_NO DESC 
+                 ORDER BY QNA_NO DESC  
        			LIMIT #{criteria.amount} OFFSET #{criteria.startNum} 
 	</select> 
 	
@@ -71,6 +71,11 @@
     		 AND Id = #{id}
    	</delete>
    	
+   	<delete id="deleteCustomerServiceComment">
+   			 DELETE FROM customerservice_comment
+   			 WHERE QNA_NO = #{qnaNo}
+    		 AND Id = #{id}
+   	</delete>
    		
     <update id="updateCustomerServiceBoard" parameterType="com.springproject.vo.CustomerServiceVO">
       		UPDATE customerservice SET QNA_TITLE = #{qnaTitle}, QNA_CONTENT = #{qnaContent}, QNA_REGDATE = NOW()

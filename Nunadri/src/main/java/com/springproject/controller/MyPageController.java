@@ -6,6 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
+
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,9 +26,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -31,14 +41,21 @@ import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.service.MemberService;
 import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
+
+import com.springproject.vo.NoticeMyhouseVO;
+
+import com.springproject.common.FileUtils;
+import com.springproject.impl.UserDetailsServiceImpl;
+import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
-import com.springproject.vo.NoticeMyhouseVO;
+
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.extern.slf4j.Slf4j;
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class MyPageController {
@@ -54,13 +71,14 @@ public class MyPageController {
 	private final UserDetailsServiceImpl UserDetailsServiceImpl;
 	
 	static String condition ="";
-	
-	   static String keyword="";
+	static String keyword="";
 
 
 	//마이페이지 메인
 	@GetMapping("/mypage")
-	public String myPage() {
+	public String myPageMain(@AuthenticationPrincipal SecurityUser user, Model model) {
+		MemberVO member = memberservice.getMemberInfo(user.getId());
+		model.addAttribute("memberInfo", member);
 		return "view/member/mypage/mypage_main";
 	}
 
@@ -234,25 +252,26 @@ public class MyPageController {
 	//회원정보 수정
 	@PostMapping("/update")
 	@ResponseBody
-	public String updateMember(@AuthenticationPrincipal SecurityUser user, MemberVO vo, HttpSession session) {
-
+	public String updateMember(@AuthenticationPrincipal SecurityUser user, MemberVO vo, HttpSession session
+						) throws IOException {
+		
 		//		System.out.println("vo.getEmail() : " +  vo.getEmail());
 		//		System.out.println( " memberservice.findId(user.getId()).getEmail() : " + memberservice.findId(user.getId()).getEmail());
 		//		System.out.println("=================================================");
 		//		System.out.println( "vo.getNickname() : " + vo.getNickname());
 		//		System.out.println("user.getNickname() : " +user.getNickname());
 
-		System.out.println(vo.toString());
+//		System.out.println(vo.toString());
+			
 
-		
 			if(memberservice.findEmail(vo.getEmail()) != null && !vo.getEmail().equals(memberservice.findId(user.getId()).getEmail())) {
 				throw new IllegalStateException("이미 가입된 이메일입니다.");
 			}else if(memberservice.findNickname(vo.getNickname()) != null && !vo.getNickname().equals(user.getNickname())) {
 
 				throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
 			}else {
-
-				memberservice.updateMember(vo);
+//				vo.setProfile(profile.toString());
+//				memberservice.updateMember(vo, profile);
 				System.out.println("정보 업데이트");
 				// user에 직접 들어갈 수 있도록 여기서 데이터 입력해줌
 				UserDetails userDetails = UserDetailsServiceImpl.loadUserByUsername(vo.getId());
@@ -313,4 +332,56 @@ public class MyPageController {
 
 		return "/mypage";
 	}
+	
+	 @RequestMapping("/admin")
+	    public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
+	       
+	        //검색값 없을때 기본 값 설정 
+	           if(vo.getSearchCondition() == null) {
+	        	   vo.setSearchCondition("ID");
+	              }
+	              if(vo.getSearchKeyword() == null) {
+	            	  vo.setSearchKeyword("");
+	              } 
+
+	             
+	              System.out.println(memberservice.getAdminInfo(vo, cri));
+	              System.out.println(vo.getSearchCondition());
+	              System.out.println(vo.getSearchKeyword());
+	              //검색, 키워드 값(페이징 처리시 필요)
+	              condition = vo.getSearchCondition();
+	              keyword = vo.getSearchKeyword();
+	              
+	             int total = memberservice.selectMyHouseMemberCount(vo);
+	         
+	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
+	         model.addAttribute("pageMaker", new PageVO(cri, total));
+	         model.addAttribute("condition", vo.getSearchCondition());
+	           model.addAttribute("keyword", vo.getSearchKeyword());
+	           
+	           return "view/admin/admin_member_list";
+	    }
+
+	@PostMapping(value="/upload/uploadForm")
+	public void uploadForm(@RequestParam("profile") MultipartFile profile, MemberVO vo) throws Exception {
+		
+		FileUtils utils = new FileUtils();
+		log.info("파일이름 {}", profile.getOriginalFilename());
+		log.info("파일크기 {}", profile.getSize());
+		log.info("컨텐트 타입 {}", profile.getContentType());
+		
+		String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
+		String attach_path = "\\profile\\";
+		String imgPath = "";
+		
+		File target = new File(root_path + attach_path);
+		
+		
+		imgPath = utils.uploadFile(root_path + attach_path, profile.getOriginalFilename(), profile.getBytes());
+		log.info(imgPath);
+		vo.setProfile(imgPath.toString());
+		
+		memberservice.updateProfile(vo);
+	}
+
 }

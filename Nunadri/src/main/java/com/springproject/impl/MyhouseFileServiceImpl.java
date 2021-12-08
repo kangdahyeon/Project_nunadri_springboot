@@ -35,6 +35,12 @@ public class MyhouseFileServiceImpl implements MyhouseFileService {
    public List<FileMyhouseVO> getMyhouseFileList(NoticeMyhouseVO fileGet) {
       return myhouseFileMapper.getMyhouseFileList(fileGet);
    }
+
+@Override
+public void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll) {
+
+	myhouseFileMapper.deleteMyhouseFileAll(deleteFileAll);
+}
    
    
 

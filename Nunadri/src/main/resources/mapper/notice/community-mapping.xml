@@ -9,7 +9,6 @@
 			, NOTICE_TITLE
 			, NOTICE_CONTENT
 			, NOTICE_HIT
-			, NOTICE_PICTURE
 	</sql>
 		
 		<insert id="insertCommunity">
@@ -22,7 +21,6 @@
 			, NOTICE_TITLE
 			, NOTICE_CONTENT
 			, NOTICE_HIT
-			, NOTICE_PICTURE
 			
     		) values (
     			(SELECT 
@@ -37,7 +35,6 @@
 									, #{noticeTitle}
 									, #{noticeContent}
 									, #{noticeHit}
-									, #{noticePicture}
    		 )	
 		</insert>
 	
@@ -97,79 +94,23 @@
 			FROM
 			    NOTICE_COMMUNITY
 			WHERE
-			    NOTICE_CATEGORY = #{noticeCategory}
-			<if test="searchCondition == 'NOTICE_TITLE'"> 
+			    NOTICE_CATEGORY = #{communityList.noticeCategory}
+			<if test="communityList.searchCondition == 'NOTICE_TITLE'"> 
             AND 
-            	NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+            	NOTICE_TITLE LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
           	</if> 
-         	<if test="searchCondition == 'NOTICE_CONTENT'">
+         	<if test="communityList.searchCondition == 'NOTICE_CONTENT'">
             AND 
-            	NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+            	NOTICE_CONTENT LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
          	</if> 
-         	<if test="searchCondition == 'NICKNAME'">
+         	<if test="communityList.searchCondition == 'NICKNAME'">
             AND 
-            	NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+            	NICKNAME LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
          	</if>
 			ORDER BY NOTICE_NO DESC
-			LIMIT 9
+			LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
 		</select>
-	
-		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
-			INSERT INTO projectdb.file_community
-            (
-                          FILE_NO
-                        , NICKNAME
-                        , NOTICE_CATEGORY
-                        , NOTICE_NO
-                        , NOTICE_FILENAME
-                        , NOTICE_FILE_PATH
-                        , NOTICE_FILE_SIZE
-            ) value (
-            	  (SELECT 
-                   		IFNULL(MAX(FILE_NO), 0) +1
-                   FROM   
-                   		file_community ALIAS_FOR_SUBQUERY
-                   WHERE  
-                   		NOTICE_NO = #{noticeNo}
-                   AND    
-                   		NOTICE_CATEGORY = #{noticeCategory})
-		            , #{nickname}
-		            , #{noticeCategory}
-		            , #{noticeNo}
-		            , #{noticeFileName}
-		            , #{noticeFilePath}
-		            , #{noticeFileSize}
-            );
-		</insert>
-		
-		<select id="getCommunityFileList" parameterType="FileCommunityVO"  resultType="FileCommunityVO">
-			SELECT * FROM FILE_COMMUNITY
-			WHERE 
-				NOTICE_NO = #{noticeNo}
-			AND
-				NOTICE_CATEGORY = #{noticeCategory}
-		</select>
-		
-		<!-- 파일만 삭제 -->
-		<delete id="deleteFile" parameterType="FileCommunityVO">
-			DELETE FROM FILE_COMMUNITY
-			WHERE 
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND 
-				NOTICE_NO = #{noticeNo}
-			AND
-				FILE_NO = #{fileNo}
-		</delete>
-		
-		<delete id="deleteFileList" parameterType="FileCommunityVO">
-			DELETE FROM FILE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-				NOTICE_NO = #{noticeNo}
-		</delete>
-		
-		
+
 		<select id="getCommunityNo" resultType="int">
 			SELECT 
 				IFNULL(MAX(NOTICE_NO), 0) + 1 
