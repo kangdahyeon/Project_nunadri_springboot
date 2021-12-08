@@ -1,10 +1,13 @@
 package com.springproject.mapper;
 
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Mapper;
 
-import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.NoticeMyhouseVO;
 
 
 
@@ -20,6 +23,10 @@ public interface MemberMapper {
 	MemberVO findEmail(String email);
 	
 	MemberVO getMemberInfo(String id);
+	
+	List<MemberVO> getAdminInfo(Map<String,Object> map);
+	
+	int selectMyHouseMemberCount(MemberVO paging);
 	
 	String findAddress(String address);
 	

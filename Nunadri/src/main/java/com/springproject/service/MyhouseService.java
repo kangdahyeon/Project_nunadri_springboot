@@ -10,6 +10,8 @@ public interface MyhouseService {
 	void insertMyhouseBoard(NoticeMyhouseVO noticeInsert);
 
 	List<NoticeMyhouseVO> getMyhouseBoardList(NoticeMyhouseVO boardList, Criteria cri);
+	
+	List<NoticeMyhouseVO> memberMyhouseBoardList(NoticeMyhouseVO myhouseBoardList, Criteria cri);
 
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 

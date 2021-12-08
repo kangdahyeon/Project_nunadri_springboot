@@ -55,9 +55,9 @@
             <li><a href="/mypage" sec:authorize="isAuthenticated()" sec:authentication="principal.nickname"><i class="fas fa-sign-in-alt"></i>
                 </a></li>
                 
-           
-             
-          
+            <li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+                    <a class="nav-link" href="/admin">회원목록</a>
+                </li>
              
           </ul>
         </div>

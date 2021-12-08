@@ -69,6 +69,8 @@ public class MyHouseController {
 		boardList.setMyhouseCategory(category);
 		//
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+	
+		System.out.println(boardList.getNickname());
 		
 		  //검색값 없을때 기본 값 설정 
         if(boardList.getSearchCondition() == null) {
@@ -84,12 +86,13 @@ public class MyHouseController {
            
            int total = myhouseService.selectMyHouseBoardCount(boardList);
 		
-
+           System.out.println(category);
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
         model.addAttribute("condition", boardList.getSearchCondition());
         model.addAttribute("keyword", boardList.getSearchKeyword());
+        System.out.println(boardList);
 		return "view/myhome/boarder/boarder_list";
 	}
 

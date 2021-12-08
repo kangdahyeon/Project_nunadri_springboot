@@ -45,6 +45,10 @@ public class MemberVO {
 	
 	private String provider;
 //	private String providerId;
+	
+	//검색용 필드
+		private String searchCondition;
+		private String searchKeyword;
 
 	@Builder
 	public MemberVO(String id, String pwd, String email, Role role, String name, String nickname, String provider) {

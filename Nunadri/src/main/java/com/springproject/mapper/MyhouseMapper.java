@@ -18,6 +18,8 @@ public interface MyhouseMapper {
 	
 	List<NoticeMyhouseVO> getMyhouseBoardList(Map<String,Object> map);
 	
+	List<NoticeMyhouseVO> memberMyhouseBoardList(Map<String,Object> map);
+	
 	
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 	
