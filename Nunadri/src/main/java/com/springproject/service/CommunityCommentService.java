@@ -1,20 +1,18 @@
-package com.springproject.mapper;
-
+package com.springproject.service;
 
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.vo.CommunityCommentVO;
 
 
-@Mapper
-public interface CommunityCommentMapper {
+
+public interface CommunityCommentService {
    
-   void insertCommunityComment(CommunityCommentVO ccv);
+	void insertCommunityComment(CommunityCommentVO ccv);
    
    List<CommunityCommentVO> getCommunityComment(CommunityCommentVO ccv);
    
    void deleteCommunityComment(CommunityCommentVO ccv);
    
+
 }

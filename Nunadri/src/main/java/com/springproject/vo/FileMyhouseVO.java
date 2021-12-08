@@ -21,4 +21,5 @@ public class FileMyhouseVO {
    
    private String nickname;
 
+   private String myhouseImgUrl;
 }

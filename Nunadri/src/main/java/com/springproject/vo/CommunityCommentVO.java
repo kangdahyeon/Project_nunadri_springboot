@@ -1,5 +1,7 @@
 package com.springproject.vo;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -14,4 +16,6 @@ public class CommunityCommentVO {
 	private String communityComment;
 	
 	private String nickname;
+	
+	private Date communityCommentRegdate;
 }

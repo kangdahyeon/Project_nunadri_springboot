@@ -11,11 +11,9 @@ import com.springproject.vo.NoticeMyhouseVO;
 @Mapper
 public interface CommunityFileMapper {
 	
-		int insertCommunityFileList(FileCommunityVO fvo);
+		void insertCommunityFileList(FileCommunityVO fvo);
 		
-		List<FileCommunityVO> getCommunityFileList(FileCommunityVO fvo);
-		
-		void deleteFile(FileCommunityVO fvo);
+		List<FileCommunityVO> getCommunityFileList(CommunityVO cvo);
 		
 		void deleteFileList(FileCommunityVO fvo);
 }

@@ -31,5 +31,6 @@ public interface MemberMapper {
 	
 	void insertHouse(MemberVO vo); 
 	
+	void updateProfile(MemberVO vo);
 
 }

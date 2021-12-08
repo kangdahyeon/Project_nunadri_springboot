@@ -1,17 +1,16 @@
 package com.springproject.impl;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springproject.mapper.CommunityMapper;
-import com.springproject.mapper.MyhouseMapper;
 import com.springproject.service.CommunityService;
 import com.springproject.vo.CommunityVO;
-import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.Criteria;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,15 +32,8 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 	
 	@Override
-	public CommunityVO getCommunity(CommunityVO cvo) {
-		return communityMapper.getCommunity(cvo);
-	}
-
-	@Override
 	public CommunityVO getCommunityDetail(CommunityVO communityDetail) {
-		FileCommunityVO fvo = new FileCommunityVO();
-		List<FileCommunityVO> fileList = communityMapper.getCommunityFileList(fvo);
-		
+	
 		return communityMapper.getCommunityDetail(communityDetail);
 	}
 	
@@ -52,12 +44,18 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public void deleteCommunity(CommunityVO communityDelete) {
-		communityMapper.deleteCommunity(communityDelete);
+		communityMapper.deleteCommunityCommentList(communityDelete);
 	}
 
 	@Override
-	public List<CommunityVO> getCommunityList(CommunityVO communityList) {
-		return communityMapper.getCommunityList(communityList);
+	public List<CommunityVO> getCommunityList(CommunityVO communityList, Criteria cri) {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+	      paramMap.put("communityList", communityList);
+	      cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+	      paramMap.put("criteria", cri);
+	      
+		return communityMapper.getCommunityList(paramMap);
 	}
 	
 	@Override
@@ -66,26 +64,7 @@ public class CommunityServiceImpl implements CommunityService {
 	}
 
 	@Override
-	public void insertCommunityFileList(List<FileCommunityVO> fileList) {
-		for(FileCommunityVO fvo : fileList) {
-			communityMapper.insertCommunityFileList(fvo);
-		}
-		
-	}
-
-	@Override
-	public List<FileCommunityVO> getCommunityFileList(FileCommunityVO fvo) {
-		List<FileCommunityVO> fileList = communityMapper.getCommunityFileList(fvo);
-		return communityMapper.getCommunityFileList(fvo);
-	}
-
-	@Override
-	public void deleteFile(FileCommunityVO fvo) {
-		communityMapper.deleteFile(fvo);
-	}
-
-	@Override
-	public void deleteFileList(FileCommunityVO fvo) {
-		communityMapper.deleteFileList(fvo);
+	public int selectCommunityCount(CommunityVO paging) {
+		return communityMapper.selectCommunityCount(paging);
 	}
 }
