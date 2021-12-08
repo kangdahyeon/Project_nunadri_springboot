@@ -2,7 +2,9 @@ package com.springproject.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +12,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -41,9 +44,8 @@ public class FileUtils {
    
    
    public List<FileCommunityVO> parseFileInfo(int seq, String category, HttpServletRequest request, 
-         MultipartHttpServletRequest mhsr) throws IOException {
+         MultipartHttpServletRequest mhsr) throws Exception {
       
-      log.info("fileUtils---->" + mhsr.toString());
       if(ObjectUtils.isEmpty(mhsr)) {
          return null;
       }
@@ -51,9 +53,9 @@ public class FileUtils {
       List<FileCommunityVO> fileList = new ArrayList<FileCommunityVO>();
       
       //서버의 절대 경로 얻기
-      String root_path = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
-      String attach_path = "/files/";
-      UUID uuid = UUID.randomUUID();
+      String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
+      String attach_path = "\\upload\\";
+//      UUID uuid = UUID.randomUUID();
       
       //위 경로의 폴더가 없으면 폴더 생성
       File file = new File(root_path + attach_path);
@@ -66,25 +68,23 @@ public class FileUtils {
       while(iterator.hasNext()) {
          
          //파일명으로 파일 리스트 꺼내오기
-         List<MultipartFile> list = mhsr.getFiles(iterator.next());
-         log.info("list.size() -->" + list.size());
-         log.info("seq --->" + seq);
+    	  List<MultipartFile> list = mhsr.getFiles(iterator.next());
+
+          String imgName = "";
+        
          //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
          for(MultipartFile mf : list) {
             if(mf.getSize() > 0) {
                FileCommunityVO boardFile = new FileCommunityVO();
-               
-               String fileName = uuid + "_" + mf.getOriginalFilename();
+               imgName = this.uploadFile(root_path + attach_path, mf.getOriginalFilename(), mf.getBytes());
                boardFile.setNoticeNo(seq);
                boardFile.setNoticeCategory(category);
                boardFile.setNoticeFileSize(mf.getSize());
-
-               boardFile.setNoticeFileName(fileName);
-               boardFile.setNoticeFilePath(root_path + attach_path);
-               fileList.add(boardFile);
+               boardFile.setNoticeFileName(mf.getOriginalFilename());
+               boardFile.setNoticeFilePath(attach_path);
+               boardFile.setCommunityImgUrl(imgName);
                
-               file = new File(root_path + attach_path + fileName);
-               mf.transferTo(file);
+               fileList.add(boardFile);
             } else {
                fileList = null;
             }
@@ -105,8 +105,13 @@ public class FileUtils {
       List<FileMyhouseVO> fileList = new ArrayList<FileMyhouseVO>();
       
       //서버의 절대 경로 얻기
-      String root_path = request.getSession().getServletContext().getRealPath("/");
-      String attach_path = "/upload/";
+//      String root_path = request.getSession().getServletContext().getRealPath("/");
+//      String attach_path = "/upload/";
+      log.info("user.dir: {}", System.getProperty("user.dir"));
+      String root_path = System.getProperty("user.dir") + "\\src\\main\\resources\\static";
+      String attach_path = "/files/";
+      
+      System.out.println("=========" + root_path + "================");
       
       //위 경로의 폴더가 없으면 폴더 생성
       File file = new File(root_path + attach_path);
@@ -123,6 +128,22 @@ public class FileUtils {
          
          
           String imgName = "";
+
+         //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
+         for(MultipartFile mf : list) {
+            if(mf.getSize() > 0) {
+               FileMyhouseVO boardFile = new FileMyhouseVO();
+               
+               //이미지 url
+               imgName = this.uploadFile(root_path + attach_path, mf.getOriginalFilename(), mf.getBytes());
+               
+               boardFile.setMyhouseNo(seq);
+               boardFile.setMyhouseCategory(category);
+               boardFile.setHouseNo(houseNo);
+               boardFile.setMyhouseFileSize(mf.getSize());
+               boardFile.setMyhouseFilename(mf.getOriginalFilename());
+               boardFile.setMyhouseFilePath(root_path + attach_path);
+               boardFile.setMyhouseImgUrl(imgName);
           
           
          //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
@@ -140,7 +161,6 @@ public class FileUtils {
                boardFile.setMyhouseFilename(mf.getOriginalFilename());
                boardFile.setMyhouseFilePath(root_path + attach_path);
                boardFile.setMyhouseImgUrl(imgName);
-          
                fileList.add(boardFile);
                
                file = new File(imgName);

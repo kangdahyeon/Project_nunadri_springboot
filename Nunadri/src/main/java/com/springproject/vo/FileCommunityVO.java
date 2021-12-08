@@ -19,4 +19,5 @@ public class FileCommunityVO {
 	
 	private String nickname;
 	
+	private String communityImgUrl;
 }

@@ -3,15 +3,20 @@ package com.springproject.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.springproject.mapper.CommunityCommentMapper;
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
+@Transactional
 public class CommunityCommentServiceImpl implements CommunityCommentService {
 	
-	private static CommunityCommentMapper communityCommentMapper;
+	private final CommunityCommentMapper communityCommentMapper;
 
 	@Override
 	public void insertCommunityComment(CommunityCommentVO ccv) {

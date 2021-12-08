@@ -6,6 +6,15 @@
 
 <mapper namespace="com.springproject.mapper.CommunityCommentMapper">
 
+	<sql id="communityComment">
+		NOTICE_CATEGORY
+		,NOTICE_NO
+		,COMMUNITY_COMMENT_NO
+		,COMMUNITY_COMMENT
+		,NICKNAME
+		,COMMUNITY_COMMENT_REGDATE
+	</sql>
+
 
    <insert id="insertCommunityComment">
       INSERT INTO COMMUNITY_COMMENT
@@ -17,7 +26,7 @@
 	      , COMMUNITY_COMMENT
 	      , COMMUNITY_COMMENT_REGDATE
 
-      ) values (
+      ) VALUES (
       (SELECT
       IFNULL(MAX(COMMUNITY_COMMENT_NO), 0) + 1
       FROM

@@ -33,6 +33,7 @@ public interface MemberMapper {
 	
 	void insertHouse(MemberVO vo); 
 	
+	void updateProfile(MemberVO vo);
 
 	List<MemberVO> getAdminInfo(Map<String,Object> map);
 	   
