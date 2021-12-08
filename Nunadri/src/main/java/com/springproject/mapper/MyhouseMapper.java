@@ -18,6 +18,7 @@ public interface MyhouseMapper {
 	
 	List<NoticeMyhouseVO> getMyhouseBoardList(Map<String,Object> map);
 	
+	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
 	
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 	
@@ -34,7 +35,6 @@ public interface MyhouseMapper {
 	
 	void updateMyhouseBoard(NoticeMyhouseVO updateNotice);
 	
-	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
 	
 	int getMyhouseNo(NoticeMyhouseVO getSeq);
 

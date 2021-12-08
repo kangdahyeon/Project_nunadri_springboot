@@ -6,40 +6,40 @@
 
 
 	<insert id="insertMyhouseFileList"
-      parameterType="com.springproject.vo.FileMyhouseVO">
-      INSERT INTO file_myhouse
-      (
-      FILE_NO
-      , HOUSE_NO
-      , MYHOUSE_NO
-      , MYHOUSE_CATEGORY
-      , NICKNAME
-      , MYHOUSE_FILENAME
-      , MYHOUSE_FILE_PATH
-      , MYHOUSE_FILE_SIZE
-      , MYHOUSE_IMG_URL
+		parameterType="com.springproject.vo.FileMyhouseVO">
+		INSERT INTO file_myhouse
+		(
+		FILE_NO
+		, HOUSE_NO
+		, MYHOUSE_NO
+		, MYHOUSE_CATEGORY
+		, NICKNAME
+		, MYHOUSE_FILENAME
+		, MYHOUSE_FILE_PATH
+		, MYHOUSE_FILE_SIZE
+		, MYHOUSE_IMG_URL
 
-      ) values (
-      (SELECT
-      IFNULL(MAX(FILE_NO), 0) + 1
-      FROM
-      file_myhouse ALIAS_FOR_SUBQUERY
-      WHERE
-      MYHOUSE_CATEGORY = #{myhouseCategory}
-      AND
-      HOUSE_NO = #{houseNo}
-      AND
-      MYHOUSE_NO = #{myhouseNo})
-      , #{houseNo}
-      , #{myhouseNo}
-      , #{myhouseCategory}
-      , #{nickname}
-      , #{myhouseFilename}
-      , #{myhouseFilePath}
-      , #{myhouseFileSize}
-      , #{myhouseImgUrl}
-      )
-   </insert>
+		) values (
+		(SELECT
+		IFNULL(MAX(FILE_NO), 0) + 1
+		FROM
+		file_myhouse ALIAS_FOR_SUBQUERY
+		WHERE
+		MYHOUSE_CATEGORY = #{myhouseCategory}
+		AND
+		HOUSE_NO = #{houseNo}
+		AND
+		MYHOUSE_NO = #{myhouseNo})
+		, #{houseNo}
+		, #{myhouseNo}
+		, #{myhouseCategory}
+		, #{nickname}
+		, #{myhouseFilename}
+		, #{myhouseFilePath}
+		, #{myhouseFileSize}
+		, #{myhouseImgUrl}
+		)
+	</insert>
 	
 	  <delete id="deleteMyhouseFileList">
         DELETE FROM file_myhouse
@@ -61,8 +61,14 @@
    
    
    
+   <!-- 글 삭제 시 파일 이미지 모두 삭제 -->
    
-   
+   <delete id="deleteMyhouseFileAll">
+   	DELETE FROM file_myhouse
+        WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo}
+   </delete>
    
    
    

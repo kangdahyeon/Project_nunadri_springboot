@@ -17,6 +17,8 @@ public class FileMyhouseVO {
    
    private String myhouseFilePath;
    
+   private String myhouseImgUrl;
+   
    private long myhouseFileSize;
    
    private String nickname;

@@ -655,7 +655,7 @@
       <div class="section-container-spacer text-center">
         <div class="container">
             <h1 class="h2">글 작성</h1>
-        <form action="/insertMyhouseBoard" method="post">
+        <form action="/insertMyhouseBoard" method="post" enctype="multipart/form-data">
           <div id="divsize">
             <div>
                 <input type="number" name="price" class="div_right boarderselect form-control textbox" placeholder="가격을 입력해주세요." required>
@@ -663,13 +663,13 @@
             </div>
             
               <input type="hidden" name="nickname" th:value="${nickname}">
+              <input type="hidden" name="myhouseCategory" th:value="m">
 
               <input type="text" class="form-control textbox" name="myhouseTitle" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
                 <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
                   <div class="input-group">
-                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
-                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
+                    <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
                   </div>
               </div>
               <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->

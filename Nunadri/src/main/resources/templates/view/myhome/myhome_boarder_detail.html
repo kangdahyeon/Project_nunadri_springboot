@@ -256,9 +256,12 @@
                 <section class="v_leftbox2">
           
                   <!-- feed photo -->
-		         <ul class="bxslider">
-                   <li  th:each="file :${fileList}"><img th:src="@{/upload/} + ${file.myhouseImgUrl}" /></li  >
-               </ul>
+
+                  <ul class="bxslider">
+			         <li  th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.myhouseImgUrl}}" /></li  >
+		         </ul>
+
+	
 		         
           
           

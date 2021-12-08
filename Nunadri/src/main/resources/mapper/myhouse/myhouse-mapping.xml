@@ -18,10 +18,12 @@
 		, MYHOUSE_CONTENT
 		, MYHOUSE_REGDATE
 		, MYHOUSE_HIT
+		,PRICE
 		, MYHOUSE_DATE
 		, MYHOUSE_TIME
 		, PEOPLE_MAX
 		, PEOPLE_JOIN
+
 
 		) values (
 		(SELECT
@@ -39,6 +41,7 @@
 		, #{myhouseContent}
 		, NOW()
 		,0
+		, #{price}
 		, #{myhouseDate}
 		, #{myhouseTime}
 		, #{peopleMax}

@@ -11,6 +11,8 @@ public interface MyhouseService {
 
 	List<NoticeMyhouseVO> getMyhouseBoardList(NoticeMyhouseVO boardList, Criteria cri);
 
+	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
+
 	NoticeMyhouseVO getMyhouseBoard(NoticeMyhouseVO getNotice);
 
 
@@ -24,7 +26,6 @@ public interface MyhouseService {
 
 	void updateMyhouseBoard(NoticeMyhouseVO updateNotice);
 
-	int selectMyHouseBoardCount(NoticeMyhouseVO paging);
 	
 	int getMyhouseNo(NoticeMyhouseVO getSeq);
 		

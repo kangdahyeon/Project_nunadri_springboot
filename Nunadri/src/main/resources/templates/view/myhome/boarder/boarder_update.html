@@ -640,6 +640,8 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+    
+   
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -653,26 +655,41 @@
       <div class="section-container-spacer text-center">
       <div class="container">
           <h1 class="h2">글 수정</h1>
-         <form action= "/updateMyhouse" method="post">
+          
+         <form  id="boardUpdate" action="/updateMyhouse" method="post" enctype="multipart/form-data">
           <div id="divsize">
           <br>
           <br>
    
             
-            <input type="hidden" name="houseNo" th:value="${updateBoard.houseNo}">
-            <input type="hidden" name="myhouseNo" th:value="${updateBoard.myhouseNo}">
-            <input type="hidden" name="myhouseCategory" th:value="${updateBoard.myhouseCategory}">
+            <input type="hidden" id="houseNo" name="houseNo" th:value="${updateBoard.houseNo}">
+            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${updateBoard.myhouseNo}">
+            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${updateBoard.myhouseCategory}">
             <input type="hidden" name="nickname" th:value="${updateBoard.nickname}">
             <input type="text" class="form-control textbox" name="myhouseTitle" th:value="${updateBoard.myhouseTitle}" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
                 <textarea class="form-control"  th:text="${updateBoard.myhouseContent}" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
-                  <div class="input-group">
-                    <a class="btn btn-default" id="button_color"><i class="far fa-image"></i></a>
-                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
+                   <div class="input-group">
+                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
                   </div>
               </div>
-              <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
-              <div class="">
+              
+              
+              
+              
+              <!--이미지 삭제 기능-->
+              <div  th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               	<span th:text="${file.myhouseFilename}"></span> 
+               	<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+              </div  >
+              
+          
+              
+              <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
+              <input type="hidden" id="arr" name="arrNo">
+              
+              
+              <div style="float: right;">
                   <button type="submit" class="btn btn-default" id="button_color">수정하기</button >
                   <a class="btn btn-default" id="button_color" th:href="'/myhouseBoardDetail/'+${updateBoard.houseNo}+'/'+${updateBoard.myhouseCategory}+'/'+${updateBoard.myhouseNo}" >뒤로가기</a  >
               </div>
@@ -684,6 +701,33 @@
       </div>
     </div>
   </div>
+  
+  
+  <script th:inline="javascript">
+  
+  let houseNo = $("#houseNo").val();
+  let myhouseCategory = $("#myhouseCategory").val();
+  let myhouseNo = $("#myhouseNo").val(); 
+  let fileNoArr = [];
+  
+
+  /* 
+  1. 삭제 버튼 클릭 시 해당 파일 넘버를 받는다
+  2. 파일 넘버를 배열에 저장한 후 해당 파일의 텍스트를 지운다
+  3. 배열에 저장된 파일 넘버들을 input 히든 타입으로 저장  
+  */
+  function deleteFile(fileNo){
+	console.log(fileNo);
+	fileNoArr.push(fileNo);
+	$(".imgList"+fileNo).html("");
+	document.getElementById('arr').value = fileNoArr;
+}
+
+  </script  >
+  
+  
+  
+  
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();

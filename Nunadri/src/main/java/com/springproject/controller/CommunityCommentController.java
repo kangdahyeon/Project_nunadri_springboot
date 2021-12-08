@@ -13,6 +13,8 @@ import com.springproject.vo.CommunityCommentVO;
 
 import lombok.RequiredArgsConstructor;
 
+
+@Controller
 @RequiredArgsConstructor
 public class CommunityCommentController {
 
@@ -40,7 +42,6 @@ public class CommunityCommentController {
    }
    
    
-
    @PostMapping("/deleteCommunityComment")
    @ResponseBody
    public int deleteCommunityComment(CommunityCommentVO ccv) {

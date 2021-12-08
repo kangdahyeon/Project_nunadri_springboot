@@ -12,4 +12,6 @@ public interface MyhouseFileService {
 	void deleteMyhouseFileList(FileMyhouseVO fileDelete);
 
 	List<FileMyhouseVO> getMyhouseFileList(NoticeMyhouseVO fileGet);
+	
+	void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll);
 }
