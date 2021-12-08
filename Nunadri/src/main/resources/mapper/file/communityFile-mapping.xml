@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springproject.mapper.CommunityFileMapper">		
+
 		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
 			INSERT INTO projectdb.file_community
             (
@@ -11,6 +12,7 @@
                         , NOTICE_FILENAME
                         , NOTICE_FILE_PATH
                         , NOTICE_FILE_SIZE
+                        , COMMUNITY_IMG_URL
             ) value (
             	  (SELECT 
                    		IFNULL(MAX(FILE_NO), 0) +1
@@ -26,10 +28,11 @@
 		            , #{noticeFileName}
 		            , #{noticeFilePath}
 		            , #{noticeFileSize}
+		            , #{communityImgUrl}
             );
 		</insert>
 		
-		<select id="getCommunityFileList" parameterType="FileCommunityVO"  resultType="FileCommunityVO">
+		<select id="getCommunityFileList" resultType="FileCommunityVO">
 			SELECT * FROM FILE_COMMUNITY
 			WHERE 
 				NOTICE_NO = #{noticeNo}
@@ -38,7 +41,7 @@
 		</select>
 		
 		<!-- 파일만 삭제 -->
-		<delete id="deleteFile" parameterType="FileCommunityVO">
+		<delete id="deleteFile">
 			DELETE FROM FILE_COMMUNITY
 			WHERE 
 				NOTICE_CATEGORY = #{noticeCategory}
@@ -48,7 +51,7 @@
 				FILE_NO = #{fileNo}
 		</delete>
 		
-		<delete id="deleteFileList" parameterType="FileCommunityVO">
+		<delete id="deleteFileList">
 			DELETE FROM FILE_COMMUNITY
 			WHERE
 				NOTICE_CATEGORY = #{noticeCategory}

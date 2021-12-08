@@ -55,6 +55,7 @@
 							   ,EMAIL
 							   ,ROLE
 							   ,PROVIDER
+							   ,PROFILE
 							 
 							)
 						VALUES (
@@ -67,6 +68,7 @@
 							   ,#{email}
 								,#{role}
 								,#{provider}
+								,'default.png'
 								)
 						
 						
@@ -89,9 +91,13 @@
 	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">
 	
 		UPDATE MEMBER SET ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
-		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email} WHERE ID = #{id}
+		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email}, PROFILE=#{profile} WHERE ID = #{id}
 	</update>
 	
-	
+	<!-- 프로필 업로드용 -->
+	<update id ="updateProfile" parameterType="com.springproject.vo.MemberVO">
+	   UPDATE MEMBER SET PROFILE = #{profile}
+        WHERE ID = #{id}
+	</update>
 	
 </mapper>

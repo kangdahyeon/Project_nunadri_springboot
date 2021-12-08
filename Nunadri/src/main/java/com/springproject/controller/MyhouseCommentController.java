@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproject.service.MyhouseCommentService;
-import com.springproject.service.MyhouseService;
 import com.springproject.vo.MyhouseCommentVO;
 
 import lombok.RequiredArgsConstructor;

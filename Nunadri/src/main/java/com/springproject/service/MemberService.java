@@ -3,6 +3,7 @@ package com.springproject.service;
 
 
 
+
 import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
@@ -27,4 +28,6 @@ public interface MemberService {
 	void deleteMember(String id);
 	
 	void insertHouse(MemberVO vo); 
+	
+	void updateProfile(MemberVO vo);
 }
