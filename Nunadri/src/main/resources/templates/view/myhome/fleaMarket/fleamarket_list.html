@@ -14,11 +14,16 @@
 
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
+  <script type="text/javascript" src="../../../js/jquery.js"></script>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
   <title>자랑게시판</title>
-  <style>
+  <style>  
+
+  
+  
+  
     .item_img {
       width: 200px;
       height: 200px;
@@ -28,11 +33,6 @@
       border-radius: 4px;
     }
 
-    .item_list {
-      /*       
-      padding: 16px;
-      margin-left: 24px; */
-    }
 
     .item_title {
       overflow: hidden;
@@ -178,6 +178,11 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+    
+    .pagination_button>a{
+	color:black !important;
+}
+    
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -212,21 +217,21 @@
 
                 <div class="used_galleryview_wrap">
 
-                  <ul class="used_prod_list">
+                  <ul class="used_prod_list" th:each="file, status: ${imgFileList}">
 
-                    <li class="gallery_view fst">
+                    <li class="gallery_view fst" th:each="board, status: ${boardList}">
                       <div>
                         <a href="../fleaMarket/fleamarket_detail.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2d/b0/242db01397.jpg" alt=""
+                          <img th:src="@{'/upload/'+${file.myhouseImgUrl}}" alt=""
                             class="img-responsive" style="height:200px;width:200px;">
                         </a>
                       </div>
                       <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">NEW 십자가 목걸이 회중 시계 패션 기념 선물 예수 믿음 하나님
-                          빈티지</a>
+                        <a href="./work.html" target="_blank" style="color: black;" th:text="${board.myhouseTitle}"></a>
                       </div><br>
                       <div class="item_price">
 
+					
                         <div class="item_sell">
                           <span class="tit">판매가</span>
                           <span class="cost"><strong>8,000</strong>원</span>
@@ -305,98 +310,7 @@
                     </li>
 
                   </ul>
-                  <ul class="used_prod_list">
-
-                    <li class="gallery_view fst">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2d/b1/242db125f7.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">런던 관광 여행 기념 고급 수입 정품 패션 앤틱 목걸이 빈티지
-                          시계</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2b/8c/242b8cf047.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">5031 타미힐피거 셔츠 사이즈상세 아지구제A</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2a/fb/242afbefd7.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">16만원 정품 새물품 자동차 공기청정기 미개봉 차량용</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2d/b1/242db11347.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">진주3종세트/새제품/옥 비취 산호 터키 호박</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                  </ul>
+        
 
 
                 </div>
@@ -404,15 +318,42 @@
             </div>
           </div>
 
-          <div class="paging col-lg-11" style="padding-left: 485px; font-size: 15px;">
-            <a href="#" style="color: black;">&#60;</a>
-            <a class="select" href="#" style="color: black;">1</a>
-            <a href="#" style="color: black;">2</a>
-            <a href="#" style="color: black;">3</a>
-            <a href="#" style="color: black;">4</a>
-            <a href="#" style="color: black;">5</a>
-            <a href="#" style="color: black;">&#62;</a>
-          </div>
+            <!--페이징 처리-->
+          <div>
+         <ul class="pagination">
+         
+         <!--처음으로 버튼
+         pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
+         pageNum = 게시글 넘어가는 페이지값-->
+            <li th:class="pagination_button" style="float:left;margin-left:5px;">
+               <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a>
+            </li>
+         <!--이전 버튼 마지막 페이지 이동 시 숨김-->
+            <span th:if="${pageMaker.cri.pageNum}!=1">
+               <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                  <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
+               </li>
+            </span>
+            <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
+            <span th:if="${pageMaker.endPage}!=0">
+               <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                  <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                     <a th:href="'/board/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
+                  </li>
+               </th:block>
+            </span>
+            <!--다음 버튼 마지막 페이지 이동 시 숨김-->
+            <span th:if="${pageMaker.cri.pageNum}!=${pageMaker.endPage + 1}">
+               <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                  <a  th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a >
+               </li>
+            </span>
+         <!--마지막으로 버튼-->
+            <li th:class="pagination_button" style="float:left;margin-left:5px;">
+               <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.endPage+1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">>></a>
+            </li>
+         </ul>
+      </div >
           <!--글쓰기 버튼-->
           <div class="div_right">
             <a href="/fleamarketInsert" class="btn btn-default" id="writerBtn"

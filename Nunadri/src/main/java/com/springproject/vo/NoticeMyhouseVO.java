@@ -31,6 +31,10 @@ public class NoticeMyhouseVO {
 	//검색용 필드
 	private String searchCondition;
 	private String searchKeyword;
+	
+	
+	private String price;
+	
 
 
 

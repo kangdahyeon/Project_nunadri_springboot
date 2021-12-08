@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.springproject.common.FileUtils;
@@ -21,7 +22,6 @@ import com.springproject.service.MemberService;
 import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
-import com.springproject.vo.FileCommunityVO;
 import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.MemberVO;
 import com.springproject.vo.NoticeMyhouseVO;
@@ -90,20 +90,19 @@ public class MyHouseController {
 		model.addAttribute("pageMaker", new PageVO(cri, total));
         model.addAttribute("condition", boardList.getSearchCondition());
         model.addAttribute("keyword", boardList.getSearchKeyword());
+        
+        System.out.println(myhouseService.getMyhouseBoardList(boardList, cri));
+        
+        
+        if(category.equals("m")) {
+        	model.addAttribute("imgFileList", myhouseFileService.getMyhouseFileList(boardList));
+        	System.out.println(myhouseFileService.getMyhouseFileList(boardList));
+        	return "view/myhome/fleamarket/fleamarket_list";
+        }
 		return "view/myhome/boarder/boarder_list";
 	}
 
 
-	//중고 게시판
-	@GetMapping("/fleamarket")
-	public String fleamarket() {
-		return "view/myhome/fleamarket/fleamarket_list";
-	}
-	
-	@GetMapping("/fleamarketInsert")
-	public String fleamarketInsert() {
-		return "view/myhome/fleamarket/fleamarket_insert";
-	}
 
 
 
@@ -125,7 +124,6 @@ public class MyHouseController {
 			noticeInsert.setHouseNo(myhouseService.getHouseNo(noticeInsert.getNickname()));
 			int myhouseNo = myhouseService.getMyhouseNo(noticeInsert);
 			String category = noticeInsert.getMyhouseCategory();
-			System.out.println(category);
 			FileUtils fileUtils = new FileUtils();
 			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(noticeInsert.getHouseNo(), 
 												category, myhouseNo, request, mhsr);
@@ -164,26 +162,66 @@ public class MyHouseController {
 		myhouseService.deleteBoardSeq(vo);
 		//게시글 삭제 시 댓글 목록 삭제
 		myhouseService.deleteMyhouseCommentList(vo);
+		//게시글 삭제 시 이미지 모두 삭제
+		myhouseFileService.deleteMyhouseFileAll(vo);
+		
+		
 
 		return "redirect:/board/" + vo.getMyhouseCategory();
 	}
 
-	
+	//수정 페이지
 	@GetMapping("/updateMyhouseBoard/{houseNo}/{myhouseCategory}/{myhouseNo}")
 	public String updateMyhouseBoard(NoticeMyhouseVO update, Model model) {
 
 		model.addAttribute("updateBoard",myhouseService.getMyhouseBoard(update));
-
+		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(update));
 		return "view/myhome/boarder/boarder_update";
 	}
 	
 	
-
-	@PostMapping("/updateMyhouse")
-	public String updateMyhouse(NoticeMyhouseVO updateNotice) {
+	//게시글 수정
+	@PostMapping("/updateMyhouse")								//뷰에서 삭제할 파일의 넘버를 배열로 받는다
+	public String updateMyhouse(NoticeMyhouseVO updateNotice, @RequestParam("arrNo") int[] arr,
+			HttpServletRequest request, MultipartHttpServletRequest mhsr) {
+		
+		
+		
+		String category = updateNotice.getMyhouseCategory();
+		int houseNo = updateNotice.getHouseNo();
+		int myhouseNo = updateNotice.getMyhouseNo();
+		
+		//수정
 		myhouseService.updateMyhouseBoard(updateNotice);
+		
+		
+		//파일 삭제를 위한 객체
+		FileMyhouseVO vo = new FileMyhouseVO();
+		if(arr != null) {
+			vo.setHouseNo(updateNotice.getHouseNo());
+			vo.setMyhouseCategory(updateNotice.getMyhouseCategory());
+			vo.setMyhouseNo(updateNotice.getMyhouseNo());
+			for(int x : arr) {
+				vo.setFileNo(x);
+				myhouseFileService.deleteMyhouseFileList(vo);
+			}
+		}
+		
+		//파일 업로드
+		try {
+			
+			FileUtils fileUtils = new FileUtils();
+			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(houseNo, category, myhouseNo, request, mhsr);
+		
+		if(!CollectionUtils.isEmpty(fileList)) {
+			myhouseFileService.insertMyhouseFileList(fileList);
+		}
+		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 
-		return "redirect:/myhouseBoardDetail/"+ updateNotice.getHouseNo() + "/" + updateNotice.getMyhouseCategory() + "/" +updateNotice.getMyhouseNo();
+		return "redirect:/myhouseBoardDetail/"+ houseNo + "/" + category + "/" +myhouseNo;
 	}
 	
 	//소모임 게시판 리스트
@@ -208,4 +246,27 @@ public class MyHouseController {
 
 			return "redirect:/smallGroup";
 		}
+	
+	
+	
+	
+	//중고 게시판
+	@GetMapping("/fleamarket")
+	public String fleamarket() {
+		return "view/myhome/fleamarket/fleamarket_list";
+	}
+	
+	//중고 게시판 글 등록
+	@GetMapping("/fleamarketInsert")
+	public String fleamarketInsert() {
+		return "view/myhome/fleamarket/fleamarket_insert";
+	}
+	
+	
+
+	
+	
+	
+	
+	
 }

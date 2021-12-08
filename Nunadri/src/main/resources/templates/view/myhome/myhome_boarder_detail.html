@@ -257,7 +257,7 @@
           
                   <!-- feed photo -->
                   <ul class="bxslider">
-			          <li  th:each="file :${fileList}"><img th:src="@{'/upload/'+${file.myhouseFilename}}" /></li  >
+			         <li  th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.myhouseImgUrl}}" /></li  >
 		         </ul>
 		         
           

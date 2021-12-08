@@ -14,12 +14,11 @@ import com.springproject.vo.CommunityCommentVO;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+//@Controller
 @RequiredArgsConstructor
 public class CommunityCommentController {
 
 
-   private final CommunityService communityService;
    private final CommunityCommentService communityCommentService;
 
 
@@ -48,12 +47,13 @@ public class CommunityCommentController {
    
    
 
-   @PostMapping("/deleteMyhouseComment")
-   @ResponseBody
-   public int deleteMyhouseBoard(CommunityCommentVO ccv) {
-	   communityCommentService.deleteCommunityComment(ccv);
-
-
-      return 1 ;
-   }
+	/*
+	 * @PostMapping("/deleteMyhouseComment")
+	 * 
+	 * @ResponseBody public int deleteMyhouseBoard(CommunityCommentVO ccv) {
+	 * communityCommentService.deleteCommunityComment(ccv);
+	 * 
+	 * 
+	 * return 1 ; }
+	 */
 }

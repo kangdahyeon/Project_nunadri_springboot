@@ -17,6 +17,7 @@
 		, MYHOUSE_FILENAME
 		, MYHOUSE_FILE_PATH
 		, MYHOUSE_FILE_SIZE
+		, MYHOUSE_IMG_URL
 
 		) values (
 		(SELECT
@@ -36,6 +37,7 @@
 		, #{myhouseFilename}
 		, #{myhouseFilePath}
 		, #{myhouseFileSize}
+		, #{myhouseImgUrl}
 		)
 	</insert>
 	
@@ -59,8 +61,14 @@
    
    
    
+   <!-- 글 삭제 시 파일 이미지 모두 삭제 -->
    
-   
+   <delete id="deleteMyhouseFileAll">
+   	DELETE FROM file_myhouse
+        WHERE myhouse_no = #{myhouseNo}
+        AND MYHOUSE_CATEGORY = #{myhouseCategory}
+        AND HOUSE_NO = #{houseNo}
+   </delete>
    
    
    
