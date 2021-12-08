@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import com.springproject.vo.CustomerServiceCommentVO;
 import com.springproject.vo.CustomerServiceVO;
 
 @Mapper
@@ -20,10 +19,9 @@ public interface CustomerServiceMapper {
 	void updateCustomerServiceBoard(CustomerServiceVO customerBoardUpdate);
 
 	void deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete);
-//	void deleteCustomerServiceBoard(CustomerServiceVO customerBoardDelete, CustomerServiceCommentVO customerCommentDelete);
-//	List<CustomerServiceVO> deleteCustomerServiceBoard(Map<String,Object> map);
-	
+
+	void deleteCustomerServiceComment(CustomerServiceVO customerCommentDelete);
+
 	int selectCustomerServiceBoardCount(CustomerServiceVO paging);
 	
-//	void deleteCustomerServiceComment(CustomerServiceCommentVO customerCommentDelete);
 }

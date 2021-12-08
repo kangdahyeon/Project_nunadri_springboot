@@ -16,6 +16,7 @@
       , MYHOUSE_NO
       , NICKNAME
       , MYHOUSE_COMMENT
+      , SMALL_GROUP_JOIN
       , MYHOUSE_COMMENT_REGDATE
 
       ) values (
@@ -34,6 +35,7 @@
       , #{myhouseNo}
       , #{nickname}
       , #{myhouseComment}
+      , #{smallGroupJoin}
       , NOW()
       )
    </insert>
@@ -53,5 +55,18 @@
       AND MYHOUSE_NO = #{myhouseNo}
       AND HOUSE_NO = #{houseNo}
    </delete>
+   
+   <!-- 소모임 댓글 삭제 -->
+   <delete id="deleteSmallGroupComment">
+      DELETE FROM MYHOUSE_COMMENT
+      <!-- WHERE MYHOUSE_COMMENT_NO = #{myhouseCommentNo} -->
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+      AND SMALL_GROUP_JOIN = "O"
+      AND NICKNAME = #{nickname}
+   </delete>
+     
+     
      
 </mapper>

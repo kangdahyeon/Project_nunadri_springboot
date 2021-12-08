@@ -2,6 +2,9 @@ package com.springproject.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
+import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -56,7 +59,6 @@ public class FileUtils {
       
       //위 경로의 폴더가 없으면 폴더 생성
       File file = new File(root_path + attach_path);
-      
       if(file.exists() == false) {
          file.mkdirs();
       }
@@ -67,21 +69,17 @@ public class FileUtils {
          
          //파일명으로 파일 리스트 꺼내오기
     	  List<MultipartFile> list = mhsr.getFiles(iterator.next());
-          
-          
+
           String imgName = "";
         
          //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
          for(MultipartFile mf : list) {
             if(mf.getSize() > 0) {
                FileCommunityVO boardFile = new FileCommunityVO();
-
                imgName = this.uploadFile(root_path + attach_path, mf.getOriginalFilename(), mf.getBytes());
-               
                boardFile.setNoticeNo(seq);
                boardFile.setNoticeCategory(category);
                boardFile.setNoticeFileSize(mf.getSize());
-
                boardFile.setNoticeFileName(mf.getOriginalFilename());
                boardFile.setNoticeFilePath(attach_path);
                boardFile.setCommunityImgUrl(imgName);
@@ -130,6 +128,22 @@ public class FileUtils {
          
          
           String imgName = "";
+
+         //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
+         for(MultipartFile mf : list) {
+            if(mf.getSize() > 0) {
+               FileMyhouseVO boardFile = new FileMyhouseVO();
+               
+               //이미지 url
+               imgName = this.uploadFile(root_path + attach_path, mf.getOriginalFilename(), mf.getBytes());
+               
+               boardFile.setMyhouseNo(seq);
+               boardFile.setMyhouseCategory(category);
+               boardFile.setHouseNo(houseNo);
+               boardFile.setMyhouseFileSize(mf.getSize());
+               boardFile.setMyhouseFilename(mf.getOriginalFilename());
+               boardFile.setMyhouseFilePath(root_path + attach_path);
+               boardFile.setMyhouseImgUrl(imgName);
           
           
          //파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
@@ -147,7 +161,6 @@ public class FileUtils {
                boardFile.setMyhouseFilename(mf.getOriginalFilename());
                boardFile.setMyhouseFilePath(root_path + attach_path);
                boardFile.setMyhouseImgUrl(imgName);
-          
                fileList.add(boardFile);
                
                file = new File(imgName);
@@ -159,7 +172,4 @@ public class FileUtils {
       }
       return fileList;
    }
-   
-   
-   
 }

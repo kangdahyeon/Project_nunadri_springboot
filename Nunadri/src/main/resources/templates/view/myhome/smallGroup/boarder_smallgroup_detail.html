@@ -22,7 +22,7 @@
   <link href="/../../css/main.css" rel="stylesheet">
   <script type="text/javascript" src="/../../js/jquery.js"></script>
 
-  <title>게시판-디테일</title>
+  <title>소모임게시판-디테일</title>
   <style>
      .commentDetail {
    display : flex;
@@ -246,9 +246,8 @@
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
         <div class="container">
-          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('f')}">자유게시판</h1>
-         <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('n')}">공지사항</h1>
-          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('h')}">도와주세요</h1>
+          <h1 class="h2" th:if="${getBoard.myhouseCategory.toString().equals('s')}" >소모임</h1>
+             
           <div id="divsize">
             <!-- <div class="background"> -->
               <section class="container_view2">
@@ -264,7 +263,12 @@
           
                   <!-- profile START -->
                   <div class="v_profile">
+                    <span th:if="${getBoard.peopleMax}==${getBoard.peopleJoin}">
+             		 <p class="v_title" th:text="${getBoard.myhouseTitle} +' <모집마감>'"></p>
+             	  </span>
+             	   <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin}">
                     <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>
+                     </span>
                     <!-- feed creator nickname -->
                     <a href="" class="v_nickname2" th:text="${getBoard.nickname}">닉네임</a>
                     <!-- feed contents -->
@@ -278,14 +282,35 @@
                   
                   
                  
-                  <div class="edit_div2" style="right: 155px;">
- 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >수정</a   >
+               <div class="edit_div2" style="right: 220px;">
+                 <form action="/peopleJoin" method="post">  
+             <input type="hidden" name="houseNo" th:value="${getBoard.houseNo}">
+            <input type="hidden" name="myhouseNo" th:value="${getBoard.myhouseNo}">
+            <input type="hidden" name="myhouseCategory" value="s">
+               <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin}">
+             		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석하기</button >
+               </span>	  
+               </div>
+             </form>
+              <form action="/deletePeopleJoin" method="post">  
+              <input type="hidden" name="houseNo" th:value="${getBoard.houseNo}">
+            <input type="hidden" name="myhouseNo" th:value="${getBoard.myhouseNo}">
+            <input type="hidden" name="myhouseCategory" value="s">
+            <input type="text" name="peopleJoin" th:value="${getBoard.peopleJoin}">
+               <div class="edit_div2" style="right: 285px;">
+               	<span th:if="${getBoard.peopleJoin} != 1">
+             		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석취소</button>
+               	<spna>	
+               </div>
+               </form>
+               <div class="edit_div2" style="right: 155px;">
+              		<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >수정</a   >
                   </div>
                   <div class="delete_div2" style="right: 90px;">
-                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >삭제</a   >
+                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >삭제</a   >
                   </div>
                   <div class="delete_div2">
-                  <a class="v_edit feedview_btn" id="writerBtn" th:href="'/board/'+${getBoard.myhouseCategory}" >목록으로</a  >
+                  <a class="v_edit feedview_btn" id="writerBtn" th:href="'/board/s'" >목록으로</a  >
                   </div>
                 </section>
                 <!-- feed photo END -->
@@ -308,11 +333,12 @@
                   <!-- commenting START -->
                   <section class="commentingbox">
           
-          <form action="/insertMyhouseComment" method="post">
+          <form action="/smallGroupComment" method="post">
           <input type="hidden" name="nickname" th:value="${nickname}">
             <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
             <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
+    <!--        <input type="hidden" id="smallGroupJoin" name="smallGroupJoin" th:value="${smallComment.smallGroupJoin}">-->
                     <!-- commenting form START -->
                     <form method="post" enctype="multipart/form-data">
                       <div class="commentingline">
@@ -327,6 +353,7 @@
                       </div>
                     </form>
           </form>
+          
                     <!-- commenting form END -->
           
                   </section>
@@ -336,8 +363,10 @@
                 <!-- info END -->
           
               </section>
+               <!--</form>-->
             </div>
           </div>
+   
           </div>
         </div>
       </div>
@@ -392,18 +421,6 @@
 
     });
   </script>
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
   
   
     <!--댓글 기능 ajax-->
@@ -465,6 +482,20 @@ function deleteComment(myhouseCommentNo){
    }
    
 }
+
+//function onDisplay(){
+	//$('#noneDiv').show();
+//}
+//function offDisplay(){
+	// $.ajax({
+		
+//	},
+	
+	  // success:function(result){
+    //     $("#comment").html("");
+         
+  //       })
+//}
 
 
 </script >

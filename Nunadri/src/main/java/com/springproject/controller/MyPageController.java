@@ -20,14 +20,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.common.FileUtils;
 import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.service.MemberService;
+import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
@@ -42,6 +47,9 @@ public class MyPageController {
 	private final PasswordEncoder encoder;
 
 	private final UserDetailsServiceImpl UserDetailsServiceImpl;
+	
+	static String condition ="";
+	static String keyword="";
 
 
 	//마이페이지 메인
@@ -142,6 +150,35 @@ public class MyPageController {
 		return "/mypage";
 	}
 	
+	 @RequestMapping("/admin")
+	    public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
+	       
+	        //검색값 없을때 기본 값 설정 
+	           if(vo.getSearchCondition() == null) {
+	        	   vo.setSearchCondition("ID");
+	              }
+	              if(vo.getSearchKeyword() == null) {
+	            	  vo.setSearchKeyword("");
+	              } 
+
+	             
+	              System.out.println(memberservice.getAdminInfo(vo, cri));
+	              System.out.println(vo.getSearchCondition());
+	              System.out.println(vo.getSearchKeyword());
+	              //검색, 키워드 값(페이징 처리시 필요)
+	              condition = vo.getSearchCondition();
+	              keyword = vo.getSearchKeyword();
+	              
+	             int total = memberservice.selectMyHouseMemberCount(vo);
+	         
+	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
+	         model.addAttribute("pageMaker", new PageVO(cri, total));
+	         model.addAttribute("condition", vo.getSearchCondition());
+	           model.addAttribute("keyword", vo.getSearchKeyword());
+	           
+	           return "view/admin/admin_member_list";
+	    }
+
 	@PostMapping(value="/upload/uploadForm")
 	public void uploadForm(@RequestParam("profile") MultipartFile profile, MemberVO vo) throws Exception {
 		
@@ -163,4 +200,5 @@ public class MyPageController {
 		
 		memberservice.updateProfile(vo);
 	}
+
 }
