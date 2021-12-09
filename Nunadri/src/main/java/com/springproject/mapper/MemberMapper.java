@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.vo.MemberVO;
-import com.springproject.vo.NoticeMyhouseVO;
 
 
 
@@ -40,7 +39,4 @@ public interface MemberMapper {
 	
 	void updateProfile(MemberVO vo);
 
-	List<MemberVO> getAdminInfo(Map<String,Object> map);
-	   
-	   int selectMyHouseMemberCount(MemberVO paging);
 }

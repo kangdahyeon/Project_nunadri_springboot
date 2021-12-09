@@ -2,9 +2,6 @@ package com.springproject.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
-
-import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -12,12 +9,12 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.FileCustomerServiceVO;
 import com.springproject.vo.FileMyhouseVO;
 
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +93,7 @@ public class FileUtils {
 		}
 		return fileList;
 	}
-}
+
 
    public List<FileCommunityVO> parseFileInfo(int seq, String category, HttpServletRequest request, 
          MultipartHttpServletRequest mhsr) throws Exception {
@@ -109,8 +106,8 @@ public class FileUtils {
       
       //서버의 절대 경로 얻기
 
-      String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
-      String attach_path = "\\upload\\";
+      String root_path = request.getSession().getServletContext().getRealPath("/");
+      String attach_path = "/upload/";
 //      UUID uuid = UUID.randomUUID();
       
       //위 경로의 폴더가 없으면 폴더 생성
@@ -148,4 +145,66 @@ public class FileUtils {
       }
       return fileList;
    }   
+   
+   //고객센터 파일
+   public List<FileCustomerServiceVO> parseFileInfo(String id, int seq, 
+		   HttpServletRequest request, 
+			MultipartHttpServletRequest mhsr) throws Exception {
+
+		if(ObjectUtils.isEmpty(mhsr)) {
+			return null;
+		}
+
+		List<FileCustomerServiceVO> fileList = new ArrayList<FileCustomerServiceVO>();
+
+		//서버의 절대 경로 얻기
+		String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "/upload/";
+
+
+		//위 경로의 폴더가 없으면 폴더 생성
+		File file = new File(root_path + attach_path);
+		if(file.exists() == false) {
+			file.mkdirs();
+		}
+
+		//파일 이름들을 iterator로 담음
+		Iterator<String> iterator = mhsr.getFileNames();
+		while(iterator.hasNext()) {
+
+			//파일명으로 파일 리스트 꺼내오기
+			List<MultipartFile> list = mhsr.getFiles(iterator.next());
+
+
+			String imgName = "";
+
+
+			//파일 리스트 개수 만큼 리턴할 파일 리스트에 담아주고 생성
+			for(MultipartFile mf : list) {
+				if(mf.getSize() > 0) {
+					FileCustomerServiceVO boardFile = new FileCustomerServiceVO();
+
+					//이미지 url
+					imgName = this.uploadFile(root_path + attach_path, mf.getOriginalFilename(), mf.getBytes());
+
+					boardFile.setQnaNo(seq);
+					boardFile.setId(id);
+					boardFile.setQnaFileSize(mf.getSize());
+					boardFile.setQnaFileName(mf.getOriginalFilename());
+					boardFile.setQnaFilePath(root_path + attach_path);
+					boardFile.setQnaImgUrl(imgName);
+
+					fileList.add(boardFile);
+
+					file = new File(imgName);
+					mf.transferTo(file);
+				} else {
+					fileList = null;
+				}
+			}
+		}
+		return fileList;
+	   
+   }
+   
 }

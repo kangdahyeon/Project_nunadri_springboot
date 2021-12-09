@@ -5,15 +5,7 @@ package com.springproject.service;
 import java.util.List;
 
 import com.springproject.vo.Criteria;
-
-import java.util.List;
-import java.util.Map;
-
-import com.springproject.vo.Criteria;
-import com.springproject.vo.HouseVO;
-
 import com.springproject.vo.MemberVO;
-import com.springproject.vo.NoticeMyhouseVO;
 
 public interface MemberService {
 	
@@ -40,11 +32,6 @@ public interface MemberService {
 	void deleteMember(String id);
 	
 	void insertHouse(MemberVO vo); 
-	
-
-	   List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri);
-	   
-	   int selectMyHouseMemberCount(MemberVO paging);
   
 	void updateProfile(MemberVO vo);
 
