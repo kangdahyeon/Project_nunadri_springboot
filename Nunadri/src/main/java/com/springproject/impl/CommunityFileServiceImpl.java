@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class CommunityFileServiceImpl implements CommunityFileService {
-	
+
 	private final CommunityFileMapper communityFileMapper;
 
 	@Override
@@ -30,7 +30,7 @@ public class CommunityFileServiceImpl implements CommunityFileService {
 	public List<FileCommunityVO> getCommunityFileList(CommunityVO cvo) {
 		return communityFileMapper.getCommunityFileList(cvo);
 	}
-	
+
 	@Override
 	public List<FileCommunityVO> getCommunityImgList(CommunityVO cvo) {
 		return communityFileMapper.getCommunityImgList(cvo);
@@ -41,11 +41,15 @@ public class CommunityFileServiceImpl implements CommunityFileService {
 	public void deleteCommunityFile(FileCommunityVO fvo) {
 		communityFileMapper.deleteCommunityFile(fvo);
 	}
-	
+
 	@Override
 	public void deleteCommunityFileAll(CommunityVO deleteAll) {
-		
+
 		communityFileMapper.deleteCommunityFileAll(deleteAll);
 	}
 
+	@Override
+	public void deleteFileList(FileCommunityVO fvo) {
+		communityFileMapper.deleteFileList(fvo);
+	}
 }
