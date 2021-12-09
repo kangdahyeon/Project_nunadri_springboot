@@ -135,7 +135,7 @@ public class FileUtils {
                boardFile.setNoticeCategory(category);
                boardFile.setNoticeFileSize(mf.getSize());
                boardFile.setNoticeFileName(mf.getOriginalFilename());
-               boardFile.setNoticeFilePath(attach_path);
+               boardFile.setNoticeFilePath(root_path+attach_path);
                boardFile.setCommunityImgUrl(imgName);
 
                fileList.add(boardFile);

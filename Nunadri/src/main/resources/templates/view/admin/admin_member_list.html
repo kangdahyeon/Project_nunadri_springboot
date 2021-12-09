@@ -21,6 +21,7 @@
   <title>우리집</title>
 
   <link href="../../css/main.css" rel="stylesheet">
+  <script type="text/javascript" src="../../js/jquery.js"></script>
 
   <style>
     .navbar_display {
@@ -83,7 +84,7 @@
                 <th id="table_admin">관리</th>
               </tr>
                 <tr  th:each="adminInfo, status: ${adminInfo}">
-                <td>1</td >
+                <td class="seq" th:text="${status.index+1}"></td   >
                 <td th:text="${adminInfo.id}"></td >
                 <td th:text="${adminInfo.name}"></td >
                 <td th:text="${adminInfo.nickname}"></td >
@@ -145,6 +146,9 @@
   </script>
 
   <script>
+
+  
+  
     const navbar = document.querySelector('#nav');
     const navbarHeight = navbar.getBoundingClientRect().height;
 
@@ -156,6 +160,14 @@
         navbar.classList.remove('navbar_display');
       }
     });
+    
+ 
+
+
+   
+   
+   
+   
   </script>
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
