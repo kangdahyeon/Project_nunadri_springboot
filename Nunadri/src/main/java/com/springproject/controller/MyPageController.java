@@ -91,34 +91,6 @@ public class MyPageController {
 		return "view/member/mypage/member_modify";
 	}
 	
-	 @RequestMapping("/admin")
-	 public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
-		 
-		  //검색값 없을때 기본 값 설정 
-	        if(vo.getSearchCondition() == null) {
-	        	vo.setSearchCondition("ID");
-	           }
-	           if(vo.getSearchKeyword() == null) {
-	        	   vo.setSearchKeyword("");
-	           } 
-	          
-	           System.out.println(memberservice.getAdminInfo(vo, cri));
-	           System.out.println(vo.getSearchCondition());
-	           System.out.println(vo.getSearchKeyword());
-	           //검색, 키워드 값(페이징 처리시 필요)
-	           condition = vo.getSearchCondition();
-	           keyword = vo.getSearchKeyword();
-	           
-	          int total = memberservice.selectMyHouseMemberCount(vo);
-			
-			model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
-			model.addAttribute("pageMaker", new PageVO(cri, total));
-	        model.addAttribute("condition", vo.getSearchCondition());
-	        model.addAttribute("keyword", vo.getSearchKeyword());
-	        
-	        return "view/admin/admin_member_list";
-	 }
-
 
 	//비밀번호 변경 페이지
 	@GetMapping("/changePassword")
@@ -164,48 +136,14 @@ public class MyPageController {
 	        return "view/member/mypage/member_myhouse_boarder_list";
 		}
 		
-		/*
-		 * @RequestMapping(value="/myhouseBoard/{category}") //
-		 * 
-		 * @ResponseBody public String noticeBoard1(@PathVariable("category")String
-		 * category,NoticeMyhouseVO myhouseBoardList,
-		 * 
-		 * @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
-		 * myhouseBoardList.setMyhouseCategory(category); //
-		 * myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
-		 * 
-		 * myhouseBoardList.setNickname(user.getNickname());
-		 * 
-		 * //검색값 없을때 기본 값 설정 if(myhouseBoardList.getSearchCondition() == null) {
-		 * myhouseBoardList.setSearchCondition("MYHOUSE_TITLE"); }
-		 * if(myhouseBoardList.getSearchKeyword() == null) {
-		 * myhouseBoardList.setSearchKeyword(""); }
-		 * 
-		 * //검색, 키워드 값(페이징 처리시 필요) condition = myhouseBoardList.getSearchCondition();
-		 * keyword = myhouseBoardList.getSearchKeyword();
-		 * 
-		 * int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
-		 * 
-		 * System.out.println(category); model.addAttribute("category", category);
-		 * model.addAttribute("boardList",
-		 * myhouseService.getMyhouseBoardList(myhouseBoardList, cri));
-		 * model.addAttribute("pageMaker", new PageVO(cri, total));
-		 * model.addAttribute("condition", myhouseBoardList.getSearchCondition());
-		 * model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
-		 * System.out.println("post"); System.out.println(category);
-		 * System.out.println(myhouseService.getMyhouseBoardList(myhouseBoardList,
-		 * cri)); return "view/member/mypage/member_myhouse_boarder_list"; }
-		 */
 
 		@RequestMapping(value="/myhouseBoard/{category}")  //
 		@ResponseBody
 		public String noticeBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
 				@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
 			
-//			  String json = parameters.get("paramList").toString();
 		      ObjectMapper mapper = new ObjectMapper();
 		      HashMap<String, Object> hashMap = new HashMap<String, Object>();
-//		      List<Map<String, Object>> paramList = mapper.readValue(json, new TypeReference<ArrayList<Map<String, Object>>>(){});
 		      
 		   
 			myhouseBoardList.setMyhouseCategory(category);

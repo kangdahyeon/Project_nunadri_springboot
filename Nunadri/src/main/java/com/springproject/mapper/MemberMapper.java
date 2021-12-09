@@ -40,7 +40,4 @@ public interface MemberMapper {
 	
 	void updateProfile(MemberVO vo);
 
-	List<MemberVO> getAdminInfo(Map<String,Object> map);
-	   
-	   int selectMyHouseMemberCount(MemberVO paging);
 }

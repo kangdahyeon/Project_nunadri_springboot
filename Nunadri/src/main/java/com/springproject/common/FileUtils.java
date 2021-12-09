@@ -96,7 +96,7 @@ public class FileUtils {
 		}
 		return fileList;
 	}
-}
+
 
    public List<FileCommunityVO> parseFileInfo(int seq, String category, HttpServletRequest request, 
          MultipartHttpServletRequest mhsr) throws Exception {
@@ -109,8 +109,8 @@ public class FileUtils {
       
       //서버의 절대 경로 얻기
 
-      String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
-      String attach_path = "\\upload\\";
+      String root_path = request.getSession().getServletContext().getRealPath("/");
+		String attach_path = "/upload/";
 //      UUID uuid = UUID.randomUUID();
       
       //위 경로의 폴더가 없으면 폴더 생성
@@ -137,7 +137,7 @@ public class FileUtils {
                boardFile.setNoticeCategory(category);
                boardFile.setNoticeFileSize(mf.getSize());
                boardFile.setNoticeFileName(mf.getOriginalFilename());
-               boardFile.setNoticeFilePath(attach_path);
+               boardFile.setNoticeFilePath(root_path+attach_path);
                boardFile.setCommunityImgUrl(imgName);
                
                fileList.add(boardFile);

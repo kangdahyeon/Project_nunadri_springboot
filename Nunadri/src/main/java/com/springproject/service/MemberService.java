@@ -42,9 +42,6 @@ public interface MemberService {
 	void insertHouse(MemberVO vo); 
 	
 
-	   List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri);
-	   
-	   int selectMyHouseMemberCount(MemberVO paging);
   
 	void updateProfile(MemberVO vo);
 
