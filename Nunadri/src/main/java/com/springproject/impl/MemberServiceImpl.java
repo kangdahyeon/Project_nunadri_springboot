@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
   public int selectMyHouseMemberCount(MemberVO paging) {
      return memberMapper.selectMyHouseMemberCount(paging); 
   }
-    
+
 
  	// 프로필 이미지 업데이트
  	@Override

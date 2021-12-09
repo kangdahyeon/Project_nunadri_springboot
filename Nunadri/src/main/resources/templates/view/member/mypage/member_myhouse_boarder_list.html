@@ -46,7 +46,7 @@
           <h1 class="h2" th:if="${category.toString().equals('h')}">소모임</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">중고거래</h1>
 
-        <form th:action="'/myhouseBoard/'+${category}" method="post" role="form">
+        <form name="search-form" th:action="'/myhouseBoard/'+${category}" method="post" role="form">
         <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
          <input type="hidden" name="condition" th:value="${condition}"> 
          <input type="hidden" name="keyword" th:value="${keyword}">  
@@ -73,11 +73,11 @@
                   <th:each>
                      <option value="MYHOUSE_TITLE">제목
                      <option value="MYHOUSE_CONTENT">내용
-                     <option value="NICKNAME">작성자
                   </th:each>
             </select> 
               <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
-              <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
+              <!--<button type="button" onclick="getSearchList" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >-->
+              <input type="button" onclick="getSearchList()" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> 
             </div>
 
           
@@ -130,7 +130,7 @@
             <!--다음 버튼 마지막 페이지 이동 시 숨김-->
             <span th:if="${pageMaker.cri.pageNum}!=${pageMaker.endPage + 1}">
                <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a class="exPaging" th:href="'/myhouseBoard/'+${category}+'?pageNum='+[[${pageMaker.cri.pageNum +1}]]+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a>
+                  <a class="exPaging" th:href="'/myhouseBoard/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a>
                </li>
             </span>
          <!--마지막으로 버튼-->
@@ -191,8 +191,6 @@
       alert(this.value);
       let type = this.value;
       
-
-      
        $.ajax({
       type:'post',
       url:'/myhouseBoard/'+ type,
@@ -229,7 +227,42 @@
       
       }); 
   
-
+  function getSearchList(){
+	$.ajax({
+		type: 'GET',
+		url : '/myhouseBoard/'+ type,
+		data : $("form[name=search-form]").serialize(paramList),
+		success : function(data){
+			//테이블 초기화
+			$('#paramList').empty();
+			if(result.length>=1){
+				result.forEach(function(obj){
+					  var data = JSON.parse(obj);
+					  $("#paramList").html(""); 
+				var htmlString = "";
+                  htmlString += "<tr>"
+                  htmlString += "<th id='table_width_no' >NO</th>"
+                  htmlString += "<th id='table_text'>제목</th>"
+                  htmlString += "<th id='table_width_writer'>작성자</th>"
+                  htmlString += "<th id='table_width_writer'>작성일</th>"
+                  htmlString += "<th id='table_width_hit'>조회수</th>"
+                  htmlString += "</tr>"
+                  
+                  for(var i=0; i<data.paramList.length; i++){
+                     htmlString += "<tr>"
+                     htmlString += "      <td>"+data.paramList[i].myhouseNo +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].myhouseTitle +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].nickname +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].myhouseRegDate +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].myhouseHit +"</td>"
+                  	 htmlString += "</tr>"
+                  	 }
+					$('#paramList').append(htmlString);
+        		})				 
+			}
+		}
+	})
+}
   </script>
   
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->

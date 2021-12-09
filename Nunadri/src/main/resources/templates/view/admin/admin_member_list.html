@@ -74,7 +74,6 @@
             <!--게시판 목록 표출-->
             <table class="type04">
               <tr>
-                <th id="table_width_no">No</th>
                 <th id="table_id">아이디</th>
                 <th id="table_name">이름</th>
                 <th id="table_name">닉네임</th>
@@ -83,7 +82,6 @@
                 <th id="table_admin">관리</th>
               </tr>
                 <tr  th:each="adminInfo, status: ${adminInfo}">
-                <td>1</td >
                 <td th:text="${adminInfo.id}"></td >
                 <td th:text="${adminInfo.name}"></td >
                 <td th:text="${adminInfo.nickname}"></td >
@@ -157,7 +155,7 @@
       }
     });
   </script>
-
+  
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="../../js/main.js"></script>

@@ -312,6 +312,7 @@ public class MyPageController {
 	              keyword = vo.getSearchKeyword();
 	              
 	             int total = memberservice.selectMyHouseMemberCount(vo);
+	             
 	         
 	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
 	         model.addAttribute("pageMaker", new PageVO(cri, total));
