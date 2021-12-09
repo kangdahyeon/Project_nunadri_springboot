@@ -21,5 +21,6 @@ public interface CustomerService {
 	
 	int selectCustomerServiceBoardCount(CustomerServiceVO paging);
 	
+	int getqnaNo(String id);
 
 }

@@ -2,7 +2,6 @@ package com.springproject.service;
 
 import java.util.List;
 
-
 import com.springproject.vo.MyhouseCommentVO;
 
 
@@ -17,5 +16,6 @@ void insertMyhouseComment(MyhouseCommentVO commentInsert);
    //소모임 댓글 삭제
    void deleteSmallGroupComment(MyhouseCommentVO smallGroupCommentDelete);
    
+
 
 }

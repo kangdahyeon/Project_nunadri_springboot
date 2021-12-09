@@ -24,4 +24,6 @@ public interface CustomerServiceMapper {
 
 	int selectCustomerServiceBoardCount(CustomerServiceVO paging);
 	
+	int getqnaNo(String id);
+	
 }

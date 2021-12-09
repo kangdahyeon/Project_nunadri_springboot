@@ -1,16 +1,27 @@
 package com.springproject.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.springproject.common.FileUtils;
+import com.springproject.service.CustomerFileService;
 import com.springproject.service.CustomerService;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.CustomerServiceVO;
+import com.springproject.vo.FileCustomerServiceVO;
+import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
 
@@ -20,6 +31,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CustomerServiceController {
 	private final CustomerService customerService;
+	private final CustomerFileService customerFileService;
 	
 	static String condition ="";
 	static String keyword="";
@@ -36,10 +48,28 @@ public class CustomerServiceController {
 	
 	//고객센터 보드 인서트
 	@PostMapping("/CustomerServiceBoard")
-	public String insertCustomerServiceBoard(CustomerServiceVO customerBoardInsert,@AuthenticationPrincipal SecurityUser user) {
-		//customerBoardInsert.setId(user.getId());
-		System.out.println(customerBoardInsert.getId());
+	public String insertCustomerServiceBoard(CustomerServiceVO customerBoardInsert,@AuthenticationPrincipal SecurityUser user,
+									HttpServletRequest request, MultipartHttpServletRequest mhsr) {
+//		customerBoardInsert.setId(user.getId());
+//		System.out.println(customerBoardInsert.getId());
+		
+		String id = user.getId();
+	
+		try {
+			
+			int qnaNo = customerService.getqnaNo(id);
+			FileUtils fileUtils = new FileUtils();
+			List<FileCustomerServiceVO> fileList = fileUtils.parseFileInfo(id, qnaNo, request, mhsr);
+		
+		if(!CollectionUtils.isEmpty(fileList)) {
+			customerFileService.insertCustomerFileList(fileList);
+		}
 		customerService.insertCustomerServiceBoard(customerBoardInsert);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	
 		return "redirect:/CustomerServiceBoardList";
 	}
 	
@@ -87,7 +117,10 @@ public class CustomerServiceController {
 	//게시글 상세페이지
 	@RequestMapping("/CustomerServiceBoardDetail/{qnaNo}/{id}")
 	public String CustomerServiceBoardDetail(CustomerServiceVO customerBoardDetail, Model model) {
+		
 		model.addAttribute("getCustomerService", customerService.getCustomerServiceBoard(customerBoardDetail));
+		model.addAttribute("fileList", customerFileService.getCustomerFileList(customerBoardDetail));
+		
 		return "view/customerService/questionboard_detail";
 	}
 	
@@ -98,6 +131,8 @@ public class CustomerServiceController {
 		customerService.deleteCustomerServiceBoard(customerBoardDelete);
 		//삭제시 댓글도 같이 삭제
 		customerService.deleteCustomerServiceComment(customerBoardDelete);
+		//게시글 삭제 시 이미지 모두 삭제
+		customerFileService.deleteCustomerFileAll(customerBoardDelete);
 		
 		return "redirect:/CustomerServiceBoardList";
 	}
@@ -107,13 +142,46 @@ public class CustomerServiceController {
 	public String updateCustomerServiceBoard(CustomerServiceVO customerBoardUpdate, Model model) {
 		
 		model.addAttribute("customerBoardUpdate", customerService.getCustomerServiceBoard(customerBoardUpdate));
+		model.addAttribute("fileList", customerFileService.getCustomerFileList(customerBoardUpdate));
 		return "view/customerService/questionboard_update";
 	}
 	
 	@PostMapping("/CustomerServiceBoardUpdate")
-	public String updateCustomerService(CustomerServiceVO customerBoardUpdate) {
+	public String updateCustomerService(CustomerServiceVO customerBoardUpdate, @AuthenticationPrincipal SecurityUser user,
+			@RequestParam("arrNo") int[] arr,
+			HttpServletRequest request, MultipartHttpServletRequest mhsr) {
+	
+		//수정
 		customerService.updateCustomerServiceBoard(customerBoardUpdate);
-		System.out.println("업데이트 닉네임"+customerBoardUpdate.getNickname());
+		
+//		System.out.println("업데이트 닉네임"+customerBoardUpdate.getNickname());
+
+		  String id = user.getId();
+		//파일 삭제를 위한 객체
+				FileCustomerServiceVO vo = new FileCustomerServiceVO();
+				if(arr != null) {
+					vo.setId(id);
+					vo.setQnaNo(customerBoardUpdate.getQnaNo());
+					for(int x : arr) {
+						vo.setFileNo(x);
+						customerFileService.deleteCustomerFileList(vo);
+					}
+				}
+		//파일 업로드
+				int qnaNo = customerBoardUpdate.getQnaNo();
+				try {
+					
+					FileUtils fileUtils = new FileUtils();
+					List<FileCustomerServiceVO> fileList = fileUtils.parseFileInfo(id, qnaNo, request, mhsr);
+				
+				if(!CollectionUtils.isEmpty(fileList)) {
+					customerFileService.insertCustomerFileList(fileList);
+				}
+				}catch(Exception e) {
+					e.printStackTrace();
+				}
+				
+		
 		return "redirect:/CustomerServiceBoardDetail/"+customerBoardUpdate.getQnaNo()+"/"+customerBoardUpdate.getId();
 	}
 	
