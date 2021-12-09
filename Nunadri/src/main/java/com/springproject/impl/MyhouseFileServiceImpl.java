@@ -1,5 +1,6 @@
 package com.springproject.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -40,6 +41,18 @@ public class MyhouseFileServiceImpl implements MyhouseFileService {
 public void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll) {
 
 	myhouseFileMapper.deleteMyhouseFileAll(deleteFileAll);
+}
+
+
+
+@Override
+public List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO join) {
+	return myhouseFileMapper.getFleamarketList(join);
+}
+
+@Override
+public List<HashMap<String, Object>> getItem(NoticeMyhouseVO item) {
+	return myhouseFileMapper.getItem(item);
 }
    
    

@@ -73,7 +73,6 @@ public class MyHouseController {
 		//
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
 	
-		System.out.println(boardList.getNickname());
 		
 		  //검색값 없을때 기본 값 설정 
         if(boardList.getSearchCondition() == null) {
@@ -89,17 +88,15 @@ public class MyHouseController {
            
            int total = myhouseService.selectMyHouseBoardCount(boardList);
 		
-           System.out.println(category);
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
         model.addAttribute("condition", boardList.getSearchCondition());
         model.addAttribute("keyword", boardList.getSearchKeyword());
-        System.out.println(myhouseService.getMyhouseBoardList(boardList, cri));
-        
         
         if(category.equals("m")) {
-        	System.out.println(myhouseFileService.getMyhouseFileList(boardList));
+        	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList));
+
         	return "view/myhome/fleamarket/fleamarket_list";
         }
 
@@ -330,4 +327,23 @@ public class MyHouseController {
 
 			return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
 		}			
+		
+		
+		@GetMapping("/fleamarketInsert")
+		public String fleamarketInsert() {
+			return "view/myhome/fleaMarket/fleamarket_insert";
+		}
+		
+		
+		
+		@GetMapping("/items/{myhouseNo}")
+		public String fleamarketDetail(@AuthenticationPrincipal SecurityUser user, NoticeMyhouseVO vo, Model model) {
+			int houseNo = myhouseService.getHouseNo(user.getNickname());
+			vo.setHouseNo(houseNo);
+			
+			model.addAttribute("itemDetail", myhouseFileService.getItem(vo));
+			
+			return "view/myhome/fleaMarket/fleamarket_detail";
+		}
+		
 }

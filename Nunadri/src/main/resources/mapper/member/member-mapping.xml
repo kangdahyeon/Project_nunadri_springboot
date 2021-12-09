@@ -95,6 +95,7 @@
 		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email}, PROFILE=#{profile} WHERE ID = #{id}
 	</update>
 
+
 	<!-- 프로필 업로드용 -->
 	<update id ="updateProfile" parameterType="com.springproject.vo.MemberVO">
 	   UPDATE MEMBER SET PROFILE = #{profile}

@@ -118,7 +118,8 @@ public class FileUtils {
       //서버의 절대 경로 얻기
 
       String root_path = request.getSession().getServletContext().getRealPath("/");
-      String attach_path = "/upload/";
+		  String attach_path = "/upload/";
+
 //      UUID uuid = UUID.randomUUID();
       
       //위 경로의 폴더가 없으면 폴더 생성

@@ -61,6 +61,57 @@
    
    
    
+   <select id="getFleamarketList" parameterType="com.springproject.vo.NoticeMyhouseVO" resultType="HashMap">
+   	 SELECT M.HOUSE_NO AS houseNo,
+   	  M.MYHOUSE_NO AS myhouseNo,
+   	   M.NICKNAME AS nickname,
+		M.MYHOUSE_TITLE AS myhouseTitle,
+		 M.MYHOUSE_CONTENT AS myhouseContent,
+		  M.MYHOUSE_REGDATE AS regDate,
+		M.MYHOUSE_HIT AS hit,
+		 M.PRICE AS price,
+		 F.FILE_NO AS fileNo,
+		  F.MYHOUSE_FILENAME AS fileName,
+		   F.MYHOUSE_IMG_URL AS myhouseImgUrl
+		FROM `NOTICE_MYHOUSE` AS M
+		LEFT OUTER JOIN `FILE_MYHOUSE` AS F
+		ON M.HOUSE_NO = f.house_no
+		AND m.myhouse_category = f.myhouse_category
+		AND m.myhouse_no = f.myhouse_no
+		 WHERE 
+        m.MYHOUSE_CATEGORY = 'm'
+        AND m.HOUSE_NO = #{houseNo}
+        AND f.File_NO = 1
+   </select>
+   
+   
+   
+    <select id="getItem" parameterType="com.springproject.vo.NoticeMyhouseVO" resultType="HashMap">
+   	 SELECT M.HOUSE_NO AS houseNo,
+   	  M.MYHOUSE_NO AS myhouseNo,
+		M.MYHOUSE_TITLE AS myhouseTitle,
+		 M.MYHOUSE_CONTENT AS myhouseContent,
+		  M.MYHOUSE_REGDATE AS regDate,
+		M.MYHOUSE_HIT AS hit,
+		 M.PRICE AS price,
+		 F.FILE_NO AS fileNo,
+		  F.MYHOUSE_FILENAME AS fileName,
+		   F.MYHOUSE_IMG_URL AS myhouseImgUrl
+		FROM `NOTICE_MYHOUSE` AS M
+		LEFT OUTER JOIN `FILE_MYHOUSE` AS F
+		ON M.HOUSE_NO = f.house_no
+		AND m.myhouse_category = f.myhouse_category
+		AND m.myhouse_no = f.myhouse_no
+		 WHERE 
+        m.MYHOUSE_CATEGORY = 'm'
+        AND m.HOUSE_NO = #{houseNo}
+        AND m.myhouse_no = #{myhouseNo}
+   </select>
+   
+   
+   
+   
+   
    <!-- 글 삭제 시 파일 이미지 모두 삭제 -->
    
    <delete id="deleteMyhouseFileAll">
@@ -69,10 +120,6 @@
         AND MYHOUSE_CATEGORY = #{myhouseCategory}
         AND HOUSE_NO = #{houseNo}
    </delete>
-   
-   
-   
-   
    
    
 </mapper>

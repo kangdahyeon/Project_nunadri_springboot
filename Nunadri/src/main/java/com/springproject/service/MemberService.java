@@ -32,7 +32,7 @@ public interface MemberService {
 	void deleteMember(String id);
 	
 	void insertHouse(MemberVO vo); 
-  
+
 	void updateProfile(MemberVO vo);
 
 }

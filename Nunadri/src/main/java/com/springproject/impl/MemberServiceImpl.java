@@ -101,16 +101,6 @@ public class MemberServiceImpl implements MemberService {
       return member;
    }
   
-  	@Override
-	public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
-
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-		paramMap.put("adminInfo", vo);
-		cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
-		paramMap.put("criteria", cri);
-
-		return memberMapper.getAdminInfo(paramMap);
-	}
    
 	@Override
 	public void insertHouse(MemberVO vo) {
@@ -138,16 +128,6 @@ public class MemberServiceImpl implements MemberService {
  	// 프로필 이미지 업데이트
  	@Override
 	public void updateProfile(MemberVO vo) {
- 		/*
-		 * String filePath = System.getProperty("user.dir") +
-		 * "\\src\\main\\resources\\static\\profiles";
-		 * 
-		 * File file = new File(filePath, profile.getOriginalFilename());
-		 * 
-		 * try { profile.transferTo(file); } catch (IllegalStateException | IOException
-		 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
-		 */
- 		
  		memberMapper.updateProfile(vo);
 	}
 

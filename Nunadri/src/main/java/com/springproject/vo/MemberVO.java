@@ -53,6 +53,7 @@ public class MemberVO {
 
 //	private String providerId;
 
+
 	@Builder
 	public MemberVO(String id, String pwd, String email, Role role, String name, String nickname, String provider) {
 		this.id = id;
