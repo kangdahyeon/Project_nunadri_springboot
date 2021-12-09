@@ -11,6 +11,7 @@ import com.springproject.mapper.CommunityMapper;
 import com.springproject.service.CommunityService;
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.Criteria;
+import com.springproject.vo.LikeVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -71,5 +72,15 @@ public class CommunityServiceImpl implements CommunityService {
 	@Override
 	public int selectCommunityCount(CommunityVO paging) {
 		return communityMapper.selectCommunityCount(paging);
+	}
+
+	@Override
+	public void likeCheck(LikeVO like) {
+			communityMapper.likeCheck(like);
+	}
+
+	@Override
+	public void likeCheckCancel(LikeVO like) {
+			communityMapper.likeCheckCancel(like);
 	}
 }

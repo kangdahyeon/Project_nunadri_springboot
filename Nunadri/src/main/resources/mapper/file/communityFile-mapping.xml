@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.springproject.mapper.CommunityFileMapper">		
+<mapper namespace="com.springproject.mapper.CommunityFileMapper">
 
 		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
 			INSERT INTO FILE_COMMUNITY
@@ -14,13 +14,13 @@
                         , NOTICE_FILE_SIZE
                         , COMMUNITY_IMG_URL
             ) value (
-            	  (SELECT 
+            	  (SELECT
                    		IFNULL(MAX(FILE_NO), 0) +1
-                   FROM   
+                   FROM
                    		FILE_COMMUNITY ALIAS_FOR_SUBQUERY
-                   WHERE  
+                   WHERE
                    		NOTICE_NO = #{noticeNo}
-                   AND    
+                   AND
                    		NOTICE_CATEGORY = #{noticeCategory})
 		            , #{nickname}
 		            , #{noticeCategory}
@@ -31,32 +31,38 @@
 		            , #{communityImgUrl}
             )
 		</insert>
-		
+
 		<select id="getCommunityFileList" resultType="FileCommunityVO">
 			SELECT * FROM FILE_COMMUNITY
-			WHERE 
+			WHERE
 				NOTICE_CATEGORY = #{noticeCategory}
 			AND
 			     NOTICE_NO = #{noticeNo}
 		</select>
-		
+
+		<select id="getCommunityImgList" resultType="FileCommunityVO">
+			SELECT * FROM FILE_COMMUNITY
+			WHERE
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+
 		<!-- 한개 삭제 -->
 		<delete id="deleteCommunityFile">
 			DELETE FROM FILE_COMMUNITY
-			WHERE 
+			WHERE
 				NOTICE_CATEGORY = #{noticeCategory}
-			AND 
+			AND
 				NOTICE_NO = #{noticeNo}
 			AND
 				FILE_NO = #{fileNo}
 		</delete>
-		
+
 		<!-- 글 삭제 시 모두 삭제 -->
 		<delete id="deleteCommunityFileAll">
 		  DELETE FROM FILE_COMMUNITY
 		  WHERE
 		      NOTICE_NO = #{noticeNo}
-		  AND 
+		  AND
 		      NOTICE_CATEGORY = #{noticeCategory}
 		</delete>
 </mapper>

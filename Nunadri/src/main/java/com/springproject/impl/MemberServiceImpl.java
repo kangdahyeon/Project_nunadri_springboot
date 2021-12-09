@@ -140,6 +140,9 @@ public class MemberServiceImpl implements MemberService {
 
 
 
+
+
+
  	// 프로필 이미지 업데이트
  	@Override
 	public void updateProfile(List<MemberVO> list) {

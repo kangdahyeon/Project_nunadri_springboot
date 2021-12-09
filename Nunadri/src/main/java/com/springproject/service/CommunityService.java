@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.Criteria;
+import com.springproject.vo.LikeVO;
 
 public interface CommunityService {
 	
@@ -28,4 +29,8 @@ public interface CommunityService {
 	int getCoummunityNo();
 	
 	int selectCommunityCount(CommunityVO paging);
+	
+	void likeCheck(LikeVO like);
+	
+	void likeCheckCancel(LikeVO like);
 }

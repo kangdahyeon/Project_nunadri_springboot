@@ -13,5 +13,7 @@ public class LikeVO {
 	
 	private String nickname;
 	
+	private int likeHit;
+	
 
 }

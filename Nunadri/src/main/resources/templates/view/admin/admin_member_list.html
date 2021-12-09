@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
+<html xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
@@ -46,32 +46,32 @@
   <form th:action="'/admin'" method="post" role="form">
           <div id="divsize">
                   <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
-         <input type="hidden" name="condition" th:value="${condition}"> 
-         <input type="hidden" name="keyword" th:value="${keyword}">  
-         
+         <input type="hidden" name="condition" th:value="${condition}">
+         <input type="hidden" name="keyword" th:value="${keyword}">
+
 
           <div id="divsize">
          <form th:action="'/admin'" method="post" role="form">
                   <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
-         <input type="hidden" name="condition" th:value="${condition}"> 
-         <input type="hidden" name="keyword" th:value="${keyword}">  
-         
+         <input type="hidden" name="condition" th:value="${condition}">
+         <input type="hidden" name="keyword" th:value="${keyword}">
+
 
           <div id="divsize">
             <!--검색창-->
                 <div class="div_right" style="width: 33%;">
-               
+
                <select name="searchCondition">
                   <th:each>
                      <option value="ID">ID
                      <option value="NICKNAME">닉네임
                      <option value="ADDRESS">주소
                   </th:each>
-            </select> 
+            </select>
               <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
               <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
-                    
+
             <!--게시판 목록 표출-->
             <table class="type04">
               <tr>
@@ -90,7 +90,7 @@
                 <td th:text="${adminInfo.nickname}"></td >
                 <td th:text="${adminInfo.address}"></td >
                 <td th:text="${adminInfo.email}"></td >
-                 <td><a type="button" style="background-color: transparent;" class="button" value="탈퇴" 
+                 <td><a type="button" style="background-color: transparent;" class="button" value="탈퇴"
                   th:href="'/deleteAdmin/'+${adminInfo.id}">탈퇴</a>
                  </td>
               </tr >
@@ -100,9 +100,9 @@
            <!--페이징 처리-->
              <div>
          <ul class="pagination">
-         
+
          <!--처음으로 버튼
-         pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
+         pageMaker : 컨트롤러에 noticeBoard안에 선안한값
          pageNum = 게시글 넘어가는 페이지값-->
             <li th:class="pagination_button" style="float:left;margin-left:5px;">
                <a th:href="'/admin/?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a>
@@ -146,9 +146,6 @@
   </script>
 
   <script>
-
-  
-  
     const navbar = document.querySelector('#nav');
     const navbarHeight = navbar.getBoundingClientRect().height;
 
@@ -160,14 +157,6 @@
         navbar.classList.remove('navbar_display');
       }
     });
-    
- 
-
-
-   
-   
-   
-   
   </script>
 
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->

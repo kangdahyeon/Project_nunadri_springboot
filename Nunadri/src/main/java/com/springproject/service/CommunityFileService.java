@@ -6,13 +6,16 @@ import com.springproject.vo.CommunityVO;
 import com.springproject.vo.FileCommunityVO;
 
 public interface CommunityFileService {
-	
+
 	void insertCommunityFileList(List<FileCommunityVO> fileList);
-	
+
 	List<FileCommunityVO> getCommunityFileList(CommunityVO cvo);
-	
+
+	List<FileCommunityVO> getCommunityImgList(CommunityVO cvo);
+
+	void deleteFileList(FileCommunityVO fvo);
 	void deleteCommunityFile(FileCommunityVO fvo);
-	
+
 	void deleteCommunityFileAll(CommunityVO deleteAll);
-	
+
 }

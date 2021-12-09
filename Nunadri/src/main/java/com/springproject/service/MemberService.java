@@ -33,8 +33,6 @@ public interface MemberService {
 
 	void insertHouse(MemberVO vo);
 
-
-
 	void updateProfile(List<MemberVO> list);
 
 }
