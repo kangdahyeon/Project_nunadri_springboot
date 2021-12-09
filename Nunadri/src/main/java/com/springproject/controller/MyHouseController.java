@@ -269,16 +269,19 @@ public class MyHouseController {
 		
 	//소모임 상세 페이지
 		@GetMapping("/smallGroupDetail/{houseNo}/{myhouseCategory}/{myhouseNo}")
-		public String getSmallGroupBoard(NoticeMyhouseVO vo, Model model) {
+		public String getSmallGroupBoard(NoticeMyhouseVO vo, MyhouseCommentVO commentVO, Model model) {
 
 			//조회수 증가 기능
 			myhouseService.hitIncrease(vo);
 			
-			
-	
+//			model.addAttribute("getBoard",myhouseService.getSmallGroupBoard(vo, commentVO));
+//			System.out.println("이게 무엇일까"+myhouseService.getSmallGroupBoard(vo, commentVO));
 			model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
 			model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
-
+			model.addAttribute("getComment", myhouseCommentService.getMyhouseComment(commentVO));
+			
+			System.out.println("과연"+myhouseCommentService.getMyhouseComment(commentVO));
+			
 			return "view/myhome/smallGroup/boarder_smallgroup_detail";
 		}	
 	
@@ -295,17 +298,18 @@ public class MyHouseController {
 					}if(commentVO.getSmallGroupJoin() == null) {
 						commentVO.setSmallGroupJoin("O");
 					}
-					
-					//소모임 참여 인원 증가 기능
+
+					//인원 컬럼
 					myhouseService.peopleJoinIncrease(vo);
 					
 					//참여 댓글 인서트
 					myhouseCommentService.insertMyhouseComment(commentVO);
 					
+				
 		
 					model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
 					return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
-				}			
+		}
 	
 		//소모임참여 취소	
 		@PostMapping("/deletePeopleJoin")
@@ -321,7 +325,7 @@ public class MyHouseController {
 //			소모임 참여 인원 감소 기능
 			myhouseService.peopleJoinDecrease(vo);
 			myhouseCommentService.deleteSmallGroupComment(commentVO);
-			
+			System.out.println("삭제가 되는거냐 "+ commentVO);
 			model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
 
 			return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();

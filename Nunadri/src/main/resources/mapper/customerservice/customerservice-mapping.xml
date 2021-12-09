@@ -83,6 +83,11 @@
       	 	AND ID = #{id}
     </update>
     
+    	<select id="getqnaNo" resultType="int">
+		SELECT IFNULL(MAX(QNA_NO),0) + 1
+		FROM customerservice
+		</select>	
+	
     
 
 </mapper>

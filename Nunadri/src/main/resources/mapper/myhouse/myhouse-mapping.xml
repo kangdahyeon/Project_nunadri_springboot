@@ -207,12 +207,39 @@
 	</select>	
 	
 	
-	<!--소모임 상세 -->
+	<!--소모임 상세 
 	<select id="getSmallGroupBoard" resultType="com.springproject.vo.NoticeMyhouseVO">
-		SELECT * FROM NOTICE_MYHOUSE 
+     	SELECT * FROM NOTICE_MYHOUSE
 		WHERE MYHOUSE_NO = #{myhouseNo} 
-		AND MYHOUSE_CATEGORY = 's'
+		AND MYHOUSE_CATEGORY = #{myhouseCategory}
 		AND HOUSE_NO = #{houseNo}
+	</select> -->
+	
+ 	 <!--  WHERE notice_myhouse.MYHOUSE_NO = #{myhouseNo} = myhouse_comment.MYHOUSE_NO
+		AND notice_myhouse.MYHOUSE_CATEGORY = 's' = myhouse_comment.MYHOUSE_CATEGORY
+		AND notice_myhouse.HOUSE_NO =  #{houseNo} = myhouse_comment.HOUSE_NO  -->
+     	
+     	<!-- SELECT * FROM notice_myhouse , myhouse_comment
+		WHERE notice_myhouse.MYHOUSE_NO = myhouse_comment.MYHOUSE_NO
+		AND notice_myhouse.MYHOUSE_CATEGORY =  's'
+		AND notice_myhouse.HOUSE_NO = myhouse_comment.HOUSE_NO  -->
+	<!--	SELECT * FROM notice_myhouse 
+		UNION
+		SELECT * FROM myhouse_comment  -->
+	
+	<!--  소모임 상세 --> 
+	<select id="getSmallGroupBoard" resultType="com.springproject.vo.NoticeMyhouseVO"  parameterType="HashMap">
+		SELECT * FROM NOTICE_MYHOUSE 
+		WHERE MYHOUSE_NO = #{getBoard.myhouseNo} 
+		AND MYHOUSE_CATEGORY = #{getBoard.myhouseCategory}
+		AND HOUSE_NO = #{getBoard.houseNo}
+	<!-- 	UNION
+		SELECT * FROM MYHOUSE_COMMENT
+		 WHERE MYHOUSE_CATEGORY = #{getComment.myhouseCategory}
+     	 AND MYHOUSE_NO = #{getComment.myhouseNo}
+      AND HOUSE_NO = #{getComment.houseNo}
+      ORDER BY MYHOUSE_COMMENT_NO ASC -->
+		
 	</select>
 	
 	<!-- 소모임 참여 인원 증가 쿼리 -->

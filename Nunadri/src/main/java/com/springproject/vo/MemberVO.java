@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.role.Role;
 
@@ -51,6 +50,7 @@ public class MemberVO {
 	private String profile;
 	
 	private String provider;
+
 //	private String providerId;
 
 	@Builder
