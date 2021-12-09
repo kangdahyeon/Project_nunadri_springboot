@@ -14,5 +14,7 @@ public interface CommunityFileService {
 	void deleteCommunityFile(FileCommunityVO fvo);
 	
 	void deleteCommunityFileAll(CommunityVO deleteAll);
+
+	List<FileCommunityVO> getCommunityImgList(CommunityVO cvo);
 	
 }

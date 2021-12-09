@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.vo.CommunityVO;
+import com.springproject.vo.LikeVO;
 
 @Mapper
 public interface CommunityMapper {
@@ -33,4 +34,8 @@ public interface CommunityMapper {
 		int selectCommunityCount(CommunityVO paging);
 
 		int getCommunityNo();
+		
+		void likeCheck(LikeVO like);
+		
+		void likeCheckCancel(LikeVO like);
 }

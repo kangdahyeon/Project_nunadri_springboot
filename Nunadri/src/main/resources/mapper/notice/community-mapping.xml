@@ -145,6 +145,25 @@
                   		NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
       </select> 
-		
-		
+      
+      <update id="likeCheck" parameterType="LikeVO">
+    UPDATE like
+    SET LIKE_NO = LIKE_NO + 1 
+    AND LIKE_HIT = LIKE_HIT + 1
+    WHERE NOTICE_CATEGORY=#{noticeCategory} 
+    AND NOTICE_NO=#{noticeNo}
+    AND LIKE_NO= 0
+    AND NICKNAME=#{nickname}
+  </update>
+  
+  <update id="likeCheckCancel" parameterType="LikeVO">
+    UPDATE like
+    SET LIKE_NO = 0 
+    AND LIKE_HIT = LIKE_HIT - 1
+    WHERE NOTICE_CATEGORY=#{noticeCategory} 
+    AND NOTICE_NO=#{noticeNo}
+    AND LIKE_NO= 1
+    AND NICKNAME=#{nickname}
+  </update>
+
 </mapper>

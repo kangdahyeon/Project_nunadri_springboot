@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" 
-     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+  xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
 
 <head>
@@ -19,11 +18,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
   <title>자랑게시판</title>
-  <style>  
-
-  
-  
-  
+  <style>
     .item_img {
       width: 200px;
       height: 200px;
@@ -178,11 +173,60 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
-    
-    .pagination_button>a{
-	color:black !important;
-}
-    
+
+    .pagination_button>a {
+      color: black !important;
+    }
+
+    .card {
+      border: 1px solid #eeeeee;
+      margin-bottom: 16px;
+    }
+
+
+    .card-body>* {
+      color: black !important;
+      text-shadow: none !important;
+    }
+
+    .card-text {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin-top: 0;
+      margin-bottom: 1rem;
+      display: block;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
+
+    .card-img-top {
+      border-radius: 4px;
+
+    }
+
+    .card-body {
+      border-top: 1px solid #eeeeee;
+      box-sizing: border-box;
+      flex: 1 1 auto;
+      min-height: 1px;
+      padding: 1.25rem;
+      text-align: left;
+    }
+
+    .card-title {
+      margin-bottom: 0.75rem;
+      font-size: 1.5rem;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-top: 0;
+      display: block;
+      margin-block-start: 0.68em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+    }
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -202,141 +246,74 @@
             <div class="text-center">
               <h1 class="h2" style="color: black; text-shadow: none;">중고장터</h1>
             </div>
+            <hr>
           </div>
 
-          <div class="body" style="font-size: 13px;">
+          <!--검색창-->
 
-            <!--검색창-->
-            <div class="div_right2">
-              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search2"></i>
+          <form th:action="'/board/'+${category}" method="post" role="form">
+            <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
+            <input type="hidden" name="condition" th:value="${condition}">
+            <input type="hidden" name="keyword" th:value="${keyword}">
+
+            <div id="divsize">
+              <!--검색창-->
+                <div class="div_right" style="width: 33%;">
+               
+               <select name="searchCondition">
+                  <th:each>
+                     <option value="MYHOUSE_TITLE">제목
+                     <option value="MYHOUSE_CONTENT">내용
+                     <option value="NICKNAME">작성자
+                  </th:each>
+            </select> 
+              <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
+              <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
             </div>
+              <br>
 
-            <div class="used_body">
 
-              <div class="used_prod_wrap used_hp">
 
-                <div class="used_galleryview_wrap">
-
-                  <ul class="used_prod_list" th:each="file, status: ${imgFileList}">
-
-                    <li class="gallery_view fst" th:each="board, status: ${boardList}">
-                      <div>
-                        <a href="../fleaMarket/fleamarket_detail.html" title="" class="black-image-project-hover">
-                          <img th:src="@{'/upload/'+${file.myhouseImgUrl}}" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;" th:text="${board.myhouseTitle}"></a>
-                      </div><br>
-                      <div class="item_price">
-
-					
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
+              <div class="row">
+                <th:block th:each="item, status: ${fleaMarketList}">
+                  <div class="col-md-4 margin">
+                    <div class="card">
+                      <a class="text-dark" th:href="'/items/' + ${item.myhouseNo}">
+                        <img th:src="@{'/upload/'+${item.myhouseImgUrl}}" class="card-img-top" height="270" width="250">
+                        <div class="card-body" >
+                          <h4 class="card-title" th:text="${item.myhouseTitle}"></h4>
+                          <p class="card-text" th:text="${item.myhouseContent}"></p>
+                          <h3 class="card-title text-danger" th:text="${item.price} + 원"></h3>
+                         <!--  <span class="badge badge-primary mgb-15" style=" font-weight: 200; color: white !important; background-color: blue;">
+				                판매중
+				            </span>-->
                         </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2b/52/242b527467.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">새상품 명품 커피메이커 간편조작 원터치에 반하다
-                        </a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/17/90/241790f157.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">새상품)독일 더 스페셜 5종 칼세트(시중 5만원)ISA</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                    <li class="gallery_view">
-                      <div>
-                        <a href="./work.html" title="" class="black-image-project-hover">
-                          <img src="http://image.auction.co.kr/itemimage/24/2a/ec/242aec3cc7.jpg" alt=""
-                            class="img-responsive" style="height:200px;width:200px;">
-                        </a>
-                      </div>
-                      <div class="item_tit">
-                        <a href="./work.html" target="_blank" style="color: black;">Q5781 유니클로 남자XL 중고 브이넥 니트 울셔츠/더크</a>
-                      </div><br>
-                      <div class="item_price">
-
-                        <div class="item_sell">
-                          <span class="tit">판매가</span>
-                          <span class="cost"><strong>8,000</strong>원</span>
-                        </div>
-                      </div>
-                      <div class="item_icons">
-
-                      </div>
-                    </li>
-
-                  </ul>
-        
-
-
-                </div>
+                      </a>
+                    </div>
+                  </div>
+                </th:block>
               </div>
-            </div>
-          </div>
 
-            <!--페이징 처리-->
-          <div>
-         <ul class="pagination">
-         
-         <!--처음으로 버튼
+              <!--페이징 처리-->
+              <div>
+                <ul class="pagination">
+
+                  <!--처음으로 버튼
          pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
          pageNum = 게시글 넘어가는 페이지값-->
-            <li th:class="pagination_button" style="float:left;margin-left:5px;">
-               <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a>
-            </li>
-         <!--이전 버튼 마지막 페이지 이동 시 숨김-->
-            <span th:if="${pageMaker.cri.pageNum}!=1">
-               <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
-               </li>
-            </span>
-            <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
-            <span th:if="${pageMaker.endPage}!=0">
-               <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                  <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                    <a
+                      th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">
+                      <<</a> </li> <!--이전 버튼 마지막 페이지 이동 시 숨김-->
+                        <span th:if="${pageMaker.cri.pageNum}!=1">
+                  <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                    <a
+                      th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
+                  </li>
+                  </span>
+                  <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
+                  <span th:if="${pageMaker.endPage}!=0">
+                    <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                   <li th:class="pagination_button" style="float:left;margin-left:5px;">
                      <a th:href="'/board/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
                   </li>
@@ -359,9 +336,13 @@
             <a href="/fleamarketInsert" class="btn btn-default" id="writerBtn"
               style="color: black; font-size: 15px; border: 1px solid black;">글쓰기</a>
           </div>
+          </div>
+        </form>
+         </div>
         </div>
       </div>
     </div>
+   
 
 
     <script>

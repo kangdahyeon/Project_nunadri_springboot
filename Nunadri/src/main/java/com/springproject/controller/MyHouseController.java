@@ -73,7 +73,6 @@ public class MyHouseController {
 		//
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
 	
-		System.out.println(boardList.getNickname());
 		
 		  //검색값 없을때 기본 값 설정 
         if(boardList.getSearchCondition() == null) {
@@ -89,18 +88,15 @@ public class MyHouseController {
            
            int total = myhouseService.selectMyHouseBoardCount(boardList);
 		
-           System.out.println(category);
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
         model.addAttribute("condition", boardList.getSearchCondition());
         model.addAttribute("keyword", boardList.getSearchKeyword());
-        System.out.println(myhouseService.getMyhouseBoardList(boardList, cri));
-        
         
         if(category.equals("m")) {
-        	model.addAttribute("imgFileList", myhouseFileService.getMyhouseFileList(boardList));
-        	System.out.println(myhouseFileService.getMyhouseFileList(boardList));
+        	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList));
+
         	return "view/myhome/fleamarket/fleamarket_list";
         }
 
@@ -270,16 +266,19 @@ public class MyHouseController {
 		
 	//소모임 상세 페이지
 		@GetMapping("/smallGroupDetail/{houseNo}/{myhouseCategory}/{myhouseNo}")
-		public String getSmallGroupBoard(NoticeMyhouseVO vo, Model model) {
+		public String getSmallGroupBoard(NoticeMyhouseVO vo, MyhouseCommentVO commentVO, Model model) {
 
 			//조회수 증가 기능
 			myhouseService.hitIncrease(vo);
 			
-			
-	
+//			model.addAttribute("getBoard",myhouseService.getSmallGroupBoard(vo, commentVO));
+//			System.out.println("이게 무엇일까"+myhouseService.getSmallGroupBoard(vo, commentVO));
 			model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
 			model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
-
+			model.addAttribute("getComment", myhouseCommentService.getMyhouseComment(commentVO));
+			
+			System.out.println("과연"+myhouseCommentService.getMyhouseComment(commentVO));
+			
 			return "view/myhome/smallGroup/boarder_smallgroup_detail";
 		}	
 	
@@ -296,17 +295,18 @@ public class MyHouseController {
 					}if(commentVO.getSmallGroupJoin() == null) {
 						commentVO.setSmallGroupJoin("O");
 					}
-					
-					//소모임 참여 인원 증가 기능
+
+					//인원 컬럼
 					myhouseService.peopleJoinIncrease(vo);
 					
 					//참여 댓글 인서트
 					myhouseCommentService.insertMyhouseComment(commentVO);
 					
+				
 		
 					model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
 					return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
-				}			
+		}
 	
 		//소모임참여 취소	
 		@PostMapping("/deletePeopleJoin")
@@ -322,9 +322,28 @@ public class MyHouseController {
 //			소모임 참여 인원 감소 기능
 			myhouseService.peopleJoinDecrease(vo);
 			myhouseCommentService.deleteSmallGroupComment(commentVO);
-			
+			System.out.println("삭제가 되는거냐 "+ commentVO);
 			model.addAttribute("smallComment",myhouseCommentService.getMyhouseComment(commentVO));
 
 			return "redirect:/smallGroupDetail/"+vo.getHouseNo()+"/s/"+vo.getMyhouseNo();
 		}			
+		
+		
+		@GetMapping("/fleamarketInsert")
+		public String fleamarketInsert() {
+			return "view/myhome/fleaMarket/fleamarket_insert";
+		}
+		
+		
+		
+		@GetMapping("/items/{myhouseNo}")
+		public String fleamarketDetail(@AuthenticationPrincipal SecurityUser user, NoticeMyhouseVO vo, Model model) {
+			int houseNo = myhouseService.getHouseNo(user.getNickname());
+			vo.setHouseNo(houseNo);
+			
+			model.addAttribute("itemDetail", myhouseFileService.getItem(vo));
+			
+			return "view/myhome/fleaMarket/fleamarket_detail";
+		}
+		
 }

@@ -65,6 +65,11 @@ public class CustomerServiceImpl implements CustomerService{
 		customerServiceMapper.deleteCustomerServiceComment(customerCommentDelete);
 	}
 
+	@Override
+	public int getqnaNo(String id) {
+		return customerServiceMapper.getqnaNo(id);
+	}
+
 
 	
 

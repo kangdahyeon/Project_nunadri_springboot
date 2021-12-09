@@ -5,7 +5,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.springproject.role.Role;
 
@@ -39,16 +38,21 @@ public class MemberVO {
 	@NotBlank(message = "닉네임은 필수 입력 값입니다.")
 	private String nickname;
 	
+
+	   //검색용 필드
+    private String searchCondition;
+    private String searchKeyword;
+	
+    private int seq;
+    
 	private Role role;
 	
 	private String profile;
 	
 	private String provider;
+
 //	private String providerId;
-	
-	//검색용 필드
-		private String searchCondition;
-		private String searchKeyword;
+
 
 	@Builder
 	public MemberVO(String id, String pwd, String email, Role role, String name, String nickname, String provider) {

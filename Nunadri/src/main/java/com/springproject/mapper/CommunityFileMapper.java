@@ -18,4 +18,7 @@ public interface CommunityFileMapper {
 		void deleteCommunityFile(FileCommunityVO fvo);
 		
 		void deleteCommunityFileAll(CommunityVO deleteAll);
+
+		List<FileCommunityVO> getCommunityImgList(CommunityVO cvo);
+	
 }

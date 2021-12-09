@@ -40,6 +40,12 @@
 			     NOTICE_NO = #{noticeNo}
 		</select>
 		
+    <select id="getCommunityImgList" resultType="FileCommunityVO">
+			SELECT * FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+
 		<!-- 한개 삭제 -->
 		<delete id="deleteCommunityFile">
 			DELETE FROM FILE_COMMUNITY

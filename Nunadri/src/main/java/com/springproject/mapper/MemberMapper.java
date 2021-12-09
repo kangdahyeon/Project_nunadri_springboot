@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.vo.MemberVO;
-import com.springproject.vo.NoticeMyhouseVO;
 
 
 
