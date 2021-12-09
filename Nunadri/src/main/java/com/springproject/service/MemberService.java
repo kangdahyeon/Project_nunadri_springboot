@@ -40,12 +40,7 @@ public interface MemberService {
 	void deleteMember(String id);
 	
 	void insertHouse(MemberVO vo); 
-	
-
-	   List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri);
-	   
-	   int selectMyHouseMemberCount(MemberVO paging);
   
-	void updateProfile(MemberVO vo);
+	void updateProfile(List<MemberVO> list);
 
 }

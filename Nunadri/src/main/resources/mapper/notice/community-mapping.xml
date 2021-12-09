@@ -80,12 +80,21 @@
 				NOTICE_NO = #{noticeNo}
 		</select>
 	
-		<delete id="deleteCommunity" parameterType="CommunityVO">
+		<delete id="deleteCommunitySeq">
 			DELETE FROM NOTICE_COMMUNITY
 			WHERE 
 				NOTICE_NO = #{noticeNo} 
 			AND 
 				NOTICE_CATEGORY = #{noticeCategory}
+		</delete>
+		
+		      
+		<delete id="deleteCommunityCommentList">
+		      DELETE FROM COMMUNITY_COMMENT
+              WHERE
+                   NOTICE_NO = #{noticeNo}
+              AND 
+                  NOTICE_CATEGORY = #{noticeCategory}
 		</delete>
 	
 		<select id="getCommunityList" resultType="CommunityVO" parameterType="HashMap">

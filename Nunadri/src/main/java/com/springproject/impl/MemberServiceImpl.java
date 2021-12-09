@@ -17,7 +17,7 @@ import com.springproject.common.FileUtils;
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
-
+import com.springproject.vo.FileCommunityVO;
 import com.springproject.vo.HouseVO;
 
 import com.springproject.vo.MemberVO;
@@ -26,8 +26,8 @@ import com.springproject.vo.NoticeMyhouseVO;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Service
 @Transactional
+@Service
 public class MemberServiceImpl implements MemberService {
 
    private final MemberMapper memberMapper;
@@ -122,6 +122,7 @@ public class MemberServiceImpl implements MemberService {
 
 		return memberMapper.getAdminInfo(paramMap);
 	}
+  	
    
 	@Override
 	public void insertHouse(MemberVO vo) {
@@ -145,37 +146,11 @@ public class MemberServiceImpl implements MemberService {
      return memberMapper.selectMyHouseMemberCount(paging); 
   }
 	 
-
-    @Override
-    public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
-
-       Map<String, Object> paramMap = new HashMap<String, Object>();
-       paramMap.put("adminInfo", vo);
-       cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
-       paramMap.put("criteria", cri);
-
-       return memberMapper.getAdminInfo(paramMap);
-    }
-
-    @Override public int selectMyHouseMemberCount(MemberVO paging) { 
-    	return
-    memberMapper.selectMyHouseMemberCount(paging); }
-    
-
  	// 프로필 이미지 업데이트
  	@Override
-	public void updateProfile(MemberVO vo) {
- 		/*
-		 * String filePath = System.getProperty("user.dir") +
-		 * "\\src\\main\\resources\\static\\profiles";
-		 * 
-		 * File file = new File(filePath, profile.getOriginalFilename());
-		 * 
-		 * try { profile.transferTo(file); } catch (IllegalStateException | IOException
-		 * e) { // TODO Auto-generated catch block e.printStackTrace(); }
-		 */
- 		
- 		memberMapper.updateProfile(vo);
+	public void updateProfile(List<MemberVO> list) {
+ 		for(MemberVO vo : list) {
+ 			memberMapper.updateProfile(vo);
+		}
 	}
-
 }

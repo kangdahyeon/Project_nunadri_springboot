@@ -28,13 +28,13 @@
    display : flex;
    justify-content: left;
    width: 430px;
-}
+  }
      .commentStyle {
       color : hotpink;
       width: 60px;
       text-align: left;
       
-   }
+  }
      .commentNickname {
       color : coral;
       width: 70px;
@@ -46,7 +46,7 @@
 	padding: 0px;
 	text-align: left;
 	
-}
+  }
     .navbar_display {
       background-color: white;
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
@@ -221,18 +221,26 @@
     .bx-wrapper {
       margin-bottom: 0px;
     }
-   .bxslider>li{
-	height: 330px;
-	width: 540px;
+  .bxslider>li{
+    position: relative; 
+    height: 330px;
+    width: 540px;
 	}
 	.bxslider>li>img{
-		height: 100%;
-		width: 100%;
-		 box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-	    border-radius: 5px;
+    position: absolute;
+		box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+	  border-radius: 5px;
+    transform: translate(50, 50);
+    width: 100%; 
+    height: 100%;
+    object-fit: cover;
+    margin: auto;
 	}
-
-    
+  /* .imgDetail {
+        height: 340px;
+        width: 540px;
+        overflow: hidden;
+  } */
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -255,9 +263,12 @@
                 <section class="v_leftbox2">
           
                   <!-- feed photo -->
-                  <ul class="bxslider">
-			          <li  th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.communityImgUrl}}" /></li  >
-		         </ul>
+                  <div>
+                    <ul class="bxslider">
+    			            <li th:each="file:${fileList}"><img class="imgSlider" th:src="@{'/upload/'+${file.communityImgUrl}}" /></li>
+    		            </ul>
+    		          </div >
+                  <!--<button id="btnToggleOverflow" type="button">이미지 자름 토글</button>-->
 		         
                   <!-- profile START -->
                   <div class="v_profile">
@@ -276,7 +287,7 @@
                   
                  
                   <div class="edit_div2" style="right: 155px;">
- 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateCommunity/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >수정</a   >
+ 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateCommunityBoard/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >수정</a   >
                   </div>
                   <div class="delete_div2" style="right: 90px;">
                     <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteCommunity/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >삭제</a   >
@@ -437,7 +448,7 @@ function getCommentList(){
    })
 }
 
-function deleteComment(myhouseCommentNo){
+function deleteComment(communityCommentNo){
    if(confirm("댓글을 삭제하시겠습니까?")){
    $.ajax({
       type:'POST',
@@ -456,21 +467,15 @@ function deleteComment(myhouseCommentNo){
    })
       
    }
-   
 }
-
-
-</script >
-
+</script>
 
 
 
-  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="/../../js/main.js"></script>
   
   <!-- 캐러셀 구현을 위한 js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
 </body>
-
 </html>

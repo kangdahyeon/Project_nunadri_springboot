@@ -10,8 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +22,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -118,7 +118,6 @@ public class MyPageController {
 	        
 	        return "view/admin/admin_member_list";
 	 }
-
 
 	//비밀번호 변경 페이지
 	@GetMapping("/changePassword")
@@ -333,55 +332,27 @@ public class MyPageController {
 		return "/mypage";
 	}
 	
-	 @RequestMapping("/admin")
-	    public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
-	       
-	        //검색값 없을때 기본 값 설정 
-	           if(vo.getSearchCondition() == null) {
-	        	   vo.setSearchCondition("ID");
-	              }
-	              if(vo.getSearchKeyword() == null) {
-	            	  vo.setSearchKeyword("");
-	              } 
-
-	             
-	              System.out.println(memberservice.getAdminInfo(vo, cri));
-	              System.out.println(vo.getSearchCondition());
-	              System.out.println(vo.getSearchKeyword());
-	              //검색, 키워드 값(페이징 처리시 필요)
-	              condition = vo.getSearchCondition();
-	              keyword = vo.getSearchKeyword();
-	              
-	             int total = memberservice.selectMyHouseMemberCount(vo);
-	         
-	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
-	         model.addAttribute("pageMaker", new PageVO(cri, total));
-	         model.addAttribute("condition", vo.getSearchCondition());
-	           model.addAttribute("keyword", vo.getSearchKeyword());
-	           
-	           return "view/admin/admin_member_list";
-	    }
+	
 
 	@PostMapping(value="/upload/uploadForm")
-	public void uploadForm(@RequestParam("profile") MultipartFile profile, MemberVO vo) throws Exception {
+	public String uploadForm(@AuthenticationPrincipal SecurityUser user, HttpServletRequest request, 
+			MultipartHttpServletRequest profile) throws Exception {
+		MemberVO member = memberservice.getMemberInfo(user.getId());
+		FileUtils fileUtils = new FileUtils();
+		List<MemberVO> list = fileUtils.parseProfileInfo(request, profile, member.getId());
+		// 파일 저장된 위치
+		String path = request.getSession().getServletContext().getRealPath("/") + "/profile/";
+	
+		// profile이 default.png가 아니면
+		if(member.getProfile() != "default.png") {
+			File file = new File(path + "\\" + member.getProfile());
+			// 파일 삭제
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		memberservice.updateProfile(list);
 		
-		FileUtils utils = new FileUtils();
-		log.info("파일이름 {}", profile.getOriginalFilename());
-		log.info("파일크기 {}", profile.getSize());
-		log.info("컨텐트 타입 {}", profile.getContentType());
-		
-		String root_path = System.getProperty("user.dir") + "\\src\\main\\webapp\\";
-		String attach_path = "\\profile\\";
-		String imgPath = "";
-		
-		File target = new File(root_path + attach_path);
-		
-		
-		imgPath = utils.uploadFile(root_path + attach_path, profile.getOriginalFilename(), profile.getBytes());
-		log.info(imgPath);
-		vo.setProfile(imgPath.toString());
-		
-		memberservice.updateProfile(vo);
+		return "redirect:/mypage";
 	}
-
 }

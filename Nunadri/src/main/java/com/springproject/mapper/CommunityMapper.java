@@ -21,6 +21,7 @@ public interface CommunityMapper {
 		
 		//글 삭제
 		void deleteCommunitySeq(CommunityVO cvo);
+		// 댓글도 삭제
 		void deleteCommunityCommentList(CommunityVO cvo);
 		
 		//글 수정

@@ -55,7 +55,7 @@
    <delete id="deleteCommunityComment">
       DELETE FROM COMMUNITY_COMMENT
       WHERE
-      		COMMUNITY_COMMENT_NO = #{commentNo}
+      		COMMUNITY_COMMENT_NO = #{communityCommentNo}
       AND 
       		NOTICE_CATEGORY =#{noticeCategory}
       AND 

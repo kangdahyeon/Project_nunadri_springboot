@@ -44,7 +44,12 @@ public class CommunityServiceImpl implements CommunityService {
 
 	@Override
 	public void deleteCommunity(CommunityVO communityDelete) {
-		communityMapper.deleteCommunityCommentList(communityDelete);
+		communityMapper.deleteCommunitySeq(communityDelete);
+	}
+	
+	@Override
+	public void deleteCommunityCommentList(CommunityVO deleteComment) {
+		communityMapper.deleteCommunityCommentList(deleteComment);
 	}
 
 	@Override

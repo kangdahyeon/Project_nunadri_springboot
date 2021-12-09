@@ -45,6 +45,7 @@ public class CommunityCommentController {
    @PostMapping("/deleteCommunityComment")
    @ResponseBody
    public int deleteCommunityComment(CommunityCommentVO ccv) {
+	   System.out.println(ccv.getCommunityCommentNo());
 	   communityCommentService.deleteCommunityComment(ccv);
 
       return 1 ;

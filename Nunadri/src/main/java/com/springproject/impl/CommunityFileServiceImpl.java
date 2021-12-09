@@ -33,8 +33,14 @@ public class CommunityFileServiceImpl implements CommunityFileService {
 
 
 	@Override
-	public void deleteFileList(FileCommunityVO fvo) {
-		communityFileMapper.deleteFileList(fvo);
+	public void deleteCommunityFile(FileCommunityVO fvo) {
+		communityFileMapper.deleteCommunityFile(fvo);
+	}
+	
+	@Override
+	public void deleteCommunityFileAll(CommunityVO deleteAll) {
+		
+		communityFileMapper.deleteCommunityFileAll(deleteAll);
 	}
 
 }

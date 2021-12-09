@@ -11,12 +11,13 @@ public interface CommunityService {
 	void insertCommunity(CommunityVO cvo);
 	//글 수정
 	void updateCommunity(CommunityVO cvo);
-//	CommunityVO getCommunity(CommunityVO cvo);
 	
 	//글 상세조회
 	CommunityVO getCommunityDetail(CommunityVO cvo);
 	//글 삭제
 	void deleteCommunity(CommunityVO cvo);
+	// 댓글도 삭제
+	void deleteCommunityCommentList(CommunityVO deleteComment);
 	
 	//리스트조회
 	List<CommunityVO> getCommunityList(CommunityVO cvo, Criteria cri);
