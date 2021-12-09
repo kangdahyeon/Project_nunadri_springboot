@@ -194,7 +194,6 @@ public class FileUtils {
 	      return fileList;
 	   }
 
-   }
 
    //고객센터 파일
    public List<FileCustomerServiceVO> parseFileInfo(String id, int seq,

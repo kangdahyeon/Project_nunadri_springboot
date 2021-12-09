@@ -87,35 +87,6 @@ public class MyPageController {
 		return "view/member/mypage/member_modify";
 	}
 
-	 @RequestMapping("/admin")
-	 public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
-
-		  //검색값 없을때 기본 값 설정
-	        if(vo.getSearchCondition() == null) {
-	        	vo.setSearchCondition("ID");
-	           }
-	           if(vo.getSearchKeyword() == null) {
-	        	   vo.setSearchKeyword("");
-	           }
-
-	           System.out.println(memberservice.getAdminInfo(vo, cri));
-	           System.out.println(vo.getSearchCondition());
-	           System.out.println(vo.getSearchKeyword());
-	           //검색, 키워드 값(페이징 처리시 필요)
-	           condition = vo.getSearchCondition();
-	           keyword = vo.getSearchKeyword();
-
-	          int total = memberservice.selectMyHouseMemberCount(vo);
-
-			model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
-			model.addAttribute("pageMaker", new PageVO(cri, total));
-	        model.addAttribute("condition", vo.getSearchCondition());
-	        model.addAttribute("keyword", vo.getSearchKeyword());
-
-	        return "view/admin/admin_member_list";
-	 }
-
-
 	//비밀번호 변경 페이지
 	@GetMapping("/changePassword")
 	public String changePassword() {
