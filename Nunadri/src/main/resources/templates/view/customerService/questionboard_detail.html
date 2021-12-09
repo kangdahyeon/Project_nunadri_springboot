@@ -13,6 +13,8 @@
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
+  <!-- 캐러셀 구현을 위한 css -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
   <link href="/../../css/main.css" rel="stylesheet">
@@ -213,6 +215,21 @@
     #writerBtn:hover {
       background-color: rgb(218, 162, 60);
     }
+    
+     .bx-wrapper {
+      margin-bottom: 0px;
+    }
+   .bxslider>li{
+	height: 330px;
+	width: 540px;
+}
+.bxslider>li>img{
+	height: 100%;
+	width: 100%;
+	 box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+    border-radius: 5px;
+}
+
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -229,13 +246,18 @@
    		 <div class="container">
    		   <h1 class="h2">질문했어요</h1>
    		 <div id="divsize">
+            
             <!-- <div class="background"> -->
               <section class="container_view2">
+                
                 <!-- feed photo START -->
                 <section class="v_leftbox2">
+                 
                   <!-- feed photo -->
-                  <img src="https://www.popco.net/zboard/data/photo_gallery/2015/07/19/83310533755ab3b834bc6a.jpg" alt="feed-img">
-          
+                  <ul class="bxslider">
+			         <li th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.qnaImgUrl}}" /></li >
+		         </ul>
+		         
                   <!-- profile START -->
                   <div class="v_profile">
                     <p class="v_title" th:text="${getCustomerService.qnaTitle}"></p>
@@ -330,6 +352,38 @@
     });
   </script>
   
+  <!--캐러셀 기능 스크립트-->
+  <script>
+    $(document).ready(function () {
+
+      var main = $('.bxslider').bxSlider({
+
+        mode: 'fade',
+
+        auto: true, //자동으로 슬라이드 
+
+        controls: true, //좌우 화살표	
+
+        pager: true, //페이징 
+
+        pause: 3000,
+
+        autoDelay: 0,
+
+        slideWidth: 500, //이미지 박스 크기설정
+        
+
+        speed: 500,
+
+        stopAutoOnclick: true
+
+      });
+
+
+    });
+  </script>
+  
+  
     <!--댓글 기능 ajax-->
 <script th:inline="javascript">
 
@@ -393,6 +447,8 @@ function deleteComment(qnaCommentNo){
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="/../../js/main.js"></script>
+   <!-- 캐러셀 구현을 위한 js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
 </body>
 
 </html>

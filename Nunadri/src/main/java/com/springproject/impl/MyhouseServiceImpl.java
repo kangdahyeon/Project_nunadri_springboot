@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.springproject.mapper.MyhouseMapper;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
+import com.springproject.vo.MyhouseCommentVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
 import lombok.RequiredArgsConstructor;
@@ -101,11 +102,19 @@ public class MyhouseServiceImpl implements MyhouseService {
 
 
 	//소모임 보드 상세페이지
+//	@Override
+//	public NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup) {
+//		return myhouseMapper.getSmallGroupBoard(getSmallGroup);
+//	}
+
 	@Override
-	public NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup) {
-		return myhouseMapper.getSmallGroupBoard(getSmallGroup);
+	public List<NoticeMyhouseVO> getSmallGroupBoard(NoticeMyhouseVO getSmallGroup, MyhouseCommentVO commentVO) {
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("getBoard", getSmallGroup);
+		paramMap.put("getComment", commentVO);
+		return myhouseMapper.getSmallGroupBoard(paramMap);
 	}
-	
+////	
 	//소모임 참여인원 증가
 	@Override
 	public void peopleJoinIncrease(NoticeMyhouseVO peopleJoin) {
@@ -117,6 +126,16 @@ public class MyhouseServiceImpl implements MyhouseService {
 	public void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease) {
 	    myhouseMapper.peopleJoinDecrease(peopleDecrease);
 	}
+
+	//소모임
+//	@Override
+//	public int updateJoin(NoticeMyhouseVO vo) {
+//		return myhouseMapper.updateJoin(vo);
+//	}
+
+
+
+
 
 
 

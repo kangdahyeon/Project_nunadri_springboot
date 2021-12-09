@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springproject.mapper.CustomerFileMapper">
+
+<insert id="insertCustomerFileList"
+		parameterType="com.springproject.vo.FileCustomerServiceVO">
+		INSERT INTO file_customerservice
+		(
+		FILE_NO
+		, QNA_NO
+		, ID
+		, QNA_FILENAME
+		, QNA_FILE_PATH
+		, QNA_FILE_SIZE
+		, NICKNAME
+		, QNA_IMG_URL
+
+		) values (
+		(SELECT
+		IFNULL(MAX(FILE_NO), 0) + 1
+		FROM
+		file_customerservice ALIAS_FOR_SUBQUERY
+		WHERE QNA_NO = #{qnaNo})
+		, #{qnaNo}
+		, #{id}
+		, #{qnaFileName}
+		, #{qnaFilePath}
+		, #{qnaFileSize}
+		, #{nickname}
+		, #{qnaImgUrl}
+		)
+	</insert>
+  
+   <delete id="deleteCustomerFileList">
+        DELETE FROM file_customerservice
+        WHERE QNA_NO = #{qnaNo}
+        AND FILE_NO = #{fileNo}
+		AND ID = #{id}
+     </delete>
+    
+    <select id="getCustomerFileList" resultType="com.springproject.vo.FileCustomerServiceVO">
+      SELECT * FROM file_customerservice
+      WHERE QNA_NO = #{qnaNo}
+      AND ID = #{id}
+ 
+   </select>
+   
+    <!-- 글 삭제 시 파일 이미지 모두 삭제 -->
+   
+   <delete id="deleteCustomerFileAll">
+   	DELETE FROM file_customerservice
+        WHERE QNA_NO = #{qnaNo}
+   	
+ 
+   </delete>
+   
+
+</mapper>

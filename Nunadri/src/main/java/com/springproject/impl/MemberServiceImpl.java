@@ -4,16 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.springproject.common.FileUtils;
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
@@ -21,17 +14,16 @@ import com.springproject.vo.FileCommunityVO;
 import com.springproject.vo.HouseVO;
 
 import com.springproject.vo.MemberVO;
-import com.springproject.vo.NoticeMyhouseVO;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
+@Transactional
 public class MemberServiceImpl implements MemberService {
 
    private final MemberMapper memberMapper;
-   
+
 
    //회원가입
    @Override
@@ -47,11 +39,11 @@ public class MemberServiceImpl implements MemberService {
    public void updateMember(MemberVO vo) {
       memberMapper.updateMember(vo);
    }
-   
+
    @Override
-   public void deleteMember(String id) {	 
+   public void deleteMember(String id) {
       memberMapper.deleteMember(id);
-   }      
+   }
 
    @Override
    public MemberVO findId(String id) {
@@ -64,15 +56,15 @@ public class MemberServiceImpl implements MemberService {
       MemberVO m = memberMapper.findEmail(email);
       return m;
    }
-   
+
    @Override
    public MemberVO findNickname(String nickname) {
 	   MemberVO m = memberMapper.findNickname(nickname);
 	      return m;
    }
 
-   
-   
+
+
       @Override
       public void updatePwd(MemberVO vo) {
          memberMapper.updatePwd(vo);
@@ -95,7 +87,7 @@ public class MemberServiceImpl implements MemberService {
          throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
       }
    }
-   
+
    //중복된 회원 검사(아이디)
       public void validateDuplicateId(MemberVO member) {
          MemberVO findMember = memberMapper.findId(member.getId());
@@ -108,10 +100,10 @@ public class MemberServiceImpl implements MemberService {
    //유저 정보 조회
    @Override
    public MemberVO getMemberInfo(String id) {
-      MemberVO member = memberMapper.getMemberInfo(id); 
+      MemberVO member = memberMapper.getMemberInfo(id);
       return member;
    }
-  
+
   	@Override
 	public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
 
@@ -122,8 +114,8 @@ public class MemberServiceImpl implements MemberService {
 
 		return memberMapper.getAdminInfo(paramMap);
 	}
-  	
-   
+
+
 	@Override
 	public void insertHouse(MemberVO vo) {
 		memberMapper.insertHouse(vo);
@@ -140,12 +132,14 @@ public class MemberServiceImpl implements MemberService {
 		}
 	}
 
-	
-	 @Override 
+
+	 @Override
   public int selectMyHouseMemberCount(MemberVO paging) {
-     return memberMapper.selectMyHouseMemberCount(paging); 
+     return memberMapper.selectMyHouseMemberCount(paging);
   }
-	 
+
+
+
  	// 프로필 이미지 업데이트
  	@Override
 	public void updateProfile(List<MemberVO> list) {

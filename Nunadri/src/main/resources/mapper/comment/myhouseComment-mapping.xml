@@ -41,7 +41,7 @@
    </insert>
 
    <select id="getMyhouseComment" resultType="com.springproject.vo.MyhouseCommentVO"> 
-      SELECT * FROM MYHOUSE_COMMENT 
+      SELECT * FROM MYHOUSE_COMMENT
       WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
       AND MYHOUSE_NO = #{myhouseNo}
       AND HOUSE_NO = #{houseNo}
