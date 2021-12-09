@@ -272,24 +272,38 @@
                     <!-- feed creator nickname -->
                     <a href="" class="v_nickname2" th:text="${getBoard.nickname}">닉네임</a>
                     <!-- feed contents -->
-                    <div class="contents">
+                    <div class="contents">-
                       <p th:text="${getBoard.myhouseContent}"></p >
                     </div>
                   </div>
                   <!-- profile END -->
                   
                   
-                  
-                  
-                 
+  
+             
                <div class="edit_div2" style="right: 220px;">
                  <form action="/peopleJoin" method="post">  
              <input type="hidden" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" name="myhouseNo" th:value="${getBoard.myhouseNo}">
             <input type="hidden" name="myhouseCategory" value="s">
-               <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin}">
+	             <tr th:each="getComment, status: ${getComment}">
+	               <input type="hidden" name="" th:value="${getComment.smallGroupJoin}">
+	               <input type="hidden" name="" th:value="${getComment.myhouseComment}">
+	               <input type="hidden" name="" th:value="${getComment.myhouseCommentNo}">
+	               <input type="hidden" name="" th:value="${getComment.nickname}">
+	               <input type="hidden" name="" th:value="${getBoard.nickname}">
+              <!-- <th:block  data-th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin}">	 
              		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석하기</button >
-               </span>	  
+               </th:block >
+               <th:block  data-th:unless="${getBoard.peopleMax}!=${getBoard.peopleJoin}">뭐 없다
+               </th:block >-->
+               
+               <!--<span th:if="${getComment.smallGroupJoin !='O' and getComment.nickname != nickname}">-->
+               <!--<span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin} and ${getBoard.nickname}!=${getComment.nickname}">-->
+               <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin} and ${getBoard.nickname}==${getComment.nickname}">
+             		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석하기</button >
+               		</span >
+	             </tr>
                </div>
              </form>
               <form action="/deletePeopleJoin" method="post">  
@@ -301,6 +315,7 @@
                	<span th:if="${getBoard.peopleJoin} != 1">
              		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석취소</button>
                	<spna>	
+               
                </div>
                </form>
                <div class="edit_div2" style="right: 155px;">
@@ -329,16 +344,19 @@
                   <!-- comment END -->
           
           
-          
                   <!-- commenting START -->
                   <section class="commentingbox">
+              
+                  
           
           <form action="/smallGroupComment" method="post">
-          <input type="hidden" name="nickname" th:value="${nickname}">
-            <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
-            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
-            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
-    <!--        <input type="hidden" id="smallGroupJoin" name="smallGroupJoin" th:value="${smallComment.smallGroupJoin}">-->
+          <input type="" name="nickname" th:value="${nickname}">
+            <input type="" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
+            <input type="" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
+            <input type="" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
+            <!--<input type="" id="myhouseCommentNo" name="myhouseCommentNo" th:value="${getComment.myhouseCommentNo}">-->
+           
+           
                     <!-- commenting form START -->
                     <form method="post" enctype="multipart/form-data">
                       <div class="commentingline">

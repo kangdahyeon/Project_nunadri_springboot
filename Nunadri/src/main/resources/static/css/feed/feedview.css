@@ -17,7 +17,7 @@ button:hover, input:hover, a:hover {
 	cursor: pointer;
 }
 .background {
-	height: 700px;
+	height: 900px;
 	/* background-color:#f8f8f8; */
 	background-color: gray;
 }
@@ -69,6 +69,13 @@ button:hover, input:hover, a:hover {
 	padding-left: 10%;
 	top: 30px;
 }
+.v_like {
+	font-weight: bold;
+	color: black;
+	position: absolute;
+	padding-left: 10%;
+}
+
 
 /* feed photo */
 .v_leftbox {
@@ -145,10 +152,10 @@ button:hover, input:hover, a:hover {
 }
 .v_profile > .v_nickname2 {
 	position: absolute;
-	padding-left: 30%;
+	padding-left: 80%;
 	top: 30px;
 	padding-right: 10px;
-	font-weight: 600;
+	color: coral;
 }
 
 .edit_div {

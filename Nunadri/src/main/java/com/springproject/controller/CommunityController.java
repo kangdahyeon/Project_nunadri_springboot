@@ -23,6 +23,7 @@ import com.springproject.service.MemberService;
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.FileCommunityVO;
+import com.springproject.vo.LikeVO;
 import com.springproject.vo.MemberVO;
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
@@ -52,6 +53,11 @@ public class CommunityController {
 		return "view/community/community_insert";
 	}
 	
+	@GetMapping("/insertFeed")
+	public String insertFeed() {
+		return "view/community/feed/feed_insert";
+	}
+	
 	// 게시글 등록
 	@PostMapping(value="/insertCommunity")
 	public String insertCommunity(CommunityVO communityInsert, 
@@ -79,7 +85,7 @@ public class CommunityController {
 	// 게시물 리스트
 	@RequestMapping("/commu/{category}")
 	public String communityMain(@AuthenticationPrincipal SecurityUser user,
-			@PathVariable("category")String category, CommunityVO communityList, Model model, Criteria cri) {
+			@PathVariable("category")String category, CommunityVO communityList, Model model, Criteria cri, LikeVO like) {
 		
 		MemberVO member = memberService.getMemberInfo(user.getId());
 		model.addAttribute("memberInfo", member);
@@ -97,12 +103,21 @@ public class CommunityController {
         keyword = communityList.getSearchKeyword();
         
         int total = communityService.selectCommunityCount(communityList);
-		
+        
 		model.addAttribute("category", category);
 		model.addAttribute("communityList", communityService.getCommunityList(communityList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
 		model.addAttribute("condition",communityList.getSearchCondition());
 		model.addAttribute("keyword",communityList.getSearchKeyword());
+		
+		
+		if(category.equals("B")) {
+			
+			model.addAttribute("imgFileList", communityFileService.getCommunityImgList(communityList));
+			System.out.println(communityFileService.getCommunityImgList(communityList)+"11111111111111111111111111111111");
+			return "view/community/feed/feed_list";
+			
+		}
 		
 		return "view/community/communityList";
 	}
@@ -140,6 +155,14 @@ public class CommunityController {
 
 		model.addAttribute("updateCommunity", communityService.getCommunityDetail(cvo));
 		model.addAttribute("fileList", communityFileService.getCommunityFileList(cvo));
+		
+		if(cvo.getNoticeCategory().equals("B")) {
+			System.out.println(cvo.getNoticeCategory());
+			
+			return "view/community/feed/feed_update";
+			
+		}
+		
 		return "view/community/community_update";
 	}
 	
@@ -177,6 +200,16 @@ public class CommunityController {
 		model.addAttribute("getCommunityDetail", communityService.getCommunityDetail(cvo));
 		model.addAttribute("fileList", communityFileService.getCommunityFileList(cvo));
 		System.out.println("파일테스트-----"+communityFileService.getCommunityFileList(cvo));
+		
+		System.out.println(cvo.getNoticeCategory());
+		if(cvo.getNoticeCategory().equals("B")) {
+			System.out.println(cvo.getNoticeCategory());
+			
+			return "view/community/feed/feed_detail";
+			
+		}
+		
+		
 		return "view/community/community_boarder_detail";
 	}
 	

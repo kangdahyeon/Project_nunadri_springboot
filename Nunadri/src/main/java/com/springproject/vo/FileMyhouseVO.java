@@ -22,6 +22,5 @@ public class FileMyhouseVO {
    private long myhouseFileSize;
    
    private String nickname;
-   
   
 }

@@ -30,6 +30,11 @@ public class CommunityFileServiceImpl implements CommunityFileService {
 	public List<FileCommunityVO> getCommunityFileList(CommunityVO cvo) {
 		return communityFileMapper.getCommunityFileList(cvo);
 	}
+	
+	@Override
+	public List<FileCommunityVO> getCommunityImgList(CommunityVO cvo) {
+		return communityFileMapper.getCommunityImgList(cvo);
+	}
 
 
 	@Override

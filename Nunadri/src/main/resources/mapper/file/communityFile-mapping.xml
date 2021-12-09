@@ -40,6 +40,12 @@
 				NOTICE_CATEGORY = #{noticeCategory}
 		</select>
 		
+		<select id="getCommunityImgList" resultType="FileCommunityVO">
+			SELECT * FROM FILE_COMMUNITY
+			WHERE 
+				NOTICE_CATEGORY = #{noticeCategory}
+		</select>
+		
 		<!-- 파일만 삭제 -->
 		<delete id="deleteFile">
 			DELETE FROM FILE_COMMUNITY

@@ -15,5 +15,7 @@ public interface CommunityFileMapper {
 		
 		List<FileCommunityVO> getCommunityFileList(CommunityVO cvo);
 		
+		List<FileCommunityVO> getCommunityImgList(CommunityVO cvo);
+		
 		void deleteFileList(FileCommunityVO fvo);
 }

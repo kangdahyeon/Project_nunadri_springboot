@@ -44,13 +44,16 @@ public interface MyhouseMapper {
 	int getMyhouseNo(NoticeMyhouseVO getSeq);
 
 	//소모임 보드 상세페이지
-	NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup);
-//	NoticeMyhouseVO getSmallGroupBoard(Map<String,Object> map);
+//	NoticeMyhouseVO getSmallGroupBoard(NoticeMyhouseVO getSmallGroup);
+	List<NoticeMyhouseVO> getSmallGroupBoard(Map<String,Object> map);
 	
 	//소모임 참여인원 증가
 	void peopleJoinIncrease(NoticeMyhouseVO peopleJoin);
 	
 	//소모임 참여인원 감소
 	void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease);
+	
+	//소모임 업데이트시 숫자값 받아오기
+//	int updateJoin(NoticeMyhouseVO vo);
 	
 }

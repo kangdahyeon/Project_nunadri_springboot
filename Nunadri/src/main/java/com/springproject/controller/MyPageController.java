@@ -2,15 +2,11 @@ package com.springproject.controller;
 
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-
 
 import javax.servlet.http.HttpSession;
 
@@ -26,30 +22,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springproject.common.FileUtils;
 import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.service.MemberService;
 import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
-
-import com.springproject.vo.NoticeMyhouseVO;
-
-import com.springproject.common.FileUtils;
-import com.springproject.impl.UserDetailsServiceImpl;
-import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
-
+import com.springproject.vo.NoticeMyhouseVO;
 import com.springproject.vo.PageVO;
 import com.springproject.vo.SecurityUser;
 
@@ -90,7 +78,7 @@ public class MyPageController {
 		model.addAttribute("memberInfo", member);
 		return "view/member/mypage/member_modify";
 	}
-	
+
 
 	//비밀번호 변경 페이지
 	@GetMapping("/changePassword")
@@ -291,6 +279,7 @@ public class MyPageController {
 	              keyword = vo.getSearchKeyword();
 	              
 	             int total = memberservice.selectMyHouseMemberCount(vo);
+	             
 	         
 	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
 	         model.addAttribute("pageMaker", new PageVO(cri, total));
