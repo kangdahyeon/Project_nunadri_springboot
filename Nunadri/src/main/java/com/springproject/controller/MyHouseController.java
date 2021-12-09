@@ -99,7 +99,6 @@ public class MyHouseController {
         
         
         if(category.equals("m")) {
-        	model.addAttribute("imgFileList", myhouseFileService.getMyhouseFileList(boardList));
         	System.out.println(myhouseFileService.getMyhouseFileList(boardList));
         	return "view/myhome/fleamarket/fleamarket_list";
         }

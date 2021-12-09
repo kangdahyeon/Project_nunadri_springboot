@@ -124,38 +124,6 @@
 		UPDATE MEMBER SET ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail}, 
 		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email}, PROFILE=#{profile} WHERE ID = #{id}
 	</update>
-	
-
-	<select id="getAdminInfo" resultType="com.springproject.vo.MemberVO" parameterType="HashMap">
-      SELECT * FROM MEMBER
-      WHERE 1=1
-      <if test="adminInfo.searchCondition == 'ADDRESS'"> 
-            AND ADDRESS LIKE CONCAT('%', #{adminInfo.searchKeyword}, '%')
-          </if> 
-         <if test="adminInfo.searchCondition == 'ID'">
-            AND ID LIKE CONCAT('%', #{adminInfo.searchKeyword}, '%')
-         </if> 
-         <if test="adminInfo.searchCondition == 'NICKNAME'">
-            AND NICKNAME LIKE CONCAT('%', #{adminInfo.searchKeyword}, '%')
-         </if>
-           
-        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
-   </select>
-   
-         <!-- 페이징 카운트 쿼리문 -->
-     <select id="selectMyHouseMemberCount" resultType="int">
-      SELECT COUNT(*) FROM MEMBER
-      WHERE 1=1
-      <if test="searchCondition == 'ADDRESS'">
-               AND ADDRESS LIKE CONCAT('%', #{searchKeyword}, '%')
-            </if>  
-            <if test="searchCondition == 'ID'">
-               AND ID LIKE CONCAT('%', #{searchKeyword}, '%')
-            </if>
-            <if test="searchCondition == 'NICKNAME'">
-                  AND NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
-               </if>
-      </select>
 
 	<!-- 프로필 업로드용 -->
 	<update id ="updateProfile" parameterType="com.springproject.vo.MemberVO">

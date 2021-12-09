@@ -145,21 +145,6 @@ public class MemberServiceImpl implements MemberService {
      return memberMapper.selectMyHouseMemberCount(paging); 
   }
 	 
-
-    @Override
-    public List<MemberVO> getAdminInfo(MemberVO vo, Criteria cri) {
-
-       Map<String, Object> paramMap = new HashMap<String, Object>();
-       paramMap.put("adminInfo", vo);
-       cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
-       paramMap.put("criteria", cri);
-
-       return memberMapper.getAdminInfo(paramMap);
-    }
-
-    @Override public int selectMyHouseMemberCount(MemberVO paging) { 
-    	return
-    memberMapper.selectMyHouseMemberCount(paging); }
     
 
  	// 프로필 이미지 업데이트
