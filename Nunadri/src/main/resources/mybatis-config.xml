@@ -11,5 +11,6 @@
 		<typeAlias alias="CommunityVO" type="com.springproject.vo.CommunityVO"/>
 		<typeAlias alias="FileCommunityVO" type="com.springproject.vo.FileCommunityVO"/>
 		<typeAlias alias="CommunityCommentVO" type="com.springproject.vo.CommunityCommentVO"/>
+		<typeAlias alias="LikeVO" type="com.springproject.vo.LikeVO"/>
 	</typeAliases>
 </configuration>

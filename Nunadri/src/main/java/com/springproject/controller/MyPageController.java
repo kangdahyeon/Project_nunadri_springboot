@@ -94,131 +94,125 @@ public class MyPageController {
 	}
 
 	//게시판(공지사항, 도와주세요, 자유게시판) 목록
-		@GetMapping("/myhouseBoard/{category}")  //
-		public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
-				@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
+	@GetMapping("/myhouseBoard/{category}")  //
+	public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
+			@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
 
-			System.out.println("================================================================");
-			myhouseBoardList.setMyhouseCategory(category);
-			//
-			myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+		System.out.println("================================================================");
+		myhouseBoardList.setMyhouseCategory(category);
+		//
+		myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
 
-			myhouseBoardList.setNickname(user.getNickname());
+		myhouseBoardList.setNickname(user.getNickname());
 
-			  //검색값 없을때 기본 값 설정
-	        if(myhouseBoardList.getSearchCondition() == null) {
-	        	myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
-	           }
-	           if(myhouseBoardList.getSearchKeyword() == null) {
-	        	   myhouseBoardList.setSearchKeyword("");
-	           }
-
-	           //검색, 키워드 값(페이징 처리시 필요)
-	           condition = myhouseBoardList.getSearchCondition();
-	           keyword = myhouseBoardList.getSearchKeyword();
-
-	           int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
-
-	           System.out.println(category);
-			model.addAttribute("category", category);
-			model.addAttribute("paramList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
-			model.addAttribute("pageMaker", new PageVO(cri, total));
-	        model.addAttribute("condition", myhouseBoardList.getSearchCondition());
-	        model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
-
-	        System.out.println(category);
-	        System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri)+"1111111111111111111111111111111111");
-	        return "view/member/mypage/member_myhouse_boarder_list";
+		//검색값 없을때 기본 값 설정
+		if(myhouseBoardList.getSearchCondition() == null) {
+			myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
+		}
+		if(myhouseBoardList.getSearchKeyword() == null) {
+			myhouseBoardList.setSearchKeyword("");
 		}
 
+		//검색, 키워드 값(페이징 처리시 필요)
+		condition = myhouseBoardList.getSearchCondition();
+		keyword = myhouseBoardList.getSearchKeyword();
 
-		@RequestMapping(value="/myhouseBoard/{category}")  //
-		@ResponseBody
-		public String noticeBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
-				@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
+		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
 
-		      ObjectMapper mapper = new ObjectMapper();
-		      HashMap<String, Object> hashMap = new HashMap<String, Object>();
+		System.out.println(category);
+		model.addAttribute("category", category);
+		model.addAttribute("paramList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+		model.addAttribute("pageMaker", new PageVO(cri, total));
+		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
+		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
 
-
-			myhouseBoardList.setMyhouseCategory(category);
-			//
-			myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
-
-			myhouseBoardList.setNickname(user.getNickname());
-
-			  //검색값 없을때 기본 값 설정
-	        if(myhouseBoardList.getSearchCondition() == null) {
-	        	myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
-	           }
-	           if(myhouseBoardList.getSearchKeyword() == null) {
-	        	   myhouseBoardList.setSearchKeyword("");
-	           }
-
-	           //검색, 키워드 값(페이징 처리시 필요)
-	           condition = myhouseBoardList.getSearchCondition();
-	           keyword = myhouseBoardList.getSearchKeyword();
-
-	           int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
-
-	           System.out.println(category);
- 			model.addAttribute("category", category);
-			model.addAttribute("boardList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
-			model.addAttribute("pageMaker", new PageVO(cri, total));
-	        model.addAttribute("condition", myhouseBoardList.getSearchCondition());
-	        model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
-	       System.out.println("post");
-	        System.out.println(category);
-	        System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
-
-	        List<NoticeMyhouseVO> paramList = myhouseService.memberMyhouseBoardList(myhouseBoardList, cri);
-	         hashMap.put("paramList", paramList);
-	         String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
-	         System.out.println("json String==================" + json);
+		System.out.println(category);
+		System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri)+"1111111111111111111111111111111111");
+		return "view/member/mypage/member_myhouse_boarder_list";
+	}
 
 
-	        return json;
+	@RequestMapping(value="/myhouseBoard/{category}")  //
+	@ResponseBody
+	public String noticeBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
+			@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
+
+		ObjectMapper mapper = new ObjectMapper();
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+
+
+		myhouseBoardList.setMyhouseCategory(category);
+		//
+		myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+
+		myhouseBoardList.setNickname(user.getNickname());
+
+		//검색값 없을때 기본 값 설정
+		if(myhouseBoardList.getSearchCondition() == null) {
+			myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
 		}
+		if(myhouseBoardList.getSearchKeyword() == null) {
+			myhouseBoardList.setSearchKeyword("");
+		}
+
+		//검색, 키워드 값(페이징 처리시 필요)
+		condition = myhouseBoardList.getSearchCondition();
+		keyword = myhouseBoardList.getSearchKeyword();
+
+		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
+
+		System.out.println(category);
+		model.addAttribute("category", category);
+		model.addAttribute("boardList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+		model.addAttribute("pageMaker", new PageVO(cri, total));
+		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
+		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
+		System.out.println("post");
+		System.out.println(category);
+		System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+
+		List<NoticeMyhouseVO> paramList = myhouseService.memberMyhouseBoardList(myhouseBoardList, cri);
+		hashMap.put("paramList", paramList);
+		String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
+		System.out.println("json String==================" + json);
+
+
+		return json;
+	}
 
 
 
 	//회원정보 수정
-	@PostMapping("/update")
+	//회원정보 수정
+	@PostMapping(value="/update")
 	@ResponseBody
 	public String updateMember(@AuthenticationPrincipal SecurityUser user, MemberVO vo, HttpSession session
-						) throws IOException {
-
-		//		System.out.println("vo.getEmail() : " +  vo.getEmail());
-		//		System.out.println( " memberservice.findId(user.getId()).getEmail() : " + memberservice.findId(user.getId()).getEmail());
-		//		System.out.println("=================================================");
-		//		System.out.println( "vo.getNickname() : " + vo.getNickname());
-		//		System.out.println("user.getNickname() : " +user.getNickname());
-
-//		System.out.println(vo.toString());
+			) {
 
 
-			if(memberservice.findEmail(vo.getEmail()) != null && !vo.getEmail().equals(memberservice.findId(user.getId()).getEmail())) {
-				throw new IllegalStateException("이미 가입된 이메일입니다.");
-			}else if(memberservice.findNickname(vo.getNickname()) != null && !vo.getNickname().equals(user.getNickname())) {
 
-				throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
-			}else {
-//				vo.setProfile(profile.toString());
-//				memberservice.updateMember(vo, profile);
-				System.out.println("정보 업데이트");
-				// user에 직접 들어갈 수 있도록 여기서 데이터 입력해줌
-				UserDetails userDetails = UserDetailsServiceImpl.loadUserByUsername(vo.getId());
+		if(memberservice.findEmail(vo.getEmail()) != null && !vo.getEmail().equals(memberservice.findId(user.getId()).getEmail())) {
+			throw new IllegalStateException("이미 가입된 이메일입니다.");
+		}else if(memberservice.findNickname(vo.getNickname()) != null && !vo.getNickname().equals(user.getNickname())) {
 
-				//세션 등록
-				Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-				SecurityContext securityContext = SecurityContextHolder.getContext();
-				securityContext.setAuthentication(authentication);
+			throw new IllegalStateException("이미 사용 중인 닉네임입니다.");
+		}else {
+			//회원 정보 업데이트
+			memberservice.updateMember(vo);
 
-				session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+			// user에 직접 들어갈 수 있도록 여기서 데이터 입력해줌
+			UserDetails userDetails = UserDetailsServiceImpl.loadUserByUsername(vo.getId());
+
+			//세션 등록
+			Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+			SecurityContext securityContext = SecurityContextHolder.getContext();
+			securityContext.setAuthentication(authentication);
+
+			session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
 
 
-				return "/mypage";
-			}
+			return "/mypage";
+		}
 
 	}
 
@@ -266,34 +260,34 @@ public class MyPageController {
 		return "/mypage";
 	}
 
-	 @RequestMapping("/admin")
-	    public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
+	@RequestMapping("/admin")
+	public String admin(@AuthenticationPrincipal SecurityUser user,Model model, MemberVO vo, Criteria cri) {
 
-	        //검색값 없을때 기본 값 설정
-	           if(vo.getSearchCondition() == null) {
-	        	   vo.setSearchCondition("ID");
-	              }
-	              if(vo.getSearchKeyword() == null) {
-	            	  vo.setSearchKeyword("");
-	              }
+		//검색값 없을때 기본 값 설정
+		if(vo.getSearchCondition() == null) {
+			vo.setSearchCondition("ID");
+		}
+		if(vo.getSearchKeyword() == null) {
+			vo.setSearchKeyword("");
+		}
 
 
-	              System.out.println(memberservice.getAdminInfo(vo, cri));
-	              System.out.println(vo.getSearchCondition());
-	              System.out.println(vo.getSearchKeyword());
-	              //검색, 키워드 값(페이징 처리시 필요)
-	              condition = vo.getSearchCondition();
-	              keyword = vo.getSearchKeyword();
+		System.out.println(memberservice.getAdminInfo(vo, cri));
+		System.out.println(vo.getSearchCondition());
+		System.out.println(vo.getSearchKeyword());
+		//검색, 키워드 값(페이징 처리시 필요)
+		condition = vo.getSearchCondition();
+		keyword = vo.getSearchKeyword();
 
-	             int total = memberservice.selectMyHouseMemberCount(vo);
+		int total = memberservice.selectMyHouseMemberCount(vo);
 
-	         model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
-	         model.addAttribute("pageMaker", new PageVO(cri, total));
-	         model.addAttribute("condition", vo.getSearchCondition());
-	           model.addAttribute("keyword", vo.getSearchKeyword());
+		model.addAttribute("adminInfo", memberservice.getAdminInfo(vo, cri));
+		model.addAttribute("pageMaker", new PageVO(cri, total));
+		model.addAttribute("condition", vo.getSearchCondition());
+		model.addAttribute("keyword", vo.getSearchKeyword());
 
-	           return "view/admin/admin_member_list";
-	    }
+		return "view/admin/admin_member_list";
+	}
 
 	@PostMapping(value="/upload/uploadForm")
 	public String uploadForm(@AuthenticationPrincipal SecurityUser user, HttpServletRequest request,

@@ -146,7 +146,8 @@
             </if>
       </select> 
       
-<!--       <update id="likeCheck" parameterType="LikeVO">
+
+<update id="likeCheck" parameterType="LikeVO">
     UPDATE like
     SET LIKE_NO = LIKE_NO + 1 
     AND LIKE_HIT = LIKE_HIT + 1
@@ -164,6 +165,6 @@
     AND NOTICE_NO=#{noticeNo}
     AND LIKE_NO= 1
     AND NICKNAME=#{nickname}
-  </update> -->
+  </update>
 
 </mapper>
