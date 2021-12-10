@@ -52,7 +52,7 @@
                   <th:each>
                      <option value="MYHOUSE_TITLE">제목
                      <option value="MYHOUSE_CONTENT">내용
-                     <option value="NICKNAME">작성자
+                     <option value="NICKNAME">호스트
                   </th:each>
             </select> 
               <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
@@ -63,10 +63,10 @@
               <tr>
                 <th id="table_width_no">No</th>
                 <th id="table_text">모임</th>
-                <th id="table_width_writer">주최자</th>
+                <th id="table_width_writer">호스트</th>
                 <th id="table_width_date">날짜</th>
                 <th id="table_width_hit">조회수</th>
-                <th id="table_width_hit">참여/최대</th>
+                <th id="table_width_writer">참여/최대</th>
               </tr>
               <tr  th:each="board, status: ${boardList}">
                 <td th:text="${board.myhouseNo}"></td >
@@ -124,6 +124,7 @@
           </form>
           <!--글쓰기 버튼-->
           <div class="div_right">
+            <a href="/myhome" class="btn btn-default" id="writerBtn" style="right: 22%;">뒤로가기</a>
             <a href="/smallGroupInsert" class="btn btn-default" id="writerBtn">글쓰기</a>
           </div>
         </div>

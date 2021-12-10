@@ -66,7 +66,16 @@
       AND SMALL_GROUP_JOIN = "O"
       AND NICKNAME = #{nickname}
    </delete>
-     
-     
+   
+    <!-- 소모임 -->
+      <select id="updateJoin" resultType="int"> 
+      SELECT COUNT(*) FROM MYHOUSE_COMMENT
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+      AND NICKNAME = #{nickname}
+      <!-- AND MYHOUSE_COMMENT_NO = #{myhouseCommentNo}  -->
+      AND SMALL_GROUP_JOIN = "O"
+      </select>
      
 </mapper>
