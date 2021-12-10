@@ -22,5 +22,7 @@ public interface MyhouseCommentMapper {
    //소모임 댓글 삭제
    void deleteSmallGroupComment(MyhouseCommentVO smallGroupCommentDelete);
    
+   //소모임 참여인원 중복방지
+   int updateJoin(MyhouseCommentVO vo);
 
 }

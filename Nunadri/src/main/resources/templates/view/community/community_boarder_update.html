@@ -641,7 +641,14 @@
       transition: all 300ms ease-in-out;
     }
     
-   
+    /*파일 이름 뜨게 하는 input박스 설정*/
+   .uploadFileText {
+			background-color: transparent;
+			border-style: none;
+			width: 400px;
+			margin-left: 10px;
+			font-size: small;
+	}
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -670,13 +677,18 @@
                   <div class="form-group">
                     <textarea class="form-control" rows="11" name="noticeContent" th:text="${updateCommunity.noticeContent}" placeholder="내용을 입력해주세요" required></textarea>
                       <div class="input-group">
-                          <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" style="display: none;">
-                            <a class="btn btn-default" id="button_color" onclick="document.all.uploadFiles.click();"><i class="far fa-image"></i></a>
-                            <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
+                          <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" style="display: none;" 
+                          onchange="javascript:document.getElementById('fileName').value = this.value.split('\\')[this.value.split('\\').length-1]">
+                            <a class="btn btn-default" id="button_color"
+                             onclick="document.all.uploadFiles.click();">
+                             &nbsp<i class="far fa-image">&nbsp</i>
+                            </a>
+                            <!--파일 이름 뜨는곳-->
+                            <input type="text" id="fileName" readonly="readonly" class="uploadFileText">
                       </div>
                   </div>
               
-              
+
               
               
               <!--이미지 삭제 기능-->
@@ -748,6 +760,7 @@
           }
         });
     </script>
+    	
   <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="/../../js/main.js"></script>

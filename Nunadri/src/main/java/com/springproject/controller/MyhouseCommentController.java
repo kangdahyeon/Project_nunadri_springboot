@@ -65,7 +65,7 @@ public class MyhouseCommentController {
 
    }
    
-   //소모임 삭제 기능
+   //소모임 참여 인원 댓글 삭제 기능
    @PostMapping("/smallGroupCommentDelete")
    public String deletesmallGroupComment(MyhouseCommentVO deleteSmallGroupComment) {
 	   System.out.println(deleteSmallGroupComment.getMyhouseCommentNo());

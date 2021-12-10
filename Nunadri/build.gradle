@@ -54,6 +54,9 @@ dependencies {
 	// 파일업로드용
 	implementation 'commons-io:commons-io:2.11.0'
 	implementation 'commons-fileupload:commons-fileupload:1.4'
+	
+	//webSocket
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 
   
 }

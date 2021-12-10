@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
+import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class CommunityCommentController {
@@ -25,7 +27,10 @@ public class CommunityCommentController {
    @ResponseBody
    @GetMapping("/getCommunityComment")
    public List<CommunityCommentVO> getCommunityComment(CommunityCommentVO ccv) {
-     
+	   MemberVO vo = new MemberVO();
+	   vo.setNickname(ccv.getNickname());
+	   communityCommentService.getProfile(vo);
+     log.info("프로파일확인하기{}",  communityCommentService.getProfile(vo));
       return communityCommentService.getCommunityComment(ccv);
    }
    

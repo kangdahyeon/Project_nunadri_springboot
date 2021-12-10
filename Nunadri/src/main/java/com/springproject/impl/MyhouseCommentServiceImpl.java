@@ -39,8 +39,15 @@ public class MyhouseCommentServiceImpl implements MyhouseCommentService {
 	  myhouseCommentMapper.deleteSmallGroupComment(smallGroupCommentDelete);
    }
 
-
-
-
+   //소모임 참여인원 중복방지
+   @Override
+   public int updateJoin(MyhouseCommentVO vo) {
+	   if(myhouseCommentMapper.updateJoin(vo) == 0) {
+		   return 0;
+	   }else {
+		   return myhouseCommentMapper.updateJoin(vo);
+	   }
+	   
+   }
 
 }

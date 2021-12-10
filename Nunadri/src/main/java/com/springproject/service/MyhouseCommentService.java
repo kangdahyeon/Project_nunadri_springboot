@@ -16,6 +16,7 @@ void insertMyhouseComment(MyhouseCommentVO commentInsert);
    //소모임 댓글 삭제
    void deleteSmallGroupComment(MyhouseCommentVO smallGroupCommentDelete);
    
-
+   //소모임 업데이트시 숫자값 받아오기
+   int updateJoin(MyhouseCommentVO vo);
 
 }

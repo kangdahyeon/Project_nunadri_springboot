@@ -172,7 +172,6 @@ public class CommunityController {
 
 		//파일삭제를 위한 객체
 		FileCommunityVO fvo = new FileCommunityVO();
-
 		if(arr != null) {
 			fvo.setNoticeCategory(cvo.getNoticeCategory());
 			fvo.setNoticeNo(cvo.getNoticeNo());
