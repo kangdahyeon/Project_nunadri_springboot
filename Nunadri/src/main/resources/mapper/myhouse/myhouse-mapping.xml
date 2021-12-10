@@ -63,7 +63,7 @@
          <if test="boardList.searchCondition == 'NICKNAME'">
             AND NICKNAME LIKE CONCAT('%', #{boardList.searchKeyword}, '%')
          </if>
-           
+       
         ORDER BY MYHOUSE_NO DESC
         LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
 		
@@ -104,6 +104,7 @@
             <if test="searchCondition == 'NICKNAME'">
                   AND NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
                </if>
+          
       </select> 
 		
 		
@@ -155,7 +156,12 @@
      
     <update id="updateMyhouseBoard" parameterType="com.springproject.vo.NoticeMyhouseVO">
    
-      UPDATE Notice_Myhouse SET MYHOUSE_TITLE = #{myhouseTitle}, MYHOUSE_CONTENT = #{myhouseContent}, MYHOUSE_REGDATE = NOW()
+      UPDATE Notice_Myhouse SET MYHOUSE_TITLE = #{myhouseTitle} 
+      							,MYHOUSE_CONTENT = #{myhouseContent} 
+      							,MYHOUSE_REGDATE = NOW()
+      							,MYHOUSE_DATE = #{myhouseDate}
+      							,MYHOUSE_TIME = #{myhouseTime}
+      							,PEOPLE_MAX = #{peopleMax}
       WHERE myhouse_no = #{myhouseNo}
         AND MYHOUSE_CATEGORY = #{myhouseCategory} AND HOUSE_NO = #{houseNo}
    </update>
@@ -205,43 +211,7 @@
 		AND
 		MYHOUSE_CATEGORY = #{myhouseCategory}
 	</select>	
-	
-	
-	<!--소모임 상세 
-	<select id="getSmallGroupBoard" resultType="com.springproject.vo.NoticeMyhouseVO">
-     	SELECT * FROM NOTICE_MYHOUSE
-		WHERE MYHOUSE_NO = #{myhouseNo} 
-		AND MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND HOUSE_NO = #{houseNo}
-	</select> -->
-	
- 	 <!--  WHERE notice_myhouse.MYHOUSE_NO = #{myhouseNo} = myhouse_comment.MYHOUSE_NO
-		AND notice_myhouse.MYHOUSE_CATEGORY = 's' = myhouse_comment.MYHOUSE_CATEGORY
-		AND notice_myhouse.HOUSE_NO =  #{houseNo} = myhouse_comment.HOUSE_NO  -->
-     	
-     	<!-- SELECT * FROM notice_myhouse , myhouse_comment
-		WHERE notice_myhouse.MYHOUSE_NO = myhouse_comment.MYHOUSE_NO
-		AND notice_myhouse.MYHOUSE_CATEGORY =  's'
-		AND notice_myhouse.HOUSE_NO = myhouse_comment.HOUSE_NO  -->
-	<!--	SELECT * FROM notice_myhouse 
-		UNION
-		SELECT * FROM myhouse_comment  -->
-	
-	<!--  소모임 상세 --> 
-	<select id="getSmallGroupBoard" resultType="com.springproject.vo.NoticeMyhouseVO"  parameterType="HashMap">
-		SELECT * FROM NOTICE_MYHOUSE 
-		WHERE MYHOUSE_NO = #{getBoard.myhouseNo} 
-		AND MYHOUSE_CATEGORY = #{getBoard.myhouseCategory}
-		AND HOUSE_NO = #{getBoard.houseNo}
-	<!-- 	UNION
-		SELECT * FROM MYHOUSE_COMMENT
-		 WHERE MYHOUSE_CATEGORY = #{getComment.myhouseCategory}
-     	 AND MYHOUSE_NO = #{getComment.myhouseNo}
-      AND HOUSE_NO = #{getComment.houseNo}
-      ORDER BY MYHOUSE_COMMENT_NO ASC -->
 		
-	</select>
-	
 	<!-- 소모임 참여 인원 증가 쿼리 -->
 	<update id="peopleJoinIncrease">
 			UPDATE NOTICE_MYHOUSE 

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
 
 <head>
   <meta charset="UTF-8">
@@ -13,14 +15,16 @@
   <meta name="msapplication-tap-highlight" content="no">
 
   <script src="../../../js/jquery.js"></script>
-  <script src="../../../js/jquery-ui.js"></script>
+  <script src="../../../js/jquery.nice-select.js"></script>
+    <script src="../../../js/jquery-ui.js"></script>
   <script src="../../../js/jquery.timepicker.js"></script>
 
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../../css/nice-select.css">
   <link rel="stylesheet" href="../../../css/jquery-ui.css">
   <link rel="stylesheet" href="../../../css/jquery.timepicker.css">
-  <title>글 작성</title>
+
+  <title>소모임 글 수정</title>
   <style>
     *,
     :after,
@@ -394,45 +398,84 @@
   <link href="../../../css/main.css" rel="stylesheet">
 </head>
 
-<body style="overflow: hidden; color:white;">
-   <!-- Add your content of header -->
-  <div th:replace="view/fragments/header::header"></div>
+
+<body class="" style="color:white; overflow: hidden;">
+<div th:replace="view/fragments/header::header"></div>
 
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
-        <div class="container">
-          <h1 class="h2">모임 개최</h1>
+      <div class="container">
+          <h1 class="h2">모임 변경</h1>
+          
           <div id="divsize2">
-            <form action="/insertMyhouseBoard" method="post" enctype="multipart/form-data">
-             
-             <input type="hidden" name="myhouseCategory" value="s">
-             <input type="hidden" name="nickname" th:value="${nickname}">
-              <input class="datepicker" id="picker_color" name="myhouseDate" placeholder="날짜를 선택하세요">
-              <input class="timepicker-no-scrollbar" id="picker_color" name="myhouseTime" placeholder="시간을 선택하세요" />
-              <input type="number"  id="picker_color" name="peopleMax" placeholder="참여 인원">
+         <form  id="boardUpdate" action="/updateSmallgroup" method="post" enctype="multipart/form-data">
+        
 
-              <input type="text" class="form-control textbox" id="" name="myhouseTitle" placeholder="제목을 입력해주세요." required>
+              <input class="datepicker" id="picker_color" type="text" name="myhouseDate" th:value="${updateBoard.myhouseDate}">
+              <input class="timepicker-no-scrollbar" id="picker_color" name="myhouseTime" th:value="${updateBoard.myhouseTime}">
+              <input type="number"  id="picker_color" name="peopleMax" th:value="${updateBoard.peopleMax}">
+
+            
+            <input type="hidden" id="houseNo" name="houseNo" th:value="${updateBoard.houseNo}">
+            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${updateBoard.myhouseNo}">
+            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${updateBoard.myhouseCategory}">
+            <input type="hidden" name="nickname" th:value="${updateBoard.nickname}">
+            <input type="text" class="form-control textbox" name="myhouseTitle" th:value="${updateBoard.myhouseTitle}" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
-                <textarea class="form-control" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
-                  <div class="input-group">
+                <textarea class="form-control"  th:text="${updateBoard.myhouseContent}" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
+                   <div class="input-group">
                    <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
-                    <a class="btn btn-default" id="button_color"><i class="fas fa-link"></i></a>
                   </div>
               </div>
-              <!-- <button type="submit" class="btn btn-secondary mb-3">제출하기</button> -->
-              <div class="new">
-              	  <button type="submit" class="btn btn-default" id="button_color">글올리기</button >
-                  <a class="btn btn-default" id="button_color" href="/board/s" >목록으로</a  >
+              
+              <!--이미지 삭제 기능-->
+              <div  th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               	<span th:text="${file.myhouseFilename}"></span> 
+               	<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+              </div  >
+              
+              <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
+              <input type="hidden" id="arr" name="arrNo">
+              
+              
+              <div style="float: right;">
+                  <button type="submit" class="btn btn-default" id="button_color">수정하기</button >
+                  <a class="btn btn-default" id="button_color" th:href="'/myhouseBoardDetail/'+${updateBoard.houseNo}+'/'+${updateBoard.myhouseCategory}+'/'+${updateBoard.myhouseNo}" >뒤로가기</a  >
               </div>
-          </form>
+              </div>
+        </form>
+        </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  
+  
+  <script th:inline="javascript">
+  
+  let houseNo = $("#houseNo").val();
+  let myhouseCategory = $("#myhouseCategory").val();
+  let myhouseNo = $("#myhouseNo").val(); 
+  let fileNoArr = [];
+  
 
-<script>
+  /* 
+  1. 삭제 버튼 클릭 시 해당 파일 넘버를 받는다
+  2. 파일 넘버를 배열에 저장한 후 해당 파일의 텍스트를 지운다
+  3. 배열에 저장된 파일 넘버들을 input 히든 타입으로 저장  
+  */
+  function deleteFile(fileNo){
+	console.log(fileNo);
+	fileNoArr.push(fileNo);
+	$(".imgList"+fileNo).html("");
+	document.getElementById('arr').value = fileNoArr;
+}
+
+  </script>
+
+ <script>
   document.addEventListener("DOMContentLoaded", function (event) {
      navActivePage();
   });
@@ -480,10 +523,9 @@
         navbar.classList.remove('navbar_display');
       }
     });
-</script>
+  </script>>
 
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
- <script type="text/javascript" src="../../../js/main.js"></script>
+  <script type="text/javascript" src="/../../js/main.js"></script>
 </body>
 </html>
