@@ -156,6 +156,7 @@
     <update id="updateMyhouseBoard" parameterType="com.springproject.vo.NoticeMyhouseVO">
    
       UPDATE Notice_Myhouse SET MYHOUSE_TITLE = #{myhouseTitle}, MYHOUSE_CONTENT = #{myhouseContent}, MYHOUSE_REGDATE = NOW()
+      ,PRICE=#{price}
       WHERE myhouse_no = #{myhouseNo}
         AND MYHOUSE_CATEGORY = #{myhouseCategory} AND HOUSE_NO = #{houseNo}
    </update>

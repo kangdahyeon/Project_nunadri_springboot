@@ -122,7 +122,7 @@
 	<update id="updateMember" parameterType="com.springproject.vo.MemberVO">
 
 		UPDATE MEMBER SET ADDRESS=#{address}, ADDRESS_DETAIL=#{addressDetail},
-		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email}, PROFILE=#{profile} WHERE ID = #{id}
+		NAME=#{name}, NICKNAME=#{nickname}, EMAIL=#{email}  WHERE ID = #{id}
 	</update>
 
 
