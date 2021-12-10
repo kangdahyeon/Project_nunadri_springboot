@@ -26,6 +26,8 @@
   <title>자랑게시판</title>
   <style>
   
+ 
+  
 	  .commentDetail {
 	   display : flex;
 	   justify-content: left;
@@ -375,7 +377,8 @@
     });
   </script>
 
-     <!--댓글 기능 ajax-->
+  
+    <!--댓글 기능 ajax-->
 <script th:inline="javascript">
 
 let noticeCategory = $("#noticeCategory").val();
@@ -410,7 +413,7 @@ function getCommentList(){
    })
 }
 
-function deleteComment(myhouseCommentNo){
+function deleteComment(communityCommentNo){
    if(confirm("댓글을 삭제하시겠습니까?")){
    $.ajax({
       type:'POST',
@@ -429,11 +432,8 @@ function deleteComment(myhouseCommentNo){
    })
       
    }
-   
 }
-
-
-</script >
+</script>
 
   <script type="text/javascript" src="../../../js/main.js"></script>
   
