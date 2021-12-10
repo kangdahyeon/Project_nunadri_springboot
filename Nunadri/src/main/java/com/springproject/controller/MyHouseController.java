@@ -176,6 +176,12 @@ public class MyHouseController {
 
 		model.addAttribute("updateBoard",myhouseService.getMyhouseBoard(update));
 		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(update));
+		
+		//중고거래 수정 폼
+		if(update.getMyhouseCategory().equals("m")) {
+			return "view/myhome/fleaMarket/fleamarket_update";
+		}
+		
 		return "view/myhome/boarder/boarder_update";
 	}
 
@@ -219,6 +225,11 @@ public class MyHouseController {
 
 		}catch(Exception e) {
 			e.printStackTrace();
+		}
+		
+		
+		if(category.equals("m")) {
+			return "redirect:/items/" + myhouseNo;
 		}
 
 		return "redirect:/myhouseBoardDetail/"+ houseNo + "/" + category + "/" +myhouseNo;
@@ -387,7 +398,7 @@ public class MyHouseController {
 		public String fleamarketDetail(@AuthenticationPrincipal SecurityUser user, NoticeMyhouseVO vo, Model model) {
 			int houseNo = myhouseService.getHouseNo(user.getNickname());
 			vo.setHouseNo(houseNo);
-
+			model.addAttribute("userInfo", memberService.getMemberInfo(user.getId()));
 			model.addAttribute("itemDetail", myhouseFileService.getItem(vo));
 
 			return "view/myhome/fleaMarket/fleamarket_detail";

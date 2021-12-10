@@ -85,8 +85,6 @@ public class FileUtils {
 
                fileList.add(boardFile);
 
-               file = new File(imgName);
-               mf.transferTo(file);
             } else {
                fileList = null;
             }

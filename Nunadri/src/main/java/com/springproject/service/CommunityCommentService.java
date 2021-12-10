@@ -3,6 +3,7 @@ package com.springproject.service;
 import java.util.List;
 
 import com.springproject.vo.CommunityCommentVO;
+import com.springproject.vo.MemberVO;
 
 
 
@@ -14,5 +15,5 @@ public interface CommunityCommentService {
    
    void deleteCommunityComment(CommunityCommentVO ccv);
    
-
+   Object[] getProfile(MemberVO profile);
 }

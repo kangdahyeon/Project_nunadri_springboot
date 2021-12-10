@@ -14,15 +14,15 @@
   <!-- Disable tap highlight on IE -->
   <meta name="msapplication-tap-highlight" content="no">
 
-  <script src="../../js/jquery.js"></script>
-  <script src="../../js/jquery.nice-select.js"></script>
+  <script src="../../../js/jquery.js"></script>
+  <script src="../../../js/jquery.nice-select.js"></script>
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
-  <link rel="stylesheet" href="../../css/nice-select.css">
+  <link rel="stylesheet" href="../../../css/nice-select.css">
 
   <title>글 작성</title>
-  <style>
+ <style>
        .commentDetail {
    display : flex;
    justify-content: left;
@@ -641,66 +641,97 @@
       transition: all 300ms ease-in-out;
     }
     
-     /*파일 이름 뜨게 하는 input박스 설정*/
-   .uploadFileText {
-			background-color: transparent;
-			border-style: none;
-			width: 400px;
-			margin-left: 10px;
-			font-size: small;
-	}
+   
   </style>
 
-  <link href="../../css/main.css" rel="stylesheet">
+  <link href="../../../css/main.css" rel="stylesheet">
 </head>
 
-
-<body style= "overflow: hidden;">
 <div th:replace="view/fragments/header::header"></div>
 
 <body class="" style="color:white; overflow: hidden;">
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
       <div class="section-container-spacer text-center">
-        <div class="container">
-            <h1 class="h2">글 작성</h1>
-        <form action="/insertCommunity" method="post" enctype="multipart/form-data">
+      <div class="container">
+          <h1 class="h2">글 수정</h1>
+          
+         <form  id="boardUpdate" action="/updateMyhouse" method="post" enctype="multipart/form-data">
           <div id="divsize">
-            <div>
-                <select name="noticeCategory" class="div_right boarderselect">
-                  <option value="H">꿀팁있어요</option>
-                  <option value="F">잡담해요</option>
-                </select>
+   			<div>
+                <input type="number" name="price" th:value="${updateBoard.price}" class="div_right boarderselect form-control textbox" placeholder="가격을 입력해주세요." required>
+                <p style="color: white; position:absolute; right:250px; top:160px;">원</p >
             </div>
-              <input type="hidden" name="nickname" th:value="${nickname}">
-
-            <input type="text" class="form-control textbox" name="noticeTitle" placeholder="제목을 입력해주세요." required>
-                <div class="form-group">
-                    <textarea class="form-control" rows="11" name="noticeContent" placeholder="내용을 입력해주세요" required></textarea>
-                    <div class="input-group">
-                     <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" style="display: none;" 
-                        onchange="javascript:document.getElementById('fileName').value = this.value.split('\\')[this.value.split('\\').length-1]">
-                      <a class="btn btn-default" id="button_color"
-                       onclick="document.all.uploadFiles.click();">
-                       &nbsp<i class="far fa-image">&nbsp</i>
-                      </a>
-                      <!--파일 이름 뜨는곳-->
-                      <input type="text" id="fileName" readonly="readonly" class="uploadFileText">
+          <br>
+          <br>
+   
+            
+            <input type="hidden" id="houseNo" name="houseNo" th:value="${updateBoard.houseNo}">
+            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${updateBoard.myhouseNo}">
+            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${updateBoard.myhouseCategory}">
+            <input type="hidden" name="nickname" th:value="${updateBoard.nickname}">
+            <input type="text" class="form-control textbox" name="myhouseTitle" th:value="${updateBoard.myhouseTitle}" placeholder="제목을 입력해주세요." required>
+              <div class="form-group">
+                <textarea class="form-control"  th:text="${updateBoard.myhouseContent}" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
+                   <div class="input-group">
+                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
                   </div>
               </div>
               
-              <div class="">
-                  <button type="submit" class="btn btn-default" id="button_color">글올리기</button >
-                  <a class="btn btn-default" id="button_color" 
-                  th:href="'/commu'+'/'+${noticeCategory}">목록으로</a  >
+              
+              
+              
+              <!--이미지 삭제 기능-->
+              <div  th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               	<span th:text="${file.myhouseFilename}"></span> 
+               	<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+              </div  >
+              
+          
+              
+              <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
+              <input type="hidden" id="arr" name="arrNo">
+              
+              
+              <div style="float: right;">
+                  <button type="submit" class="btn btn-default" id="button_color">수정하기</button >
+                  <a class="btn btn-default" id="button_color" th:href="'/myhouseBoardDetail/'+${updateBoard.houseNo}+'/'+${updateBoard.myhouseCategory}+'/'+${updateBoard.myhouseNo}" >뒤로가기</a  >
+              </div>
               </div>
         </form>
-          </div>
+        </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+  
+  
+  <script th:inline="javascript">
+  
+  let houseNo = $("#houseNo").val();
+  let myhouseCategory = $("#myhouseCategory").val();
+  let myhouseNo = $("#myhouseNo").val(); 
+  let fileNoArr = [];
+  
+
+  /* 
+  1. 삭제 버튼 클릭 시 해당 파일 넘버를 받는다
+  2. 파일 넘버를 배열에 저장한 후 해당 파일의 텍스트를 지운다
+  3. 배열에 저장된 파일 넘버들을 input 히든 타입으로 저장  
+  */
+  function deleteFile(fileNo){
+	console.log(fileNo);
+	fileNoArr.push(fileNo);
+	$(".imgList"+fileNo).html("");
+	document.getElementById('arr').value = fileNoArr;
+}
+
+  </script  >
+  
+  
+  
+  
   <script>
     document.addEventListener("DOMContentLoaded", function (event) {
       navActivePage();
@@ -717,6 +748,8 @@
       }
     });
   </script>
+
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
 
   <script type="text/javascript" src="/../../js/main.js"></script>
 </body>

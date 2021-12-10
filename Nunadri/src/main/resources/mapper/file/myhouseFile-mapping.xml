@@ -89,6 +89,7 @@
     <select id="getItem" parameterType="com.springproject.vo.NoticeMyhouseVO" resultType="HashMap">
    	 SELECT M.HOUSE_NO AS houseNo,
    	  M.MYHOUSE_NO AS myhouseNo,
+   	  M.NICKNAME AS nickname,
 		M.MYHOUSE_TITLE AS myhouseTitle,
 		 M.MYHOUSE_CONTENT AS myhouseContent,
 		  M.MYHOUSE_REGDATE AS regDate,
