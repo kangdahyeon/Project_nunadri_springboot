@@ -55,11 +55,17 @@
    <delete id="deleteCommunityComment">
       DELETE FROM COMMUNITY_COMMENT
       WHERE
-      		COMMUNITY_COMMENT_NO = #{communityCommentNo}
+      		COMMUNITY_COMMENT_NO = #{communityCommentNo}m
       AND 
       		NOTICE_CATEGORY =#{noticeCategory}
       AND 
       		NOTICE_NO = #{noticeNo}
    </delete>
+   
+   <select id="getProfile" resultType="MemberVO">
+   		SELECT PROFILE FROM 
+   			MEMBER AS M, COMMUNITY_COMMENT AS C
+			WHERE M.NICKNAME = C.NICKNAME;
+   </select>
 
 </mapper>
