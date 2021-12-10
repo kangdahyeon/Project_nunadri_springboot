@@ -15,6 +15,9 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script type="text/javascript" src="https://service.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
   <title>중고거래</title>
   <style>
   
@@ -343,7 +346,9 @@ button, input {
                 <h3 name="totalPrice" id="totalPrice" class="font-weight-bold" style="color: black;" th:text="${itemDetail[0].price}+원"></h3>
             </div>
             <div  class="text-right">
-                <button type="button" class="btn btn-primary btn-lg" onclick="order()">결제하기</button>
+            <a class="btn btn-primary btn-lg" th:href="'/board/m'" >목록으로</a  >
+            <a class="btn btn-primary btn-lg" th:if="${#strings.equals(userInfo.nickname, itemDetail[0].nickname)}"   th:href="'/updateMyhouseBoard/'+${itemDetail[0].houseNo}+'/m'+'/'+${itemDetail[0].myhouseNo}" >수정</a   >
+                <button type="button" th:unless="${#strings.equals(userInfo.nickname, itemDetail[0].nickname)}" class="btn btn-primary btn-lg" onclick="order()">결제하기</button>
             </div>
         </div>
     </div>
@@ -369,59 +374,140 @@ button, input {
     
 
 
+<script th:inline="javascript">
 
-          <!--<div class="d-flex">
-            <div class="repImgDiv" style="display: inline-block;">
-              <img th:src="@{'/upload/'+${itemDetail[0].myhouseImgUrl}}" class="rounded repImg">
-            </div>
-            <div class="wd50" style="display: inline-block;">
-              <span class="badge badge-primary mgb-15">
-                판매중
-              </span>
+let totalPrice = 0;
 
-              <div class="h4" th:text="${itemDetail[0].myhouseTitle}"></div>
-              <hr class="my-4">
+  $(document).ready(function(){
 
-              <div class="text-right">
-                <div class="h4 text-danger text-left">
-                  <input type="hidden" th:value="${itemDetail[0].price}" id="price" name="price">
-                  <span th:text="${itemDetail[0].price}"></span>원
-                </div>
-                <div class="input-group w-50">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">수량</span>
-                  </div>
-                  <input type="number" name="count" id="count" class="form-control" value="1" min="1">
-                </div>
-              </div>
-              <hr class="my-4">
+            calculateToalPrice();
 
-              <div class="text-right mgt-50">
-                <h5>결제 금액</h5>
-                <h3 name="totalPrice" id="totalPrice" class="font-weight-bold"></h3>
-              </div>
-              <div class="text-right">
-                <button type="button" class="btn btn-primary btn-lg" onclick="order()">주문하기</button>
+            $("#count").change( function(){
+                calculateToalPrice();
+            });
+        });
 
-              </div>
-
-            </div>
-          </div>
+        function calculateToalPrice(){
+            var count = $("#count").val();
+            var price = $("#price").val();
+            totalPrice = price*count;
+            $("#totalPrice").html(totalPrice + '원');
+        }
 
 
-          <div class="jumbotron jumbotron-fluid mgt-30">
-            <div class="container">
-             
-            </div>
-          </div>
+ function order(){
+	let a = [[${userInfo.email}]];
+	let b = [[${userInfo.name}]];
+	let c = [[${userInfo.address}]];
+	let d = [[${userInfo.addressDetail}]];
+	console.log(a);
+	console.log(b);
+	console.log(c);
+	console.log(d);
+	console.log(totalPrice);
+	
+	
+	      var IMP = window.IMP; // 생략가능
+      IMP.init('iamport');
+      // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+      // i'mport 관리자 페이지 -> 내정보 -> 가맹점식별코드
+      IMP.request_pay({
+        pg: 'inicis', // version 1.1.0부터 지원.
+        /*
+        'kakao':카카오페이,
+        html5_inicis':이니시스(웹표준결제)
+        'nice':나이스페이
+        'jtnet':제이티넷
+        'uplus':LG유플러스
+        'danal':다날
+        'payco':페이코
+        'syrup':시럽페이
+        'paypal':페이팔
+        */
+        pay_method: 'card',
+        /*
+        'samsung':삼성페이,
+        'card':신용카드,
+        'trans':실시간계좌이체,
+        'vbank':가상계좌,
+        'phone':휴대폰소액결제
+        */
+        merchant_uid: 'merchant_' + new Date().getTime(),
+        /*
+        merchant_uid에 경우
+        https://docs.iamport.kr/implementation/payment
+        위에 url에 따라가시면 넣을 수 있는 방법이 있습니다.
+        참고하세요.
+        나중에 포스팅 해볼게요.
+        */
+        name: '주문명:결제테스트',
+        //결제창에서 보여질 이름
+        amount: totalPrice,
+        //가격
+        buyer_email: a,
+        buyer_name: b,
+        buyer_addr: c,
+        buyer_postcode: d,
+        m_redirect_url: '/'
+        /*
+        모바일 결제시,
+        결제가 끝나고 랜딩되는 URL을 지정
+        (카카오페이, 페이코, 다날의 경우는 필요없음. PC와 마찬가지로 callback함수로 결과가 떨어짐)
+        */
+      }, function (rsp) {
+        console.log(rsp);
+        if (rsp.success) {
+          var msg = '결제가 완료되었습니다.';
+          msg += '고유ID : ' + rsp.imp_uid;
+          msg += '상점 거래ID : ' + rsp.merchant_uid;
+          msg += '결제 금액 : ' + rsp.paid_amount;
+          msg += '카드 승인번호 : ' + rsp.apply_num;
+        } else {
+          var msg = '결제에 실패하였습니다.';
+          msg += '에러내용 : ' + rsp.error_msg;
+        }
+        alert(msg);
+      });
+            /*var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
 
-		<br>
-		<br>
-		
-          <div th:each="itemImg : ${itemDetail}" class="text-center">
-            <img th:if="${not #strings.isEmpty(itemImg.myhouseImgUrl)}"
-              th:src="@{'/upload/'+${itemImg.myhouseImgUrl}}" class="rounded mgb-15" width="600">
-          </div>-->
+            var url = "/order";
+            var paramData = {
+                itemId : $("#itemId").val(),
+                count : $("#count").val()
+            };
+
+            var param = JSON.stringify(paramData);
+
+            $.ajax({
+                url      : url,
+                type     : "POST",
+                contentType : "application/json",
+                data     : param,
+                beforeSend : function(xhr){
+                    /* 데이터를 전송하기 전에 헤더에 csrf값을 설정 
+                    xhr.setRequestHeader(header, token);
+                },
+                dataType : "json",
+                cache   : false,
+                success  : function(result, status){
+                    alert("주문이 완료 되었습니다.");
+                    location.href='/';
+                },
+                error : function(jqXHR, status, error){
+
+                    if(jqXHR.status == '401'){
+                        alert('로그인 후 이용해주세요');
+                        location.href='/members/login';
+                    } else{
+                        alert(jqXHR.responseText);
+                    }
+
+                }
+            });*/
+        }
+
+</script >
 
 
 

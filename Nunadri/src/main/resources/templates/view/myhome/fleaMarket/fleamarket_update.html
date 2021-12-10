@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <script src="../../../js/jquery.js"></script>
+  <script src="../../../js/jquery.nice-select.js"></script>
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../../css/nice-select.css">
+
+  <title>글 작성</title>
+ <style>
+       .commentDetail {
+   display : flex;
+   justify-content: left;
+}
+     .commentStyle {
+      color : hotpink;
+   }
+     .commentNickname {
+      color : coral;
+      padding-right: 16px;
+   }
+    .navbar_display {
+      background-color: white;
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      transition: all 300ms ease-in-out;
+    }
+    .item_sell {
+      width: 800px;
+      height: 500px;
+      padding: 20px 32px;
+      border: 3px solid #eeeeee;
+      border-radius: 4px;
+      margin: 12px auto;
+      z-index: 2;
+      font-size: 16px;
+    }
+
+    .item_img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .item_img img {
+      border-radius: 4px;
+    }
+
+    .item_list {
+      /*       
+      padding: 16px;
+      margin-left: 24px; */
+    }
+
+    .item_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .item_title a {
+      text-decoration: none;
+    }
+
+    .gallery_view {
+      float: left;
+      /* width: 200px; */
+      padding: 0 23px 11px 0;
+      list-style-type: none;
+    }
+
+    .item_price {
+      padding-bottom: 42px;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
+      float: left;
+      width: 200px;
+      margin-left: 74px;
+      padding: 0 0 13px 0;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
+      margin-left: 0 !important
+    }
+
+    div {
+      display: block;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+
+    .container {
+      width: 970px;
+    }
+
+    .gallery_view {
+      float: left;
+      width: 200px;
+      padding: 0 23px 11px 0;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 74px;
+    }
+
+
+    /* 글쓰기 버튼*/
+    #writerBtn {
+      position: absolute;
+      right: 270px;
+      color: black;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-color: black;
+    }
+
+    .div_right {
+      padding-left: 896px;
+
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid black;
+      color: black;
+      padding-left: 30px;
+    }
+
+    .icon_search {
+      position: absolute;
+      left: 1085px;
+      margin-top: 7.5px;
+      color: black;
+    }
+
+    .white-text-container h2 {
+      color: black;
+    }
+
+    .black-image-project-hover img {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s;
+      -moz-transition: .3s;
+      -ms-transition: .3s;
+      -o-transition: .3s;
+      transition: .3s;
+    }
+
+    .black-image-project-hover img:hover {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+
+    .css-1oylls0::after {
+      content: "";
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 0;
+      background: rgb(18, 18, 24);
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+    #writerBtn:hover {
+      background-color: rgb(218, 162, 60);
+    }
+  
+    *,
+    :after,
+    :before {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+
+
+    @media (min-width: 1200px) {
+      .section-container-spacer {
+        margin-bottom: 40px;
+      }
+
+      .section-container-spacer_detail {
+        margin-bottom: 40px;
+        background-color: rgb(10, 55, 50);
+      }
+    }
+
+    #site-border-bottom,
+    #site-border-left,
+    #site-border-right,
+    #site-border-top {
+      background: rgb(80, 55, 27);
+      position: fixed;
+      z-index: 1;
+    }
+
+    #site-border-left,
+    #site-border-right {
+      top: 0;
+      bottom: 0;
+      width: 10px;
+    }
+
+    #site-border-left {
+      left: 0;
+    }
+
+    #site-border-right {
+      right: 0;
+    }
+
+    #site-border-bottom,
+    #site-border-top {
+      left: 0;
+      right: 0;
+      height: 10px;
+    }
+
+    #site-border-top {
+      top: 0;
+    }
+
+    #site-border-bottom {
+      bottom: 0;
+    }
+
+    /*네비바 css*/
+    @media (min-width: 768px) {
+
+      .navbar-inverse .navbar-nav>li>a,
+      .drop_down>a {
+        border-right: 1px solid #000;
+      }
+
+      .navbar-inverse_ditail .navbar-nav2>li>a,
+      .navbar-nav2>li>a,
+      .drop_down_detail>a {
+        border-right: 1px solid #fff;
+      }
+    }
+
+    .navbar-inverse_ditail .navbar-nav2>li>a,
+    .navbar-inverse_ditail .navbar-text,
+    .drop_down_detail>a {
+      color: #fff;
+    }
+
+    .navbar-nav2>li>a {
+      padding-top: 10px;
+      padding-bottom: 10px;
+      line-height: 19px;
+    }
+
+    .navbar-collapse {
+      overflow-x: visible;
+      padding-right: 15px;
+      padding-left: 15px;
+      border-top: 1px solid transparent;
+      box-shadow: inset 0 1px 0 hsla(0, 0%, 100%, 0.1);
+      -webkit-overflow-scrolling: touch;
+    }
+
+    @media (min-width: 768px) {
+      .navbar {
+        margin: 10px;
+      }
+    }
+
+    @media (min-width: 768px) {
+
+      .navbar-default .navbar-collapse,
+      .navbar-inverse .navbar-collapse {
+        margin: 0;
+        padding: 30px 0;
+      }
+
+      .navbar-default .navbar-collapse .navbar-nav2,
+      .navbar-inverse .navbar-collapse .navbar-nav2 {
+        padding: 0;
+      }
+    }
+
+    .navbar-inverse .navbar-nav2>li>a,
+    .navbar-inverse .navbar-text,
+    .drop_down_detail>a {
+      color: #fff;
+    }
+
+    .navbar-inverse .navbar-nav>li>a,
+    .navbar-inverse .navbar-text,
+    .drop_down>a {
+      color: #fff;
+    }
+
+    @media (min-width: 768px) {
+      .navbar-nav2 {
+        float: left;
+        margin: 0;
+      }
+
+      .navbar-nav2>li {
+        float: left;
+      }
+
+      .navbar-nav2>li>a,
+      .navbar-nav2>li>a {
+        padding-top: 0.5px;
+        padding-bottom: 0.5px;
+      }
+    }
+
+    .logoimg {
+      width: 100px;
+    }
+
+    .img_1 {
+      margin: 0px, auto;
+      position: relative;
+    }
+
+    .img_3 {
+      position: absolute;
+      top: 0px;
+      left: 15px;
+      display: none;
+    }
+
+    .img_1:hover .img_3 {
+      display: block;
+    }
+
+    .drop_down_detail {
+      position: relative;
+      display: inline-block;
+      font-size: 18px;
+      font-weight: 300px;
+      cursor: pointer;
+    }
+
+    /*로그인 / 회원가입 부분 호버*/
+    .navbar-inverse .navbar-nav2>.active>a,
+    .navbar-inverse .navbar-nav2>.active>a:focus,
+    .navbar-inverse .navbar-nav2>.active>a:hover,
+    .navbar-inverse .navbar-nav2>li>a:focus,
+    .navbar-inverse .navbar-nav2>li>a:hover,
+    .drop_down_detail>a :hover {
+      color: rgb(218, 162, 60);
+      background-color: transparent;
+    }
+
+    .nav>li>a {
+      font-size: 18px;
+      font-weight: 300;
+      -webkit-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      transition: all 0.1s linear;
+    }
+
+    .drop_down_content {
+      display: none;
+      position: absolute;
+      min-width: 100px;
+      padding: 8px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    .drop_down_content>a {
+      background-color: rgba(255, 255, 255, 0.5);
+      text-decoration-line: none;
+      color: #000;
+      padding: 8px;
+      text-align: none;
+      display: block;
+    }
+
+    .drop_down_content>a:hover {
+      background-color: rgb(218, 162, 60);
+    }
+
+    .drop_down_detail:hover .drop_down_content {
+      display: block;
+    }
+
+    .drop_down_detail>a:hover {
+      color: rgb(218, 162, 60);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    /*우리집, 소통해요, 게시판 패딩*/
+    .nav>li>a,
+    .drop_down>a,
+    .drop_down_detail>a {
+      padding: 0 10px 0 15px;
+    }
+
+    /* 로고이미지 패딩 */
+    .nav>li>a {
+      padding: 0 10px 0 15px;
+    }
+
+    .nav>li,
+    .nav>li>a {
+      position: relative;
+      display: block;
+    }
+
+    /*회원가입 맨 뒤에 선 빼는거*/
+    .navbar-inverse .navbar-nav2>li:last-of-type a {
+      border-right: none;
+    }
+
+    .nav>li>a {
+      /* font-size: 18px; */
+      font-weight: 300;
+      -webkit-transition: all 0.1s linear;
+      -o-transition: all 0.1s linear;
+      transition: all 0.1s linear;
+    }
+
+    /* 본문 공통적용 */
+    body,
+    p {
+      font-weight: 300;
+      letter-spacing: 0.8px;
+      line-height: 25px;
+    }
+
+    .hero-full-container {
+      height: 100vh;
+    }
+
+    .white-text-container a {
+      color: #fff;
+    }
+
+    .white-text-container h1,
+    .white-text-container h2,
+    .white-text-container h3,
+    .white-text-container h4,
+    .white-text-container h5,
+    .white-text-container p {
+      text-shadow: 0 1px 3px #000;
+      color: #fff;
+    }
+
+    .section-container-spacer {
+      margin-bottom: 30px;
+    }
+
+    @media (min-width: 1200px) {
+      .section-container-spacer {
+        margin-bottom: 40px;
+      }
+
+      .section-container-spacer_detail {
+        margin-bottom: 40px;
+        background-color: rgb(10, 55, 50);
+      }
+    }
+
+    .section-container {
+      padding: 60px 0;
+    }
+
+    @media (min-width: 1200px) {
+      .section-container {
+        padding: 80px 0;
+        background-color: #fff;
+      }
+
+      .section-container_detail {
+        padding: 80px 0;
+        background-color: rgb(10, 55, 50);
+      }
+    }
+
+    .section-container.only-container {
+      min-height: 84vh;
+    }
+
+    @media (max-width: 768px) {
+      .section-container:first-of-type {
+        padding-top: 30px;
+      }
+    }
+
+    /*상세페이지 이미지 최대크기*/
+    .img_detail {
+      max-height: 350px;
+      padding: 10px;
+    }
+
+    /*테이블 css*/
+    table.type04 {
+      width: 100%;
+      max-width: 1000px;
+      border-collapse: separate;
+      border-spacing: 1px;
+      line-height: 1.5;
+      border-top: 1px solid #fff;
+      /* margin : 20px 10px; */
+      color: #fff;
+      font-size: 14px;
+    }
+
+    table.type04 th {
+      padding: 10px;
+      font-weight: bold;
+      /* vertical-align: top; */
+      border-bottom: 1px solid #fff;
+    }
+
+    table.type04 td {
+      /* width: 350px; */
+      padding: 10px;
+      vertical-align: top;
+      border-bottom: 1px solid #fff;
+    }
+
+    #table_width_no {
+      width: 50px;
+    }
+
+    #table_width_writer {
+      width: 150px;
+    }
+
+    #table_width_hit {
+      width: 75px;
+    }
+
+    .div_right {
+      float: right;
+      width: 21%;
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid white;
+      color: white;
+      padding-left: 30px;
+    }
+
+    #divsize {
+      margin: 0px auto;
+      width: 1000px;
+      text-align: center;
+    }
+
+    #comment {
+      position: relative;
+      left: 10%;
+      margin-top: 10px;
+      padding: 5px;
+      border-radius: 5px;
+    }
+
+    .position_comment {
+      text-decoration: none;
+      z-index: 2;
+      position: absolute;
+      top: 86%;
+      right: 25%;
+      margin-top: 10px;
+      color: #fff;
+    }
+
+    .footer_color {
+      color: #fff;
+      background-color: rgb(10, 55, 50);
+    }
+
+    .footer_color>a {
+      text-decoration: none;
+    }
+
+    #button_color {
+      color: #fff;
+      border: 1px solid #fff;
+      border-radius: 5px;
+    }
+
+    .boarderselect {
+      background-color: rgba(0, 0, 0, 0.0001);
+      border-radius: 5px;
+      padding: 8px;
+      margin-bottom: 10px;
+      color: rgb(241, 175, 196);
+    }
+
+    .navbar_display {
+      background-color: rgb(10, 55, 50);
+      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
+      border-radius: 4px;
+      transition: all 300ms ease-in-out;
+    }
+    
+   
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
+</head>
+
+<div th:replace="view/fragments/header::header"></div>
+
+<body class="" style="color:white; overflow: hidden;">
+  <div class="hero-full-container white-text-container">
+    <div class="section-container background-image-container">
+      <div class="section-container-spacer text-center">
+      <div class="container">
+          <h1 class="h2">글 수정</h1>
+          
+         <form  id="boardUpdate" action="/updateMyhouse" method="post" enctype="multipart/form-data">
+          <div id="divsize">
+   			<div>
+                <input type="number" name="price" th:value="${updateBoard.price}" class="div_right boarderselect form-control textbox" placeholder="가격을 입력해주세요." required>
+                <p style="color: white; position:absolute; right:250px; top:160px;">원</p >
+            </div>
+          <br>
+          <br>
+   
+            
+            <input type="hidden" id="houseNo" name="houseNo" th:value="${updateBoard.houseNo}">
+            <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${updateBoard.myhouseNo}">
+            <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${updateBoard.myhouseCategory}">
+            <input type="hidden" name="nickname" th:value="${updateBoard.nickname}">
+            <input type="text" class="form-control textbox" name="myhouseTitle" th:value="${updateBoard.myhouseTitle}" placeholder="제목을 입력해주세요." required>
+              <div class="form-group">
+                <textarea class="form-control"  th:text="${updateBoard.myhouseContent}" rows="11" name="myhouseContent" placeholder="내용을 입력해주세요" required></textarea>
+                   <div class="input-group">
+                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
+                  </div>
+              </div>
+              
+              
+              
+              
+              <!--이미지 삭제 기능-->
+              <div  th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               	<span th:text="${file.myhouseFilename}"></span> 
+               	<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+              </div  >
+              
+          
+              
+              <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
+              <input type="hidden" id="arr" name="arrNo">
+              
+              
+              <div style="float: right;">
+                  <button type="submit" class="btn btn-default" id="button_color">수정하기</button >
+                  <a class="btn btn-default" id="button_color" th:href="'/myhouseBoardDetail/'+${updateBoard.houseNo}+'/'+${updateBoard.myhouseCategory}+'/'+${updateBoard.myhouseNo}" >뒤로가기</a  >
+              </div>
+              </div>
+        </form>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <script th:inline="javascript">
+  
+  let houseNo = $("#houseNo").val();
+  let myhouseCategory = $("#myhouseCategory").val();
+  let myhouseNo = $("#myhouseNo").val(); 
+  let fileNoArr = [];
+  
+
+  /* 
+  1. 삭제 버튼 클릭 시 해당 파일 넘버를 받는다
+  2. 파일 넘버를 배열에 저장한 후 해당 파일의 텍스트를 지운다
+  3. 배열에 저장된 파일 넘버들을 input 히든 타입으로 저장  
+  */
+  function deleteFile(fileNo){
+	console.log(fileNo);
+	fileNoArr.push(fileNo);
+	$(".imgList"+fileNo).html("");
+	document.getElementById('arr').value = fileNoArr;
+}
+
+  </script  >
+  
+  
+  
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+      navActivePage();
+    });
+    const navbar = document.querySelector('#nav');
+    const navbarHeight = navbar.getBoundingClientRect().height;
+
+    document.addEventListener('scroll', () => {
+      console.log(window.scrollY);
+      if (window.scrollY > navbarHeight) {
+        navbar.classList.add('navbar_display');
+      } else {
+        navbar.classList.remove('navbar_display');
+      }
+    });
+  </script>
+
+  <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=b0a2517b770a94b696a3d34e4f2e13ba&libraries=services"></script> -->
+
+  <script type="text/javascript" src="/../../js/main.js"></script>
+</body>
+</html>
