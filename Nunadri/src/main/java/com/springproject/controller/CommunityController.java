@@ -1,5 +1,6 @@
 package com.springproject.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,16 +130,22 @@ public class CommunityController {
 
 	// 게시물 삭제
 	@GetMapping("/deleteCommunity/{noticeCategory}/{noticeNo}")
-	public String deleteCommunity(CommunityVO cvo) {
-
+	public String deleteCommunity(CommunityVO cvo, HttpServletRequest request) {
+		
 		communityService.deleteCommunity(cvo);
 		// 게시물
 		communityService.deleteCommunityCommentList(cvo);
 
-//		FileCommunityVO fvo = new FileCommunityVO();
-//		String path = "\\src\\main\\webapp\\upload\\";
-//		List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
-
+		FileCommunityVO fvo = new FileCommunityVO();
+		String path = request.getSession().getServletContext().getRealPath("/") + "/upload/";
+		List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
+		for(FileCommunityVO fvo2 : list) {
+			File file = new File(path + fvo2.getCommunityImgUrl());
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		
 
 		communityFileService.deleteCommunityFileAll(cvo);
 
@@ -206,11 +213,11 @@ public class CommunityController {
 
 		model.addAttribute("getCommunityDetail", communityService.getCommunityDetail(cvo));
 		model.addAttribute("fileList", communityFileService.getCommunityFileList(cvo));
-		System.out.println("파일테스트-----"+communityFileService.getCommunityFileList(cvo));
+//		System.out.println("파일테스트-----"+communityFileService.getCommunityFileList(cvo));
 
-		System.out.println(cvo.getNoticeCategory());
+//		System.out.println(cvo.getNoticeCategory());
 		if(cvo.getNoticeCategory().equals("B")) {
-			System.out.println(cvo.getNoticeCategory());
+//			System.out.println(cvo.getNoticeCategory());
 
 			return "view/community/feed/feed_detail";
 

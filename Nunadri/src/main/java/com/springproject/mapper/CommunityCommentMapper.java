@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.springproject.dto.CommunityCommentDto;
 import com.springproject.vo.CommunityCommentVO;
 import com.springproject.vo.MemberVO;
 
@@ -18,6 +19,6 @@ public interface CommunityCommentMapper {
    
    void deleteCommunityComment(CommunityCommentVO ccv);
    
-   Object[] getProfile(MemberVO profile);
+   List<CommunityCommentDto> getProfile(MemberVO profile);
    
 }
