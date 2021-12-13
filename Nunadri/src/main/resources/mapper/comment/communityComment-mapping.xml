@@ -72,7 +72,7 @@
 						C.NOTICE_NO
 		 	FROM 
 					MEMBER AS M, COMMUNITY_COMMENT AS C
-					WHERE M.NICKNAME = C.NICKNAME;
+					WHERE M.ID = C.ID;
    </select>
 
 </mapper>

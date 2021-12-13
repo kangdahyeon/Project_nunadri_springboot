@@ -158,6 +158,7 @@ public class CommunityController {
 
 		model.addAttribute("updateCommunity", communityService.getCommunityDetail(cvo));
 		model.addAttribute("fileList", communityFileService.getCommunityFileList(cvo));
+		
 
 		if(cvo.getNoticeCategory().equals("B")) {
 			System.out.println(cvo.getNoticeCategory());
@@ -179,14 +180,24 @@ public class CommunityController {
 
 		//파일삭제를 위한 객체
 		FileCommunityVO fvo = new FileCommunityVO();
+		String path = request.getSession().getServletContext().getRealPath("/") + "/upload/";
+
 		if(arr != null) {
 			fvo.setNoticeCategory(cvo.getNoticeCategory());
 			fvo.setNoticeNo(cvo.getNoticeNo());
+//			List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
 			for(int x : arr) {
+//				for(FileCommunityVO fvo2 : list) {
+//					File file = new File(path + fvo2.getCommunityImgUrl());
+//					if(file.exists()) {
+//						file.delete();
+//					}
 				fvo.setFileNo(x);
 				communityFileService.deleteCommunityFile(fvo);
+				}
 			}
-		}
+//		}
+		
 		// 파일업로드
 		try {
 			FileUtils fileUtils = new FileUtils();
