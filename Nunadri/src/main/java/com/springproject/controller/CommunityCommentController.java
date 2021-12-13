@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.springproject.dto.CommunityCommentDto;
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
+import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 

@@ -95,7 +95,7 @@ public class MyHouseController {
         model.addAttribute("keyword", boardList.getSearchKeyword());
 
         if(category.equals("m")) {
-        	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList));
+        	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList, cri));
         	return "view/myhome/fleamarket/fleamarket_list";
         }
         if(category.equals("s")) {

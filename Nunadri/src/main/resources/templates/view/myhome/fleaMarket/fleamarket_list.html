@@ -294,7 +294,7 @@
                   <div class="col-md-3 margin">
                     <div class="card">
                       <a class="text-dark" th:href="'/items/' + ${item.myhouseNo}">
-                        <img th:src="@{'/upload/'+${item.myhouseImgUrl}}" class="card-img-top" height="270" width="250">
+                        <img th:src="@{'/upload/'+${item.myhouseImgUrl}}" class="card-img-top" height="270" width="250" style="width: 100%;">
                         <div class="card-body" >
                           <h4 class="card-title" th:text="${item.myhouseTitle}"></h4>
                           <p class="card-text" th:text="${item.myhouseContent}"></p>

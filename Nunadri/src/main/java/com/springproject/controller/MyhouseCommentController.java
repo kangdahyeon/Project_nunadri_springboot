@@ -28,7 +28,6 @@ public class MyhouseCommentController {
    @GetMapping("/getMyhouseComment")
    @ResponseBody
    public List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList) {
-	   
       return myhouseCommentService.getMyhouseComment(commentList);
    }
    
@@ -39,7 +38,6 @@ public class MyhouseCommentController {
    @PostMapping("/insertMyhouseComment")
    @ResponseBody
    public boolean insertMyhouseComment(MyhouseCommentVO commentInsert) {
-
       myhouseCommentService.insertMyhouseComment(commentInsert);
       
       return true;
