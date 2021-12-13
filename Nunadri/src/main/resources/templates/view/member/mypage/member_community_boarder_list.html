@@ -34,6 +34,8 @@
 <body class="">
   <!-- Add your content of header -->
   <div th:replace="view/fragments/header::header"></div>
+  
+  <input type="hidden" id="id" th:value="${#authentication.principal.username}">
 
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container">
@@ -41,7 +43,7 @@
         <div class="container">
           <h1 class="h2" >내가 작성한 글</h1>
 
-          <form name="search-form" th:action="'/myhouseBoard/'+${category}" method="post" role="form">
+          <form name="search-form" th:action="'/community/'+${category}" method="post" role="form">
             <!-- 검색값 화면단에 고정 (값받아오는거 때문)-->
             <input type="hidden" name="condition" th:value="${condition}">
             <input type="hidden" name="keyword" th:value="${keyword}">
@@ -55,19 +57,17 @@
 
                 <div style="position: absolute; right: 75%; width:30%;">
                   <select name="myhouseCategory" id="sOption" class="div_right boarderselect">
-                    <option value="n">공지사항</option>
-                    <option value="h">도와주세요</option>
-                    <option value="s">소모임</option>
-                    <option value="f">자유게시판</option>
-                    <option value="m">중고거래</option>
+                    <option value="B">자랑해요</option>
+                    <option value="H">꿀팁있어요</option>
+                    <option value="F">잡담해요</option>
                   </select>
 
                 </div>
 
                 <select name="searchCondition">
                   <th:each>
-                    <option value="MYHOUSE_TITLE">제목
-                    <option value="MYHOUSE_CONTENT">내용
+                    <option value="NOTICE_TITLE">제목
+                    <option value="NOTICE_CONTENT">내용
                   </th:each>
                 </select>
                 <input name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
@@ -89,52 +89,50 @@
                 <tr th:each="board, status: ${paramList}">
 
                   <input type="hidden" name="nickname" id="nickname" th:value="${board.nickname}">
-                  <input type="hidden" name="houseNo" id="houseNo" th:value="${board.houseNo}">
+                  <input type="hidden" name="noticeNo" id="noticeNo" th:value="${board.noticeNo}">
 
-                  <td th:text="${board.myhouseNo}"></td>
-                  <td><a th:text="${board.myhouseTitle}"
-                      th:href="'/myhouseBoardDetail/'+${board.houseNo}+'/'+${board.myhouseCategory}+'/'+${board.myhouseNo}"></a>
+                  <td th:text="${board.noticeNo}"></td>
+                  <td><a th:text="${board.noticeTitle}"
+                      th:href="'/communityDetail/'+${board.noticeCategory}+'/'+${board.noticeNo}"></a>
                   </td>
                   <td th:text="${board.nickname}"></td>
-                  <td th:text="${board.myhouseRegDate}"></td>
-                  <td th:text="${board.myhouseHit}"></td>
+                  <td th:text="${board.noticeRegDate}"></td>
+                  <td th:text="${board.noticeHit}"></td>
                 </tr>
               </table>
             </div>
             <!--페이징 처리-->
             <div>
               <ul class="pagination">
-
-                <!--처음으로 버튼
+         <!--처음으로 버튼
          pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
          pageNum = 게시글 넘어가는 페이지값-->
-                <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a class="exPaging"
-                    th:href="'/myhouseBoard/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">
-                    <<</a> </li> <!--이전 버튼 마지막 페이지 이동 시 숨김-->
-                      <span th:if="${pageMaker.cri.pageNum}!=1">
-                <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a class="exPaging"
-                    th:href="'/myhouseBoard/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
-                </li>
-                </span>
-                <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
-                <span th:if="${pageMaker.endPage}!=0">
-                  <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+            <li th:class="pagination_button" style="float:left;margin-left:5px;">
+               <a th:href="'/community/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a>
+            </li>
+         <!--이전 버튼 마지막 페이지 이동 시 숨김-->
+            <span th:if="${pageMaker.cri.pageNum}!=1">
+               <li th:class="pagination_button" style="float:left;margin-left:5px;">
+                  <a th:href="'/community/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
+               </li>
+            </span>
+            <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
+            <span th:if="${pageMaker.endPage}!=0">
+               <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                   <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                     <a class="exPaging" th:href="'/myhouseBoard/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
+                     <a th:href="'/community/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
                   </li>
                </th:block>
             </span>
             <!--다음 버튼 마지막 페이지 이동 시 숨김-->
             <span th:if="${pageMaker.cri.pageNum}!=${pageMaker.endPage + 1}">
                <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a class="exPaging" th:href="'/myhouseBoard/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a>
+                  <a th:href="'/community/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a>
                </li>
             </span>
          <!--마지막으로 버튼-->
             <li th:class="pagination_button" style="float:left;margin-left:5px;">
-               <a class="exPaging" th:href="'/myhouseBoard/'+${category}+'?pageNum='+${pageMaker.endPage+1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">>></a>
+               <a th:href="'/community/'+${category}+'?pageNum='+${pageMaker.endPage+1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">>></a>
             </li>
          </ul>
       </div >
@@ -147,7 +145,7 @@
          
           <!--글쓰기 버튼-->
           <div class="div_right">
-			<a href="/mypage" class="btn btn-default" id="writerBtn">뒤로가기</a>           
+         <a href="/mypage" class="btn btn-default" id="writerBtn">뒤로가기</a>           
           </div>
         </div>
       </div>
@@ -172,26 +170,27 @@
   </script>
   
   <script>
-  	var dataArray = [];
-  	
-  	var data1 = {
+     var dataArray = [];
+     
+     var data1 = {
    
-	"houseNo" : $("#houseNo").val(),
-	"nickname" : $("#nickname").val()
-	}
-	
-	dataArray.push(data1);
+   "noticeNo" : $("#noticeNo").val(),
+   "nickname" : $("#nickname").val(),
+   "id" : $("#id").val()
+   }
+   
+   dataArray.push(data1);
 
-	var paramList = {
-	   "paramList" : JSON.stringify(dataArray)
-	}
+   var paramList = {
+      "paramList" : JSON.stringify(dataArray)
+   }
   
    $("select[id='sOption']").change(function(){
       let type = this.value;
       
        $.ajax({
       type:'post',
-      url:'/myhouseBoard/'+ type,
+      url:'/community/'+ type,
       data: paramList,
       success:function(obj){
          console.log(data+"111111");
@@ -210,43 +209,35 @@
                   
                   for(var i=0; i<data.paramList.length; i++){
                      htmlString += "<tr>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseNo +"</td>"
-                     if(data.paramList[i].myhouseCategory === "m"){
-						htmlString += "<td><a href="+'/items/'+data.paramList[i].myhouseNo+">"
-                                  +data.paramList[i].myhouseTitle +"</a></td>"
-						} else if(data.paramList[i].myhouseCategory === "s"){
-						htmlString += "<td><a href="+'/smallGroupDetail/'+data.paramList[i].houseNo+"/"+data.paramList[i].myhouseCategory+"/"+data.paramList[i].myhouseNo+">"
-                                  +data.paramList[i].myhouseTitle +"</a></td>"	
-						}else{
-                    htmlString += "      <td><a href="+'/myhouseBoardDetail/'+data.paramList[i].houseNo+"/"+data.paramList[i].myhouseCategory+"/"+data.paramList[i].myhouseNo+">"
-                                          +data.paramList[i].myhouseTitle +"</a></td>"
-						}
+                     htmlString += "      <td>"+data.paramList[i].noticeNo +"</td>"
+                    htmlString += "      <td><a href="+'/communityDetail/'+data.paramList[i].noticeCategory+"/"+data.paramList[i].noticeNo+">"
+                                          +data.paramList[i].noticeTitle +"</a></td>"
                      htmlString += "      <td>"+data.paramList[i].nickname +"</td>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseRegDate +"</td>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseHit +"</td>"
-                  	 htmlString += "</tr>"
+                     htmlString += "      <td>"+data.paramList[i].noticeRegDate +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].noticeHit +"</td>"
+                      htmlString += "</tr>"
       } 
             $("#paramList").append(htmlString);
       }, error:function(e){
-		console.log(e);
+      console.log(e);
 } 
    })
       
       }); 
   
   function getSearchList(){
-	$.ajax({
-		type: 'GET',
-		url : '/myhouseBoard/'+ type,
-		data : $("form[name=search-form]").serialize(paramList),
-		success : function(data){
-			//테이블 초기화
-			$('#paramList').empty();
-			if(result.length>=1){
-				result.forEach(function(obj){
-					  var data = JSON.parse(obj);
-					  $("#paramList").html(""); 
-				var htmlString = "";
+   $.ajax({
+      type: 'GET',
+      url : '/myhouseBoard/'+ type,
+      data : $("form[name=search-form]").serialize(paramList),
+      success : function(data){
+         //테이블 초기화
+         $('#paramList').empty();
+         if(result.length>=1){
+            result.forEach(function(obj){
+                 var data = JSON.parse(obj);
+                 $("#paramList").html(""); 
+            var htmlString = "";
                   htmlString += "<tr>"
                   htmlString += "<th id='table_width_no' >NO</th>"
                   htmlString += "<th id='table_text'>제목</th>"
@@ -257,18 +248,18 @@
                   
                   for(var i=0; i<data.paramList.length; i++){
                      htmlString += "<tr>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseNo +"</td>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseTitle +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].noticeNo +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].noticeTitle +"</td>"
                      htmlString += "      <td>"+data.paramList[i].nickname +"</td>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseRegDate +"</td>"
-                     htmlString += "      <td>"+data.paramList[i].myhouseHit +"</td>"
-                  	 htmlString += "</tr>"
-                  	 }
-					$('#paramList').append(htmlString);
-        		})				 
-			}
-		}
-	})
+                     htmlString += "      <td>"+data.paramList[i].noticeRegDate +"</td>"
+                     htmlString += "      <td>"+data.paramList[i].noticeHit +"</td>"
+                      htmlString += "</tr>"
+                      }
+               $('#paramList').append(htmlString);
+              })             
+         }
+      }
+   })
 }
   </script>
   

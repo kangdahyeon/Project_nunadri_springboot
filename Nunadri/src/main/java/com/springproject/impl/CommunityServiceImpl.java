@@ -95,7 +95,17 @@ public class CommunityServiceImpl implements CommunityService {
    }
 
 
-   
+
+   @Override
+   public List<CommunityVO> memberCommunityBoardList(CommunityVO communityBoardList, Criteria cri) {
+      
+      Map<String, Object> paramMap = new HashMap<String, Object>();
+      paramMap.put("paramList", communityBoardList);
+      cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+      paramMap.put("criteria", cri);
+      
+      return communityMapper.memberCommunityBoardList(paramMap);
+   }
 
 
 }

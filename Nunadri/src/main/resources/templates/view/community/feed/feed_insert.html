@@ -254,11 +254,11 @@
         <form action="/insertCommunity" method="post" enctype="multipart/form-data" id="feededitform">
         
         <input type="hidden" name="nickname" th:value="${nickname}">
-        
+        <input type="hidden" name="id" th:value="${#authentication.principal.username}">
         <input type="hidden" name="noticeCategory" th:value="B">
 
             <input type="text" class="form-control textbox" name="noticeTitle" placeholder="제목을 입력해주세요." style="color: black;" required>
-
+			
 
           <div class="contentsbox" style="height: 250px; padding-top: 5%;">
             <textarea class="form-control" rows="11" name="noticeContent" placeholder="내용을 입력해주세요" style="color: black; height: 200px;" required></textarea>
