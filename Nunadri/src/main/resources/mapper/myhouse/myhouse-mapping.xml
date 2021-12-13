@@ -12,6 +12,7 @@
 		(
 		MYHOUSE_NO
 		, MYHOUSE_CATEGORY
+		, ID
 		, NICKNAME
 		,HOUSE_NO
 		, MYHOUSE_TITLE
@@ -35,6 +36,7 @@
 		AND 
 		HOUSE_NO = #{houseNo})
 		, #{myhouseCategory}
+		, #{id}
 		, #{nickname}
 		, #{houseNo}
 		, #{myhouseTitle}
@@ -94,7 +96,9 @@
 		
 		<!-- 페이징 카운트 쿼리문 -->
         <select id="selectMyHouseBoardCount" resultType="int">
-      SELECT COUNT(*) FROM NOTICE_MYHOUSE WHERE MYHOUSE_CATEGORY = #{myhouseCategory} 
+      SELECT COUNT(*) FROM NOTICE_MYHOUSE 
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory} 
+      AND HOUSE_NO = #{houseNo}
             <if test="searchCondition == 'MYHOUSE_TITLE'">
                AND MYHOUSE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
@@ -106,9 +110,6 @@
                </if>
           
       </select> 
-		
-		
-		
 		
 		
 		<!-- 조회수 증가 쿼리 -->
@@ -167,42 +168,6 @@
    </update>
    
    
-   
-   
-   
-   
-   	<insert id="insertFleaMarket">
-		INSERT INTO NOTICE_MYHOUSE
-		(
-		MYHOUSE_NO
-		, MYHOUSE_CATEGORY
-		, NICKNAME
-		,HOUSE_NO
-		, MYHOUSE_TITLE
-		, MYHOUSE_CONTENT
-		, MYHOUSE_REGDATE
-		, MYHOUSE_HIT
-
-		) values (
-		(SELECT
-		IFNULL(MAX(MYHOUSE_NO), 0) + 1
-		FROM
-		NOTICE_MYHOUSE ALIAS_FOR_SUBQUERY
-		WHERE
-		MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND 
-		HOUSE_NO = #{houseNo})
-		, #{myhouseCategory}
-		, #{nickname}
-		, #{houseNo}
-		, #{myhouseTitle}
-		, #{myhouseContent}
-		, NOW()
-		,0
-		)
-	</insert>
-   
-
 	
 	<select id="getMyhouseNo" resultType="int">
 		SELECT IFNULL(MAX(MYHOUSE_NO),0) + 1

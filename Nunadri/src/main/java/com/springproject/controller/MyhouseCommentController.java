@@ -1,6 +1,7 @@
 package com.springproject.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -27,20 +28,21 @@ public class MyhouseCommentController {
    @GetMapping("/getMyhouseComment")
    @ResponseBody
    public List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList) {
-     
+	   
       return myhouseCommentService.getMyhouseComment(commentList);
    }
    
    
    
    
-
+   
    @PostMapping("/insertMyhouseComment")
-   public String insertMyhouseComment(MyhouseCommentVO commentInsert) {
+   @ResponseBody
+   public boolean insertMyhouseComment(MyhouseCommentVO commentInsert) {
 
       myhouseCommentService.insertMyhouseComment(commentInsert);
       
-      return "redirect:/myhouseBoardDetail/"+ commentInsert.getHouseNo() + "/" + commentInsert.getMyhouseCategory() + "/" +commentInsert.getMyhouseNo();
+      return true;
 
    }
    
@@ -57,11 +59,12 @@ public class MyhouseCommentController {
    
    //소모임 댓글
    @PostMapping("/smallGroupComment")
-   public String insertsmallGroupComment(MyhouseCommentVO commentInsert) {
+   @ResponseBody
+   public boolean insertsmallGroupComment(MyhouseCommentVO commentInsert) {
 
       myhouseCommentService.insertMyhouseComment(commentInsert);
       
-      return "redirect:/smallGroupDetail/"+ commentInsert.getHouseNo() + "/s/" +commentInsert.getMyhouseNo();
+      return true;
 
    }
    

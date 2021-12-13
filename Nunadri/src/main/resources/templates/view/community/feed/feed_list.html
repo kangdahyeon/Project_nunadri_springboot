@@ -17,6 +17,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="../../assets/apple-icon-180x180.png">
   <link href="../../assets/favicon.ico" rel="icon">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <script type="text/javascript" src="/../../../js/jquery.js"></script>
 
   <title>자랑게시판</title>
   <style>
@@ -166,6 +167,12 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+    
+   .white-text-container p {
+    text-shadow: none !important;
+    color: black !important;
+    margin: 0px;
+}
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -174,6 +181,8 @@
 <body>
 
   <div th:replace="view/fragments/header::header"></div>
+  
+   <input type="hidden" id="id" th:value="${#authentication.principal.username}">
   
   <!--hero-full-container : 내용이 없어도 페이지 크기가 유지되게해줌.
   background-image-container : 백그라운드 이미지 지정-->
@@ -188,51 +197,51 @@
           </div>
 
           <div class="body" style="font-size: 12px;">
-
+   <input type="hidden" id="feedPage" th:value="${pageMaker.cri.pageNum}">
             <!--글쓰기 버튼-->
             <div class="">
               <a href="/insertFeed" class="btn btn-default" id="writerBtn"
                 style="color: black; font-size: 15px;">작성하기</a>
             </div>
 
-            <!--검색창-->
-            <div class="div_right2">
-              <input type="search" placeholder=" 검색어를 입력하세요"><i class="fas fa-search icon_search2"></i>
-            </div>
-
             <div class="used_body">
             
             <th:block th:each="file, status: ${imgFileList}">
+                 <input type="hidden" id="noticeCategory" name="noticeCategory" th:value="${file.noticeCategory}">
+               <input type="hidden" id="noticeNo" name="noticeNo" th:value="${file.noticeNo}">
 
-              <div class="used_prod_wrap used_hp col-md-3 " th:if="${file.fileNo == 1}">
+              <div class="used_prod_wrap used_hp col-md-3 " >
 
                 <div class="used_galleryview_wrap card">
 
                   <ul class="used_prod_list">
 
-                    <li class="gallery_view fst">
+                    <li class="gallery_view fst" >
                       <div>
                         <a th:href="'/communityDetail/'+${file.noticeCategory}+'/'+${file.noticeNo}" title="" class="black-image-project-hover">
                           <img th:src="@{'/upload/'+${file.communityImgUrl}}" 
                             class="img-responsive" style="height:200px;width:200px; border-radius: 10px;">
                         </a>
-                      </div>
+                      </div >
+                      
 
-                      <div class="item_icons">
-
-                      </div>
                     </li>
+                    
                   </ul>
-
 
                 </div>
               </div>
             </th:block>
+                      <div id="feedList"></div >
             </div>
 
             <div>
-              <button id="searchMoreNotify" class="btn btn-outline-primary btn-block col-sm-10 mx-auto" style="background-color: white; box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-            border-radius: 5px; width: 200px; margin-left: 41%;">더 보기</button>
+            
+              <button id="btn_likeList"type="click" onclick='fnViewMore();' class="btn btn-outline-primary btn-block col-sm-10 mx-auto" style="background-color: white; box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+            border-radius: 5px; width: 200px; margin-left: 41%;">
+            <p >더보기</p >
+            </button>
+            
             </div>
 
           </div>
@@ -259,6 +268,80 @@
       }
     });
   </script>
+  
+     <script>
+   
+   /* 좋아요 */
+   let feedArray = [];
+   
+   let noticeCategory = $("#noticeCategory").val();
+   let noticeNo = $("#noticeNo").val();   
+   let nickname = $("#nickname").val();   
+   let id = $("#id").val(); 
+   let feedPage = $("#feedPage").val();
+     
+        let feed = {
+   
+   "noticeNo" : $("#noticeNo").val(),
+   "noticeCategory" : $("#noticeCategory").val(),
+   }
+     
+   feedArray.push(feed);
+
+   let feedList = {
+      "feedList" : JSON.stringify(feedArray)
+   }
+  
+   //$("#btn_likeList").click(function(){
+      
+      
+    //  }); 
+      
+      function fnViewMore() {
+      console.log(123);
+       $.ajax({
+      type:'post',
+      url:'/commu/B',
+      data: {
+         'noticeCategory':noticeCategory,
+         'noticeNo':noticeNo,
+         'pageNum':++feedPage
+         }
+         ,feedList,
+      success:function(obj){
+                  var data = JSON.parse(obj);
+                  console.log(data.feedList);
+            var htmlString = "";
+                   //$("#feedPage").val(data.pageMaker.cri.pageNum++); 
+                    
+                  for(var i=0; i<data.feedList.length; i++){
+               console.log(data.feedList[i].noticeCategory);
+               console.log(data.feedList[i].noticeNo);
+                  htmlString += "<div class='used_prod_wrap used_hp col-md-3' >"
+                     htmlString += "<div class='used_galleryview_wrap card'>"
+                htmlString += "<ul class='used_prod_list'>"
+                    htmlString += "<li class='gallery_view fst' >"
+                     htmlString += "<div>"
+                     htmlString += "      <a class='black-image-project-hover' href='/communityDetail/"+data.feedList[i].noticeCategory+"/"+data.feedList[i].noticeNo+"'><img style='height:200px;width:200px; border-radius: 10px;' class='img-responsive' src=/upload/"+ data.feedList[i].communityImgUrl +"></a>"
+                      htmlString += "</div>"
+                 htmlString += "</li>"
+                 htmlString += "</ul>"
+                 htmlString += "</div>"
+                 htmlString += "</div>"
+            }
+            $('#btn_likeList').remove();//remove btn
+             htmlString += "<button type='click'  id='btn_likeList' onclick='fnViewMore();' class='btn btn-outline-primary btn-block col-sm-10 mx-auto' style='background-color: white; box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);border-radius: 5px; width: 200px; margin-left: 41%;'>"
+             htmlString += "<p>더보기</p >"
+             htmlString += "</button>"
+            
+            $("#feedList").append(htmlString);
+             
+            }, error:function(e){
+            console.log(e);
+           } 
+         })
+      }
+   </script>
 
   <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
 

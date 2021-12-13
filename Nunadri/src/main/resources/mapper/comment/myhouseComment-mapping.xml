@@ -6,7 +6,6 @@
 
 <mapper namespace="com.springproject.mapper.MyhouseCommentMapper">
 
-
    <insert id="insertMyhouseComment">
       INSERT INTO MYHOUSE_COMMENT
       (
@@ -67,7 +66,7 @@
       AND NICKNAME = #{nickname}
    </delete>
    
-    <!-- 소모임 -->
+    <!-- 소모임 댓글 조인-->
       <select id="updateJoin" resultType="int"> 
       SELECT COUNT(*) FROM MYHOUSE_COMMENT
       WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
@@ -77,5 +76,5 @@
       <!-- AND MYHOUSE_COMMENT_NO = #{myhouseCommentNo}  -->
       AND SMALL_GROUP_JOIN = "O"
       </select>
-     
+	
 </mapper>

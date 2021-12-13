@@ -23,217 +23,50 @@
   <script type="text/javascript" src="/../../js/jquery.js"></script>
 
   <title>소모임게시판-디테일</title>
-  <style>
-     .commentDetail {
-   display : flex;
-   justify-content: left;
-   width: 430px;
-}
-     .commentStyle {
-      color : hotpink;
-      width: 60px;
-      text-align: left;
-      
-   }
-     .commentNickname {
-      color : coral;
-      width: 70px;
-      text-align: left;
-   }
-   
-   	.commentContent{
-	width: 400px;
-	padding: 0px;
-	text-align: left;
-	
-}
-    .navbar_display {
-      background-color: white;
-      box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
-      border-radius: 4px;
-      transition: all 300ms ease-in-out;
-    }
-    .item_sell {
-      width: 800px;
-      height: 500px;
-      padding: 20px 32px;
-      border: 3px solid #eeeeee;
-      border-radius: 4px;
-      margin: 12px auto;
-      z-index: 2;
-      font-size: 16px;
-    }
+<style>
+	.commentDetail {
+		display: flex;
+		justify-content: left;
+		width: 430px;
+	}
 
-    .item_img {
-      width: 200px;
-      height: 200px;
-    }
+	.commentStyle {
+		color: hotpink;
+		width: 60px;
+		text-align: left;
 
-    .item_img img {
-      border-radius: 4px;
-    }
+	}
 
-    .item_list {
-      /*       
-      padding: 16px;
-      margin-left: 24px; */
-    }
+	.commentNickname {
+		color: coral;
+		width: 70px;
+		text-align: left;
+	}
 
-    .item_title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 1;
-      -webkit-box-orient: vertical;
-    }
+	.commentContent {
+		width: 400px;
+		padding: 0px;
+		text-align: left;
 
-    .item_title a {
-      text-decoration: none;
-    }
+	}
 
-    .gallery_view {
-      float: left;
-      /* width: 200px; */
-      padding: 0 23px 11px 0;
-      list-style-type: none;
-    }
+	.bx-wrapper {
+		margin-bottom: 0px;
+		margin-left: 6%;
+	}
 
-    .item_price {
-      padding-bottom: 42px;
-    }
+	.bxslider>li {
+		height: 280px;
+		width: 540px;
+	}
 
-    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
-      float: left;
-      width: 200px;
-      margin-left: 74px;
-      padding: 0 0 13px 0;
-    }
-
-    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
-      margin-left: 0 !important
-    }
-
-    div {
-      display: block;
-    }
-
-    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
-      display: block;
-      content: '';
-      clear: both;
-    }
-
-
-    .container {
-      width: 970px;
-    }
-
-    .gallery_view {
-      float: left;
-      width: 200px;
-      padding: 0 23px 11px 0;
-    }
-
-    ul {
-      display: block;
-      list-style-type: disc;
-      margin-block-start: 1em;
-      margin-block-end: 1em;
-      margin-inline-start: 0px;
-      margin-inline-end: 0px;
-      padding-inline-start: 74px;
-    }
-
-
-    /* 글쓰기 버튼*/
-    #writerBtn {
-      position: absolute;
-      right: 270px;
-      color: black;
-      margin-top: 10px;
-      border-radius: 5px;
-      border-color: black;
-    }
-
-    .div_right {
-      padding-left: 896px;
-
-    }
-
-    .div_right>input {
-      position: relative;
-      width: 200px;
-      margin-bottom: 30px;
-      border-radius: 5px;
-      background-color: rgba(0, 0, 0, 0.0001);
-      border: 1px solid black;
-      color: black;
-      padding-left: 30px;
-    }
-
-    .icon_search {
-      position: absolute;
-      left: 1085px;
-      margin-top: 7.5px;
-      color: black;
-    }
-
-    .white-text-container h2 {
-      color: black;
-    }
-
-    .black-image-project-hover img {
-      -webkit-transform: scale(1);
-      -moz-transform: scale(1);
-      -ms-transform: scale(1);
-      -o-transform: scale(1);
-      transform: scale(1);
-      -webkit-transition: .3s;
-      -moz-transition: .3s;
-      -ms-transition: .3s;
-      -o-transition: .3s;
-      transition: .3s;
-    }
-
-    .black-image-project-hover img:hover {
-      -webkit-transform: scale(1.2);
-      -moz-transform: scale(1.2);
-      -ms-transform: scale(1.2);
-      -o-transform: scale(1.2);
-      transform: scale(1.2);
-    }
-
-    .css-1oylls0::after {
-      content: "";
-      position: fixed;
-      top: 0px;
-      left: 0px;
-      z-index: 0;
-      background: rgb(18, 18, 24);
-      width: 100%;
-      height: 100%;
-      opacity: 0.8;
-    }
-    #writerBtn:hover {
-      background-color: rgb(218, 162, 60);
-    }
-    
-    .bx-wrapper {
-      margin-bottom: 0px;
-    }
-   .bxslider>li{
-	height: 330px;
-	width: 540px;
-}
-.bxslider>li>img{
-	height: 100%;
-	width: 100%;
-	 box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
-    border-radius: 5px;
-}
-
-    
-  </style>
+	.bxslider>li>img {
+		height: 100%;
+		width: 100%;
+		box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
+		border-radius: 5px;
+	}
+</style>
 
   <link href="../../../css/main.css" rel="stylesheet">
   <link rel="stylesheet" href="../../../css/feed/feedview.css">
@@ -255,9 +88,9 @@
                 <section class="v_leftbox2">
           
                   <!-- feed photo -->
-		         <ul class="bxslider">
+		         <ul class="bxslider" th:if="${#lists.size(fileList)}>0">
                    <li  th:each="file :${fileList}"><img th:src="@{/upload/} + ${file.myhouseImgUrl}" /></li  >
-               </ul>
+                 </ul>
 		         
           
           
@@ -270,7 +103,7 @@
                     <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>
                      </span>
                      <!-- feed creator date -->
-                    <p class="v_title" style="margin-left: 50%;"th:text="${getBoard.myhouseDate}+'일 '+${getBoard.myhouseTime}"></p>
+                    <p class="v_title" style="margin-top:4%; color: hotpink;"th:text="'모임시간 : '+${getBoard.myhouseDate}+'일 '+${getBoard.myhouseTime}"></p>
                     <!-- feed creator nickname -->
                     
                     <a href="" class="v_nickname2" th:text="${getBoard.nickname}">닉네임</a>
@@ -310,7 +143,7 @@
                </div>
                </form>
                <div class="edit_div2" style="right: 155px;">
-              		<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateSmallGroup/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >수정</a   >
+              		<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >수정</a   >
                   </div>
                   <div class="delete_div2" style="right: 90px;">
                     <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >삭제</a   >
@@ -340,25 +173,23 @@
               
                   
           
-          <form action="/smallGroupComment" method="post">
+          <form action="/smallGroupComment" method="post" id="commentInsert">
           <input type="hidden" name="nickname" th:value="${nickname}">
             <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
             <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
            
                     <!-- commenting form START -->
-                    <form method="post" enctype="multipart/form-data">
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" placeholder="댓글달기" name="myhouseComment" autofocus required>
+                          <input type="text" id="commentInsert" placeholder="댓글달기" name="myhouseComment" autofocus required>
                         </div>
                         <div class="submitbox">
-                          <input type="submit" id="comment_submit" value="게시" onclick="commentSubmit()">
+                          <input type="button" id="commentInsert" value="게시" onclick="commentSubmit()">
                         </div>
           
                       </div>
-                    </form>
           </form>
           
                     <!-- commenting form END -->
@@ -416,9 +247,8 @@
 
         autoDelay: 0,
 
-        slideWidth: 500, //이미지 박스 크기설정
+        slideWidth: 450, //이미지 박스 크기설정
         
-
         speed: 500,
 
         stopAutoOnclick: true
@@ -495,6 +325,21 @@ function deleteComment(myhouseCommentNo){
       
    }
    
+}
+//댓글 등록 ajax
+function commentSubmit(){
+   
+   $.ajax({
+      type: 'POST',
+      url:'/insertMyhouseComment',
+      data:$("#commentInsert").serialize(),
+      success:function(data){
+         if(data){
+            getCommentList();
+            $("#commentText").val("");
+         }
+      }
+   })
 }
 
 //function onDisplay(){

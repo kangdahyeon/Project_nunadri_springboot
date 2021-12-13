@@ -136,10 +136,11 @@
     }
 
     .icon_search {
-      position: absolute;
-      left: 1085px;
-      margin-top: 7.5px;
       color: black;
+      margin-right: 0px;
+      right:6% !important;
+      top : 250px !important;
+      
     }
 
     .white-text-container h2 {
@@ -227,6 +228,17 @@
       margin-inline-start: 0px;
       margin-inline-end: 0px;
     }
+
+.icon_search {
+    position: absolute;
+    right: 8%;
+    top: 158px;
+    margin-right: 180px;
+    color: #fff;
+    cursor: pointer;
+    padding-bottom: 2000px;
+    transform: translate(-30px,-53px);
+}
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -240,7 +252,7 @@
   <div class="hero-full-container white-text-container">
     <div class="section-container background-image-container" style="background-image: none;">
       <div class="container">
-        <div class="row">
+        <!--<div class="row">-->
 
           <div class="col-sm-8 col-sm-offset-2 section-container-spacer" style="margin-bottom: 0px;">
             <div class="text-center">
@@ -258,8 +270,8 @@
 
             <div id="divsize">
               <!--검색창-->
-                <div class="div_right" style="width: 33%;">
-               
+                <div class="div_right" style="width: 120%; margin-bottom: 48px;">
+               <div class="outer" style="display: flex; justify-content: end;">
                <select name="searchCondition">
                   <th:each>
                      <option value="MYHOUSE_TITLE">제목
@@ -267,8 +279,11 @@
                      <option value="NICKNAME">작성자
                   </th:each>
             </select> 
-              <input  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
-              <button type="submit" style="background-color: rgb(10, 55, 50); border: 0;"><i class="fas fa-search icon_search"></i> </button >
+            
+              <input style="color: black; border:1px solid black"  name="searchKeyword" type="search" placeholder=" 검색어를 입력하세요">
+              <!--<button type="submit" style="background-color: blue;  border: 0;"><i class="fas fa-search icon_search" style="color: black;"></i></button >-->
+              <button type="submit" style="width: 40px; background-color: white;  border: 0;"><i class="fas fa-search icon_search" style="color: black; position: none;"></i></button >
+                </div>
             </div>
               <br>
 
@@ -276,7 +291,7 @@
 
               <div class="row">
                 <th:block th:each="item, status: ${fleaMarketList}">
-                  <div class="col-md-4 margin">
+                  <div class="col-md-3 margin">
                     <div class="card">
                       <a class="text-dark" th:href="'/items/' + ${item.myhouseNo}">
                         <img th:src="@{'/upload/'+${item.myhouseImgUrl}}" class="card-img-top" height="270" width="250">
@@ -293,7 +308,7 @@
                   </div>
                 </th:block>
               </div>
-
+            </div>
               <!--페이징 처리-->
               <div>
                 <ul class="pagination">
@@ -302,17 +317,16 @@
          pageMaker : 컨트롤러에 noticeBoard안에 선안한값 
          pageNum = 게시글 넘어가는 페이지값-->
                   <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                    <a
-                      th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">
-                      <<</a> </li> <!--이전 버튼 마지막 페이지 이동 시 숨김-->
-                        <span th:if="${pageMaker.cri.pageNum}!=1">
+                    <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.startPage}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}"><<</a> 
+                   </li> 
+                    <!--이전 버튼 마지막 페이지 이동 시 숨김-->
+                  <span th:if="${pageMaker.cri.pageNum}!=1">
                   <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                    <a
-                      th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
+                    <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum -1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">이전</a>
                   </li>
                   </span>
                   <!--숫자 버튼 게시글 수가 늘어날 수록 하나씩 추가된다.-->
-                  <span th:if="${pageMaker.endPage}!=0">
+                  <span th:if=" ${pageMaker.endPage}!=0">
                     <th:block th:each="Num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
                   <li th:class="pagination_button" style="float:left;margin-left:5px;">
                      <a th:href="'/board/'+${category}+'?pageNum='+${Num}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}" th:text="${Num}"></a>
@@ -322,7 +336,7 @@
             <!--다음 버튼 마지막 페이지 이동 시 숨김-->
             <span th:if="${pageMaker.cri.pageNum}!=${pageMaker.endPage + 1}">
                <li th:class="pagination_button" style="float:left;margin-left:5px;">
-                  <a  th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a >
+                  <a th:href="'/board/'+${category}+'?pageNum='+${pageMaker.cri.pageNum +1}+'&searchCondition='+${condition}+'&searchKeyword='+${keyword}">다음</a >
                </li>
             </span>
          <!--마지막으로 버튼-->

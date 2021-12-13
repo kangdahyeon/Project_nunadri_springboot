@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.role.Role;
 import com.springproject.service.MemberService;
-import com.springproject.vo.HouseVO;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
