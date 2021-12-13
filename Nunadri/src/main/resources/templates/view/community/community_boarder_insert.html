@@ -648,6 +648,7 @@
 			width: 400px;
 			margin-left: 10px;
 			font-size: small;
+			color :white;
 	}
   </style>
 
@@ -673,6 +674,7 @@
                 </select>
             </div>
               <input type="hidden" name="nickname" th:value="${nickname}">
+              <input type="hidden" name="id" th:value="${#authentication.principal.username}">
 
             <input type="text" class="form-control textbox" name="noticeTitle" placeholder="제목을 입력해주세요." required>
                 <div class="form-group">

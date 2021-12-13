@@ -12,6 +12,7 @@ public class CommunityVO {
 	private int noticeNo;
 	
 	private String nickname;
+	private String id;
 	
 	private Date noticeRegDate;
 	

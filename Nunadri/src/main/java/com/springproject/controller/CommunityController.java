@@ -78,8 +78,8 @@ public class CommunityController {
    @PostMapping(value = "/insertCommunity")
    public String insertCommunity(CommunityVO communityInsert, HttpServletRequest request,
          MultipartHttpServletRequest mhsr) {
+	   
       try {
-
          int seq = communityService.getCoummunityNo();
          String category = communityInsert.getNoticeCategory();
 
@@ -214,13 +214,13 @@ public class CommunityController {
       if (arr != null) {
          fvo.setNoticeCategory(cvo.getNoticeCategory());
          fvo.setNoticeNo(cvo.getNoticeNo());
-        //			List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
+//			List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
          for (int x : arr) {
-           //				for(FileCommunityVO fvo2 : list) {
+//				for(FileCommunityVO fvo2 : list) {
 //					File file = new File(path + fvo2.getCommunityImgUrl());
 //					if(file.exists()) {
 //						file.delete();
-//					}
+//				}
             fvo.setFileNo(x);
             communityFileService.deleteCommunityFile(fvo);
          }

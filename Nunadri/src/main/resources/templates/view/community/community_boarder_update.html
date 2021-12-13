@@ -697,10 +697,10 @@
                             </a>
                             <!--파일 이름 뜨는곳-->
                             <input type="text" id="fileName" readonly="readonly" class="uploadFileText">
-                        <div class="uploadFileList" th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
-               				<span th:text="${file.myhouseFilename}"></span  >
+                      <!--  <div class="uploadFileList" th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               				<span th:text="${file.noticeFileName}"></span  >
                				<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
-              			</div  >
+              			</div  >-->
                       </div>
                   </div>
               

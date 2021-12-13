@@ -2,23 +2,23 @@ package com.springproject.mapper;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springproject.dto.CommunityCommentDto;
 import com.springproject.vo.CommunityCommentVO;
-import com.springproject.vo.MemberVO;
 
 
 @Mapper
 public interface CommunityCommentMapper {
    
-   void insertCommunityComment(CommunityCommentVO ccv);
+   void insertCommunityComment(CommunityCommentVO commentInsert);
    
    List<CommunityCommentVO> getCommunityComment(CommunityCommentVO ccv);
    
    void deleteCommunityComment(CommunityCommentVO ccv);
    
-   List<CommunityCommentDto> getProfile(MemberVO profile);
+   List<CommunityCommentDto> getProfile(Map<String, Object> paramMap);
    
 }

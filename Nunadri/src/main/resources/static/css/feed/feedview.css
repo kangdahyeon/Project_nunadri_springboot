@@ -158,6 +158,14 @@ button:hover, input:hover, a:hover {
 	color: coral;
 }
 
+.v_profile > .writerName {
+	position: absolute;
+	padding-left: 30%;
+	top: 30px;
+	padding-right: 10px;
+	color: coral;
+}
+
 .edit_div {
     position:absolute;
     right:100px;
@@ -241,8 +249,12 @@ button:hover, input:hover, a:hover {
 	/* border-top: 1px solid #C9C0AE; */
 	white-space: normal;
 	word-break: break-all;
-	
 }
+
+/*.commentbox::webkit-scrollbar {
+		width:5px;
+		background-color: black;
+}*/
 .commentbox > div > p {
 	text-align: left;
 }

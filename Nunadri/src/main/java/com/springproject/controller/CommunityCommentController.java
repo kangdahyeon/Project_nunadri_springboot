@@ -1,7 +1,9 @@
 package com.springproject.controller;
 
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +16,9 @@ import com.springproject.vo.CommunityCommentVO;
 import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
-
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 public class CommunityCommentController {
@@ -29,9 +32,15 @@ public class CommunityCommentController {
    @GetMapping("/getCommunityComment")
    public List<CommunityCommentDto> getCommunityComment(CommunityCommentVO ccv) {
 	   MemberVO vo = new MemberVO();
-	   vo.setNickname(ccv.getNickname());
-	   List<CommunityCommentDto> list = communityCommentService.getProfile(vo);
-   
+	   vo.setId(ccv.getId());
+	   
+	   Map<String, Object> paramMap = new HashMap<String, Object>();
+	   
+	   paramMap.put("member", vo);
+	   paramMap.put("comment", ccv);
+
+	   List<CommunityCommentDto> list = communityCommentService.getProfile(paramMap);
+
       return list;
    }
    
@@ -40,8 +49,8 @@ public class CommunityCommentController {
    
    @ResponseBody
    @PostMapping("/insertCommunityComment")
-   public boolean insertCommunityComment(CommunityCommentVO ccv) {
-      communityCommentService.insertCommunityComment(ccv);
+   public boolean insertCommunityComment(CommunityCommentVO commentInsert) {
+      communityCommentService.insertCommunityComment(commentInsert);
       
       return true;
 

@@ -12,6 +12,7 @@
 		,COMMUNITY_COMMENT_NO
 		,COMMUNITY_COMMENT
 		,NICKNAME
+		,ID
 		,COMMUNITY_COMMENT_REGDATE
 	</sql>
 
@@ -23,6 +24,7 @@
 	      , NOTICE_CATEGORY
 	      , NOTICE_NO
 	      , NICKNAME
+	      , ID
 	      , COMMUNITY_COMMENT
 	      , COMMUNITY_COMMENT_REGDATE
 
@@ -38,6 +40,7 @@
       , #{noticeCategory}
       , #{noticeNo}
       , #{nickname}
+      , #{id}
       , #{communityComment}
       , NOW()
       )
@@ -55,15 +58,16 @@
    <delete id="deleteCommunityComment">
       DELETE FROM COMMUNITY_COMMENT
       WHERE
-      		COMMUNITY_COMMENT_NO = #{communityCommentNo}m
+      		COMMUNITY_COMMENT_NO = #{communityCommentNo}
       AND 
       		NOTICE_CATEGORY =#{noticeCategory}
       AND 
       		NOTICE_NO = #{noticeNo}
    </delete>
    
-   <select id="getProfile" resultType="com.springproject.dto.CommunityCommentDto">
+   <select id="getProfile" parameterType="HashMap" resultType="com.springproject.dto.CommunityCommentDto">
    		SELECT 
+   					C.ID,
 						C.NICKNAME,
 						M.PROFILE,
 						C.COMMUNITY_COMMENT_NO,
@@ -71,8 +75,16 @@
 						C.NOTICE_CATEGORY,
 						C.NOTICE_NO
 		 	FROM 
-					MEMBER AS M, COMMUNITY_COMMENT AS C
-					WHERE M.ID = C.ID;
+					projectdb.COMMUNITY_COMMENT AS C INNER JOIN projectdb.MEMBER AS M
+			ON
+					C.ID = M.ID 
+			WHERE
+					C.NOTICE_CATEGORY = #{comment.noticeCategory}
+			AND 
+					C.NOTICE_NO = #{comment.noticeNo}
+					
+			ORDER BY C.COMMUNITY_COMMENT_NO ASC;
+					
    </select>
 
 </mapper>
