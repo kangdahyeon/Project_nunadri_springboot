@@ -1,11 +1,12 @@
 package com.springproject.configuration;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+@EnableAutoConfiguration
 public class MvcConfiguration implements WebMvcConfigurer {
 	@Bean
 	public CommonsMultipartResolver multipartResolver() {
