@@ -45,6 +45,7 @@
          WHERE
             NOTICE_CATEGORY = #{imgFileList.noticeCategory}
          AND FILE_NO = 1
+         ORDER BY NOTICE_NO DESC
          LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
       </select>
 

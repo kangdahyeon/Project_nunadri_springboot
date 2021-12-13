@@ -3,14 +3,9 @@ package com.springproject.controller;
 
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -24,15 +19,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -40,9 +32,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springproject.common.FileUtils;
 import com.springproject.impl.UserDetailsServiceImpl;
+import com.springproject.service.CommunityService;
 import com.springproject.service.MemberService;
-import com.springproject.service.MyhouseFileService;
 import com.springproject.service.MyhouseService;
+import com.springproject.vo.CommunityVO;
 import com.springproject.vo.Criteria;
 import com.springproject.vo.MemberVO;
 import com.springproject.vo.NoticeMyhouseVO;
@@ -62,9 +55,10 @@ public class MyPageController {
 
 	private final MyhouseService myhouseService;
 
-	private final MyhouseFileService myhouseFileService;
 
 	private final UserDetailsServiceImpl UserDetailsServiceImpl;
+
+	private final CommunityService communityService;
 
 	static String condition ="";
 	static String keyword="";
@@ -94,83 +88,91 @@ public class MyPageController {
 	}
 
 	//게시판(공지사항, 도와주세요, 자유게시판) 목록
-	@GetMapping("/myhouseBoard/{category}")  //
-	public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
-			@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
+	   @GetMapping("/myhouseBoard/{category}")  //
+	   public String noticeBoard(@PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
+	         @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
 
-		System.out.println("================================================================");
-		myhouseBoardList.setMyhouseCategory(category);
-		//
-		myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+	      myhouseBoardList.setMyhouseCategory(category);
+	      //
+	      myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
 
-		myhouseBoardList.setNickname(user.getNickname());
+	      myhouseBoardList.setNickname(user.getNickname());
 
-		//검색값 없을때 기본 값 설정
-		if(myhouseBoardList.getSearchCondition() == null) {
-			myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
-		}
-		if(myhouseBoardList.getSearchKeyword() == null) {
-			myhouseBoardList.setSearchKeyword("");
-		}
+	      myhouseBoardList.setId(user.getId());
+	      
+	      System.out.println(user.getId());
+	      
+	      //검색값 없을때 기본 값 설정
+	      if(myhouseBoardList.getSearchCondition() == null) {
+	         myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
+	      }
+	      if(myhouseBoardList.getSearchKeyword() == null) {
+	         myhouseBoardList.setSearchKeyword("");
+	      }
 
-		//검색, 키워드 값(페이징 처리시 필요)
-		condition = myhouseBoardList.getSearchCondition();
-		keyword = myhouseBoardList.getSearchKeyword();
+	      //검색, 키워드 값(페이징 처리시 필요)
+	      condition = myhouseBoardList.getSearchCondition();
+	      keyword = myhouseBoardList.getSearchKeyword();
 
-		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
+	      int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
 
-		model.addAttribute("category", category);
-		model.addAttribute("paramList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
-		model.addAttribute("pageMaker", new PageVO(cri, total));
-		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
-		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
+	      model.addAttribute("category", category);
+	      model.addAttribute("paramList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+	      model.addAttribute("pageMaker", new PageVO(cri, total));
+	      model.addAttribute("condition", myhouseBoardList.getSearchCondition());
+	      model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
 
-		return "view/member/mypage/member_myhouse_boarder_list";
-	}
-
-
-	@RequestMapping(value="/myhouseBoard/{category}")  //
-	@ResponseBody
-	public String noticeBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
-			@AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
-
-		ObjectMapper mapper = new ObjectMapper();
-		HashMap<String, Object> hashMap = new HashMap<String, Object>();
+	      System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+	      
+	      return "view/member/mypage/member_myhouse_boarder_list";
+	   }
 
 
-		myhouseBoardList.setMyhouseCategory(category);
-		//
-		myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+	   @RequestMapping(value="/myhouseBoard/{category}")  //
+	   @ResponseBody
+	   public String noticeBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,NoticeMyhouseVO myhouseBoardList,
+	         @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
 
-		myhouseBoardList.setNickname(user.getNickname());
-
-		//검색값 없을때 기본 값 설정
-		if(myhouseBoardList.getSearchCondition() == null) {
-			myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
-		}
-		if(myhouseBoardList.getSearchKeyword() == null) {
-			myhouseBoardList.setSearchKeyword("");
-		}
-
-		//검색, 키워드 값(페이징 처리시 필요)
-		condition = myhouseBoardList.getSearchCondition();
-		keyword = myhouseBoardList.getSearchKeyword();
-
-		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
-
-		model.addAttribute("category", category);
-		model.addAttribute("boardList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
-		model.addAttribute("pageMaker", new PageVO(cri, total));
-		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
-		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
-
-		List<NoticeMyhouseVO> paramList = myhouseService.memberMyhouseBoardList(myhouseBoardList, cri);
-		hashMap.put("paramList", paramList);
-		String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
+	      ObjectMapper mapper = new ObjectMapper();
+	      HashMap<String, Object> hashMap = new HashMap<String, Object>();
 
 
-		return json;
-	}
+	      myhouseBoardList.setMyhouseCategory(category);
+	      //
+	      myhouseBoardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
+
+	      myhouseBoardList.setNickname(user.getNickname());
+	      
+	      myhouseBoardList.setId(user.getId());
+	      
+
+	      //검색값 없을때 기본 값 설정
+	      if(myhouseBoardList.getSearchCondition() == null) {
+	         myhouseBoardList.setSearchCondition("MYHOUSE_TITLE");
+	      }
+	      if(myhouseBoardList.getSearchKeyword() == null) {
+	         myhouseBoardList.setSearchKeyword("");
+	      }
+
+	      //검색, 키워드 값(페이징 처리시 필요)
+	      condition = myhouseBoardList.getSearchCondition();
+	      keyword = myhouseBoardList.getSearchKeyword();
+
+	      int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
+
+	      model.addAttribute("category", category);
+	      model.addAttribute("boardList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
+	      model.addAttribute("pageMaker", new PageVO(cri, total));
+	      model.addAttribute("condition", myhouseBoardList.getSearchCondition());
+	      model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
+
+	      List<NoticeMyhouseVO> paramList = myhouseService.memberMyhouseBoardList(myhouseBoardList, cri);
+	      hashMap.put("paramList", paramList);
+	      String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
+
+
+	      return json;
+	   }
 
 	//회원정보 수정
 	@PostMapping(value="/update")
@@ -296,4 +298,85 @@ public class MyPageController {
 
 		return "redirect:/mypage";
 	}
+	
+	//게시판(공지사항, 도와주세요, 자유게시판) 목록
+	   @GetMapping("/community/{category}")  //
+	   public String communtiyBoard(@PathVariable("category")String category,CommunityVO communityList,
+	         @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
+
+	      communityList.setNoticeCategory(category);
+	      //
+	      communityList.setNickname(user.getNickname());
+	      
+	      communityList.setId(user.getId());
+
+	      //검색값 없을때 기본 값 설정
+	      if(communityList.getSearchCondition() == null) {
+	         communityList.setSearchCondition("NOTICE_TITLE");
+	      }
+	      if(communityList.getSearchKeyword() == null) {
+	         communityList.setSearchKeyword("");
+	      }
+
+	      //검색, 키워드 값(페이징 처리시 필요)
+	      condition = communityList.getSearchCondition();
+	      keyword = communityList.getSearchKeyword();
+
+	      int total = communityService.selectCommunityCount(communityList);
+
+	      model.addAttribute("category", category);
+	      model.addAttribute("paramList", communityService.memberCommunityBoardList(communityList, cri));
+	      model.addAttribute("pageMaker", new PageVO(cri, total));
+	      model.addAttribute("condition", communityList.getSearchCondition());
+	      model.addAttribute("keyword", communityList.getSearchKeyword());
+	      
+	      System.out.println(communityService.memberCommunityBoardList(communityList, cri));
+
+	      return "view/member/mypage/member_community_boarder_list";
+	   }
+
+
+	   @RequestMapping(value="/community/{category}")  //
+	   @ResponseBody
+	   public String communtiyBoard1(@RequestParam Map<String, Object> parameters, @PathVariable("category")String category,CommunityVO communityList,
+	         @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) throws JsonMappingException, JsonProcessingException {
+
+	      ObjectMapper mapper = new ObjectMapper();
+	      HashMap<String, Object> hashMap = new HashMap<String, Object>();
+
+
+	      communityList.setNoticeCategory(category);
+	      //
+	      communityList.setNickname(user.getNickname());
+	      
+	      communityList.setId(user.getId());
+
+	      //검색값 없을때 기본 값 설정
+	      //검색값 없을때 기본 값 설정
+	      if(communityList.getSearchCondition() == null) {
+	         communityList.setSearchCondition("NOTICE_TITLE");
+	      }
+	      if(communityList.getSearchKeyword() == null) {
+	         communityList.setSearchKeyword("");
+	      }
+
+	      //검색, 키워드 값(페이징 처리시 필요)
+	      condition = communityList.getSearchCondition();
+	      keyword = communityList.getSearchKeyword();
+
+	      int total = communityService.selectCommunityCount(communityList);
+
+	      model.addAttribute("category", category);
+	      model.addAttribute("paramList", communityService.memberCommunityBoardList(communityList, cri));
+	      model.addAttribute("pageMaker", new PageVO(cri, total));
+	      model.addAttribute("condition", communityList.getSearchCondition());
+	      model.addAttribute("keyword", communityList.getSearchKeyword());
+
+	      List<CommunityVO> paramList = communityService.memberCommunityBoardList(communityList, cri);
+	      hashMap.put("paramList", paramList);
+	      String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
+
+
+	      return json;
+	   }
 }

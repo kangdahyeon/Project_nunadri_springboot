@@ -5,6 +5,7 @@
            NOTICE_CATEGORY
          , NOTICE_NO
          , NICKNAME
+         , ID
          , NOTICE_REGDATE
          , NOTICE_TITLE
          , NOTICE_CONTENT
@@ -16,6 +17,7 @@
       (
           NOTICE_NO
          , NOTICE_CATEGORY
+         , ID
          , NICKNAME
          , NOTICE_REGDATE
          , NOTICE_TITLE
@@ -30,6 +32,7 @@
             WHERE 
                NOTICE_CATEGORY = #{noticeCategory})
                            , #{noticeCategory}
+                           , #{id}
                            , #{nickname}
                            , date_format(now(), '%Y-%m-%d %H:%m')
                            , #{noticeTitle}
@@ -180,5 +183,25 @@
     AND NOTICE_NO=#{noticeNo}
     AND ID=#{id}
   </delete>
+  
+     <select id="memberCommunityBoardList" resultType="CommunityVO" parameterType="HashMap"> 
+      SELECT * FROM NOTICE_COMMUNITY 
+      WHERE NOTICE_CATEGORY = #{paramList.noticeCategory}
+      AND ID = #{paramList.id}
+        
+   <if test="paramList.searchCondition == 'NOTICE_TITLE'"> 
+            AND NOTICE_TITLE LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+          </if> 
+         <if test="paramList.searchCondition == 'NOTICE_CONTENT'">
+            AND NOTICE_CONTENT LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if> 
+         <if test="paramList.searchCondition == 'NICKNAME'">
+            AND NICKNAME LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if>
+           
+        ORDER BY NOTICE_NO DESC
+        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+      
+      </select>
 
 </mapper>

@@ -294,10 +294,10 @@
          <p  class="v_nickname2" th:text="${getCommunityDetail.nickname}">닉네임</p>
            
             <div class="edit_div">
-                <a class="v_edit feedview_btn" th:href="'/updateCommunityBoard/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >수정</a   >
+                <a class="v_edit feedview_btn" th:if="${#strings.equals(getCommunityDetail.id, #authentication.principal.username)}" th:href="'/updateCommunityBoard/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >수정</a   >
                   </div>
                   <div class="delete_div">
-                    <a class="v_edit feedview_btn" th:href="'/deleteCommunity/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >삭제</a   >
+                    <a class="v_edit feedview_btn" th:if="${#strings.equals(getCommunityDetail.id, #authentication.principal.username)}" th:href="'/deleteCommunity/'+${getCommunityDetail.noticeCategory}+'/'+${getCommunityDetail.noticeNo}" >삭제</a   >
                   </div>
 
 

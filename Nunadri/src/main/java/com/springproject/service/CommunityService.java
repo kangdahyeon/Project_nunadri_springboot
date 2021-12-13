@@ -1,6 +1,7 @@
 package com.springproject.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.springproject.vo.CommunityVO;
 import com.springproject.vo.Criteria;
@@ -36,4 +37,6 @@ public interface CommunityService {
    void deleteLike(LikeVO like);
    
    LikeVO getLikeList(LikeVO like);
+   
+   List<CommunityVO> memberCommunityBoardList(CommunityVO communityBoardList, Criteria cri);
 }
