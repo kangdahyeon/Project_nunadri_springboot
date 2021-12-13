@@ -1,5 +1,6 @@
 package com.springproject.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,10 +24,17 @@ public class MyhouseCommentServiceImpl implements MyhouseCommentService {
       myhouseCommentMapper.insertMyhouseComment(commentInsert);
    }
 
-   @Override
-   public List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList) {
-      return myhouseCommentMapper.getMyhouseComment(commentList);
-   }
+	
+	  @Override 
+	  public List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO
+	  commentList) { return myhouseCommentMapper.getMyhouseComment(commentList); }
+	 
+   
+	/*
+	 * @Override public List<HashMap<String, Object>>
+	 * getMyhouseComment(MyhouseCommentVO commentList) { return
+	 * myhouseCommentMapper.getMyhouseComment(commentList); }
+	 */
 
    @Override
    public void deleteMyhouseComment(MyhouseCommentVO commentDelete) {

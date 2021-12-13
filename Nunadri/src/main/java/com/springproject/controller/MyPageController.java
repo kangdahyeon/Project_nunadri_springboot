@@ -119,15 +119,12 @@ public class MyPageController {
 
 		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
 
-		System.out.println(category);
 		model.addAttribute("category", category);
 		model.addAttribute("paramList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
 		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
 		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
 
-		System.out.println(category);
-		System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri)+"1111111111111111111111111111111111");
 		return "view/member/mypage/member_myhouse_boarder_list";
 	}
 
@@ -161,28 +158,20 @@ public class MyPageController {
 
 		int total = myhouseService.selectMyHouseBoardCount(myhouseBoardList);
 
-		System.out.println(category);
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
 		model.addAttribute("condition", myhouseBoardList.getSearchCondition());
 		model.addAttribute("keyword", myhouseBoardList.getSearchKeyword());
-		System.out.println("post");
-		System.out.println(category);
-		System.out.println(myhouseService.memberMyhouseBoardList(myhouseBoardList, cri));
 
 		List<NoticeMyhouseVO> paramList = myhouseService.memberMyhouseBoardList(myhouseBoardList, cri);
 		hashMap.put("paramList", paramList);
 		String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(hashMap);
-		System.out.println("json String==================" + json);
 
 
 		return json;
 	}
 
-
-
-	//회원정보 수정
 	//회원정보 수정
 	@PostMapping(value="/update")
 	@ResponseBody
@@ -234,10 +223,7 @@ public class MyPageController {
 	@GetMapping("/deleteAdmin/{id}")
 	public String deleteAdmin(@PathVariable("id") String id) {
 
-		System.out.println(id + "111111111111111111111111111111111111111111111111");
 		memberservice.deleteMember(id);
-		System.out.println(id + "222222222222222222222222222222222222222222222222");
-
 
 		return "redirect:/admin";
 	}

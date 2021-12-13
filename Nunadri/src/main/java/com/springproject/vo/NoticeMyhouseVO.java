@@ -15,6 +15,8 @@ public class NoticeMyhouseVO {
 
 	private int houseNo;
 
+	private String id;
+	
 	private String nickname;
 
 	private String myhouseTitle;

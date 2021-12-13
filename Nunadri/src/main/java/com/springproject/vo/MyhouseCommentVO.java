@@ -15,6 +15,8 @@ public class MyhouseCommentVO {
 	
 	private int myhouseCommentNo;
 	
+	private String id;
+	
 	private String myhouseComment;
 	
 	private String nickname;

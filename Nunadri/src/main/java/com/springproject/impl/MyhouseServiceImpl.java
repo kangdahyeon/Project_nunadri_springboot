@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.springproject.mapper.MyhouseMapper;
 import com.springproject.service.MyhouseService;
 import com.springproject.vo.Criteria;
+import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
 import lombok.RequiredArgsConstructor;
@@ -110,5 +111,6 @@ public class MyhouseServiceImpl implements MyhouseService {
 	public void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease) {
 	    myhouseMapper.peopleJoinDecrease(peopleDecrease);
 	}
+
 
 }

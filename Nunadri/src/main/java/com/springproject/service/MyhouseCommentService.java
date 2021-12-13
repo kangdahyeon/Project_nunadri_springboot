@@ -1,5 +1,6 @@
 package com.springproject.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.springproject.vo.MyhouseCommentVO;
@@ -10,6 +11,8 @@ public interface MyhouseCommentService {
 void insertMyhouseComment(MyhouseCommentVO commentInsert);
    
    List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList);
+  
+   //List<HashMap<String, Object>> getMyhouseComment(MyhouseCommentVO commentList);
    
    void deleteMyhouseComment(MyhouseCommentVO commentDelete);
    

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+  <link href="./assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../../css/feed/feededit.css">
+  
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+   <script type="text/javascript" src="/../../js/jquery.js"></script>
+
+  <title>자랑게시판</title>
+  <style>
+    .item_sell {
+      width: 800px;
+      height: 500px;
+      padding: 20px 32px;
+      border: 3px solid #eeeeee;
+      border-radius: 4px;
+      margin: 12px auto;
+      z-index: 2;
+      font-size: 16px;
+    }
+
+    .item_img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .item_img img {
+      border-radius: 4px;
+    }
+
+    .item_list {
+      /*       
+      padding: 16px;
+      margin-left: 24px; */
+    }
+
+    .item_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .item_title a {
+      text-decoration: none;
+    }
+
+    .gallery_view {
+      float: left;
+      /* width: 200px; */
+      padding: 0 23px 11px 0;
+      list-style-type: none;
+    }
+
+    .item_price {
+      padding-bottom: 42px;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
+      float: left;
+      width: 200px;
+      margin-left: 74px;
+      padding: 0 0 13px 0;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
+      margin-left: 0 !important
+    }
+
+    div {
+      display: block;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+
+    .container {
+      width: 970px;
+    }
+
+    .gallery_view {
+      float: left;
+      width: 200px;
+      padding: 0 23px 11px 0;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 74px;
+    }
+
+
+    /* 글쓰기 버튼*/
+    #writerBtn {
+      position: absolute;
+      right: 270px;
+      color: black;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-color: black;
+    }
+
+    .div_right {
+      padding-left: 896px;
+
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid black;
+      color: black;
+      padding-left: 30px;
+    }
+
+    .icon_search {
+      position: absolute;
+      left: 1085px;
+      margin-top: 7.5px;
+      color: black;
+    }
+
+    .white-text-container h2 {
+      color: black;
+    }
+
+    .black-image-project-hover img {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s;
+      -moz-transition: .3s;
+      -ms-transition: .3s;
+      -o-transition: .3s;
+      transition: .3s;
+    }
+
+    .black-image-project-hover img:hover {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+
+    .css-1oylls0::after {
+      content: "";
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 0;
+      background: rgb(18, 18, 24);
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+    
+    #image_container {
+   
+   width: 100px;
+}
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
+</head>
+
+<body class="">
+
+  <!-- Add your content of header -->
+  <div th:replace="view/fragments/header::header"></div>
+  
+  <!-- background START -->
+  <div class="background">
+
+    <section class="container_edit">
+
+   <input type="hidden" name="nickname" th:value="${nickname}">
+
+      <!-- feed photo START -->
+      <section class="e_leftbox">
+
+        <!-- feed photo -->
+        <div id="image_container"></div>
+
+        <!-- tag button -->
+        <!-- <button>
+              <img src="images/feed/feedw/icon-05.png">
+          </button> -->
+
+      </section>
+      <!-- feed photo END -->
+
+
+
+      <!-- right box START -->
+      <section class="e_rightbox">
+
+        <!-- <button class="feed_formdelete">
+          <img src="images/feed/feeds/formdelete.png" style="float: right; padding: 15px;">
+        </button> -->
+
+        <!-- profile START -->
+        <div class="e_profile">
+
+          <!-- feed creator profile photo -->
+          <div class="e_photo">
+            <button onclick="location.href = ''">
+              <img src="../../../assets/images/feed/feedw/uploadfile/1631070591303mini1.jpg">
+            </button>
+          </div>
+
+          <!-- feed creator nickname -->
+          <a th:text="${nickname}"></a>
+
+          <button th:onclick="|location.href='/commu/B'|" style="position: relative; left: 370px; bottom: 50px;">
+            <img src="../../../assets/images/feed/feeds/formdelete.png" style=" border: none;">
+          </button>
+
+        </div>
+        <!-- profile END -->
+
+        <!-- edit form -->
+        <form action="/updateCommunity" method="post" enctype="multipart/form-data" id="feededitform">
+        
+        <input type="hidden" name="nickname" th:value="${nickname}">
+        
+        <input type="hidden" name="nickname" th:value="${updateCommunity.nickname}">
+              <input type="hidden" name="noticeCategory" th:value="${updateCommunity.noticeCategory}">
+              <input type="hidden" name="noticeNo" th:value="${updateCommunity.noticeNo}">
+
+            <input type="text" class="form-control textbox" name="noticeTitle" th:value="${updateCommunity.noticeTitle}" placeholder="제목을 입력해주세요." style="color: black;" required>
+
+
+          <div class="contentsbox" style="height: 250px; padding-top: 5%;">
+            <textarea class="form-control" rows="11" name="noticeContent" th:text="${updateCommunity.noticeContent}" placeholder="내용을 입력해주세요" style="color: black; height: 200px;" required></textarea>
+          </div>
+
+          <div class="hashtagbox">
+          
+         <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" onchange="setThumbnail(event);">
+      </div>
+
+          <!-- <div class="tagbox">
+        <p>태그</p>
+        <input type="text" value="${selectFeedView.tag}"
+          name="tag" id="tag" autocomplete="off">
+      </div> -->
+
+          <!-- feed submit -->
+          <div class="submit">
+            <input type="submit" class="edit_submit" value="수정" >
+          </div>
+        </form>
+
+      </section>
+      <!-- right box END -->
+
+    </section>
+  </div>
+  <!-- backgroung END -->
+
+  <!--캐러셀 기능 스크립트-->
+  <script>
+    $(document).ready(function () {
+
+      var main = $('.bxslider').bxSlider({
+
+        mode: 'fade',
+
+        auto: true, //자동으로 슬라이드 
+
+        controls: true, //좌우 화살표   
+
+        pager: true, //페이징 
+
+        pause: 3000,
+
+        autoDelay: 0,
+
+        slideWidth: 500, //이미지 박스 크기설정
+        
+
+        speed: 500,
+
+        stopAutoOnclick: true
+
+      });
+
+
+    });
+  </script>
+  
+  <script> function setThumbnail(event) {
+   $("#image_container").html("");
+       var reader = new FileReader(); reader.onload = function(event) { 
+         var img = document.createElement("img"); 
+         img.setAttribute("src", event.target.result);
+          document.querySelector("#image_container").appendChild(img); }; 
+          reader.readAsDataURL(event.target.files[0]); } 
+   </script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+      navActivePage();
+    });
+  </script>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
+
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-XXXXX-X', 'auto');
+  ga('send', 'pageview');
+</script>
+
+-->
+  <script type="text/javascript" src="../../../js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
+</body>
+
+</html><!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" 
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     xmlns:layout=http://www.ultraq.net.nz/thymeleaf/layout lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width,initial-scale=1" name="viewport">
+  <meta content="description" name="description">
+  <meta name="google" content="notranslate" />
+  <meta content="Mashup templates have been developped by Orson.io team" name="author">
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-icon-180x180.png">
+  <link href="./assets/favicon.ico" rel="icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+  <link rel="stylesheet" href="../../../css/feed/feededit.css">
+  
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+   <script type="text/javascript" src="/../../js/jquery.js"></script>
+
+  <title>자랑게시판</title>
+  <style>
+    .item_sell {
+      width: 800px;
+      height: 500px;
+      padding: 20px 32px;
+      border: 3px solid #eeeeee;
+      border-radius: 4px;
+      margin: 12px auto;
+      z-index: 2;
+      font-size: 16px;
+    }
+
+    .item_img {
+      width: 200px;
+      height: 200px;
+    }
+
+    .item_img img {
+      border-radius: 4px;
+    }
+
+    .item_list {
+      /*       
+      padding: 16px;
+      margin-left: 24px; */
+    }
+
+    .item_title {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .item_title a {
+      text-decoration: none;
+    }
+
+    .gallery_view {
+      float: left;
+      /* width: 200px; */
+      padding: 0 23px 11px 0;
+      list-style-type: none;
+    }
+
+    .item_price {
+      padding-bottom: 42px;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view {
+      float: left;
+      width: 200px;
+      margin-left: 74px;
+      padding: 0 0 13px 0;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list .gallery_view.fst {
+      margin-left: 0 !important
+    }
+
+    div {
+      display: block;
+    }
+
+    .used_prod_wrap .used_galleryview_wrap .used_prod_list:after {
+      display: block;
+      content: '';
+      clear: both;
+    }
+
+
+    .container {
+      width: 970px;
+    }
+
+    .gallery_view {
+      float: left;
+      width: 200px;
+      padding: 0 23px 11px 0;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+      margin-block-start: 1em;
+      margin-block-end: 1em;
+      margin-inline-start: 0px;
+      margin-inline-end: 0px;
+      padding-inline-start: 74px;
+    }
+
+
+    /* 글쓰기 버튼*/
+    #writerBtn {
+      position: absolute;
+      right: 270px;
+      color: black;
+      margin-top: 10px;
+      border-radius: 5px;
+      border-color: black;
+    }
+
+    .div_right {
+      padding-left: 896px;
+
+    }
+
+    .div_right>input {
+      position: relative;
+      width: 200px;
+      margin-bottom: 30px;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.0001);
+      border: 1px solid black;
+      color: black;
+      padding-left: 30px;
+    }
+
+    .icon_search {
+      position: absolute;
+      left: 1085px;
+      margin-top: 7.5px;
+      color: black;
+    }
+
+    .white-text-container h2 {
+      color: black;
+    }
+
+    .black-image-project-hover img {
+      -webkit-transform: scale(1);
+      -moz-transform: scale(1);
+      -ms-transform: scale(1);
+      -o-transform: scale(1);
+      transform: scale(1);
+      -webkit-transition: .3s;
+      -moz-transition: .3s;
+      -ms-transition: .3s;
+      -o-transition: .3s;
+      transition: .3s;
+    }
+
+    .black-image-project-hover img:hover {
+      -webkit-transform: scale(1.2);
+      -moz-transform: scale(1.2);
+      -ms-transform: scale(1.2);
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+    }
+
+    .css-1oylls0::after {
+      content: "";
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      z-index: 0;
+      background: rgb(18, 18, 24);
+      width: 100%;
+      height: 100%;
+      opacity: 0.8;
+    }
+    
+    #image_container {
+   
+   width: 100px;
+}
+  </style>
+
+  <link href="../../../css/main.css" rel="stylesheet">
+</head>
+
+<body class="">
+
+  <!-- Add your content of header -->
+  <div th:replace="view/fragments/header::header"></div>
+  
+  <!-- background START -->
+  <div class="background">
+
+    <section class="container_edit">
+
+   <input type="hidden" name="nickname" th:value="${nickname}">
+
+      <!-- feed photo START -->
+      <section class="e_leftbox">
+
+        <!-- feed photo -->
+        <div id="image_container"></div>
+
+        <!-- tag button -->
+        <!-- <button>
+              <img src="images/feed/feedw/icon-05.png">
+          </button> -->
+
+      </section>
+      <!-- feed photo END -->
+
+
+
+      <!-- right box START -->
+      <section class="e_rightbox">
+
+        <!-- <button class="feed_formdelete">
+          <img src="images/feed/feeds/formdelete.png" style="float: right; padding: 15px;">
+        </button> -->
+
+        <!-- profile START -->
+        <div class="e_profile">
+
+          <!-- feed creator profile photo -->
+          <div class="e_photo">
+            <button onclick="location.href = ''">
+              <img src="../../../assets/images/feed/feedw/uploadfile/1631070591303mini1.jpg">
+            </button>
+          </div>
+
+          <!-- feed creator nickname -->
+          <a th:text="${nickname}"></a>
+
+          <button th:onclick="|location.href='/commu/B'|" style="position: relative; left: 370px; bottom: 50px;">
+            <img src="../../../assets/images/feed/feeds/formdelete.png" style=" border: none;">
+          </button>
+
+        </div>
+        <!-- profile END -->
+
+        <!-- edit form -->
+        <form  id="boardUpdate" action="/updateCommunity" method="post" enctype="multipart/form-data">
+        
+        <input type="hidden" name="nickname" th:value="${nickname}">
+        
+               <input type="hidden" name="nickname" th:value="${updateCommunity.nickname}">
+              <input type="hidden" name="noticeCategory" th:value="${updateCommunity.noticeCategory}">
+              <input type="hidden" name="noticeNo" th:value="${updateCommunity.noticeNo}">
+
+            <input type="text" class="form-control textbox" name="noticeTitle" th:value="${updateCommunity.noticeTitle}" placeholder="제목을 입력해주세요." style="color: black;" required>
+
+
+          <div class="contentsbox" style="height: 250px; padding-top: 5%;">
+            <textarea class="form-control" rows="11" name="noticeContent" th:text="${updateCommunity.noticeContent}" placeholder="내용을 입력해주세요" style="color: black; height: 200px;" required></textarea>
+          </div>
+
+          <div class="hashtagbox">
+          
+         <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" onchange="setThumbnail(event);">
+      </div>
+      
+           <!--이미지 삭제 기능-->
+              <div th:each="file: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+                     <span th:text="${file.noticeFileName}"></span>
+                    <button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+            </div >
+              
+          
+              
+              <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
+              <input type="hidden" id="arr" name="arrNo">
+
+          <!-- <div class="tagbox">
+        <p>태그</p>
+        <input type="text" value="${selectFeedView.tag}"
+          name="tag" id="tag" autocomplete="off">
+      </div> -->
+
+          <!-- feed submit -->
+          <div class="submit">
+            <input type="submit" class="edit_submit" value="수정" >
+          </div>
+        </form>
+
+      </section>
+      <!-- right box END -->
+
+    </section>
+  </div>
+  <!-- backgroung END -->
+
+  <!--캐러셀 기능 스크립트-->
+  <script>
+    $(document).ready(function () {
+
+      var main = $('.bxslider').bxSlider({
+
+        mode: 'fade',
+
+        auto: true, //자동으로 슬라이드 
+
+        controls: true, //좌우 화살표   
+
+        pager: true, //페이징 
+
+        pause: 3000,
+
+        autoDelay: 0,
+
+        slideWidth: 500, //이미지 박스 크기설정
+        
+
+        speed: 500,
+
+        stopAutoOnclick: true
+
+      });
+
+
+    });
+  </script>
+  
+  <script> function setThumbnail(event) {
+   $("#image_container").html("");
+       var reader = new FileReader(); reader.onload = function(event) { 
+         var img = document.createElement("img"); 
+         img.setAttribute("src", event.target.result);
+          document.querySelector("#image_container").appendChild(img); }; 
+          reader.readAsDataURL(event.target.files[0]); } 
+   </script>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+      navActivePage();
+    });
+  </script>
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID 
+
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+  ga('create', 'UA-XXXXX-X', 'auto');
+  ga('send', 'pageview');
+</script>
+
+-->
+  <script type="text/javascript" src="../../../js/main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.js"></script>
+</body>
+
+</html>

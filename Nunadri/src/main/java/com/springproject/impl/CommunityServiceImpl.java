@@ -19,68 +19,83 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Transactional
 public class CommunityServiceImpl implements CommunityService {
-	
-	private final CommunityMapper communityMapper;
+   
+   private final CommunityMapper communityMapper;
 
-	@Override
-	public void insertCommunity(CommunityVO communityInsert) {
-		communityMapper.insertCommunity(communityInsert);
-	}
+   @Override
+   public void insertCommunity(CommunityVO communityInsert) {
+      communityMapper.insertCommunity(communityInsert);
+   }
 
-	@Override
-	public void updateCommunity(CommunityVO communityUpdate) {
-		communityMapper.updateCommunity(communityUpdate);
-	}
-	
-	@Override
-	public CommunityVO getCommunityDetail(CommunityVO communityDetail) {
-	
-		return communityMapper.getCommunityDetail(communityDetail);
-	}
-	
-	@Override
-	public void hitIncrease(CommunityVO cvo) {
-		communityMapper.hitIncrease(cvo);
-	}
+   @Override
+   public void updateCommunity(CommunityVO communityUpdate) {
+      communityMapper.updateCommunity(communityUpdate);
+   }
+   
+   @Override
+   public CommunityVO getCommunityDetail(CommunityVO communityDetail) {
+   
+      return communityMapper.getCommunityDetail(communityDetail);
+   }
+   
+   @Override
+   public void hitIncrease(CommunityVO cvo) {
+      communityMapper.hitIncrease(cvo);
+   }
 
-	@Override
-	public void deleteCommunity(CommunityVO communityDelete) {
-		communityMapper.deleteCommunitySeq(communityDelete);
-	}
-	
-	@Override
-	public void deleteCommunityCommentList(CommunityVO deleteComment) {
-		communityMapper.deleteCommunityCommentList(deleteComment);
-	}
+   @Override
+   public void deleteCommunity(CommunityVO communityDelete) {
+      communityMapper.deleteCommunitySeq(communityDelete);
+   }
+   
+   @Override
+   public void deleteCommunityCommentList(CommunityVO deleteComment) {
+      communityMapper.deleteCommunityCommentList(deleteComment);
+   }
 
-	@Override
-	public List<CommunityVO> getCommunityList(CommunityVO communityList, Criteria cri) {
-		
-		Map<String, Object> paramMap = new HashMap<String, Object>();
-	      paramMap.put("communityList", communityList);
-	      cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
-	      paramMap.put("criteria", cri);
-	      
-		return communityMapper.getCommunityList(paramMap);
-	}
-	
-	@Override
-	public int getCoummunityNo() {
-		return communityMapper.getCommunityNo();
-	}
+   @Override
+   public List<CommunityVO> getCommunityList(CommunityVO communityList, Criteria cri) {
+      
+      Map<String, Object> paramMap = new HashMap<String, Object>();
+         paramMap.put("communityList", communityList);
+         cri.setStartNum((cri.getPageNum() - 1) * cri.getAmount());
+         paramMap.put("criteria", cri);
+         
+      return communityMapper.getCommunityList(paramMap);
+   }
+   
+   @Override
+   public int getCoummunityNo() {
+      return communityMapper.getCommunityNo();
+   }
 
-	@Override
-	public int selectCommunityCount(CommunityVO paging) {
-		return communityMapper.selectCommunityCount(paging);
-	}
+   @Override
+   public int selectCommunityCount(CommunityVO paging) {
+      return communityMapper.selectCommunityCount(paging);
+   }
 
-	@Override
-	public void likeCheck(LikeVO like) {
-			communityMapper.likeCheck(like);
-	}
+   @Override
+   public int likeHit(LikeVO like) {
+      return communityMapper.likeHit(like);
+   }
 
-	@Override
-	public void likeCheckCancel(LikeVO like) {
-			communityMapper.likeCheckCancel(like);
-	}
+   @Override
+   public void insertLike(LikeVO like) {
+      communityMapper.insertLike(like);
+   }
+
+   @Override
+   public void deleteLike(LikeVO like) {
+      communityMapper.deleteLike(like);
+   }
+
+   @Override
+   public LikeVO getLikeList(LikeVO like) {
+      return communityMapper.getLikeList(like);
+   }
+
+
+   
+
+
 }

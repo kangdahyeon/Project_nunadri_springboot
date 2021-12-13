@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springproject.mapper.CommunityFileMapper">
 
-		<insert id="insertCommunityFileList" parameterType="FileCommunityVO">
-			INSERT INTO FILE_COMMUNITY
+      <insert id="insertCommunityFileList" parameterType="FileCommunityVO">
+         INSERT INTO FILE_COMMUNITY
             (
                           FILE_NO
                         , NICKNAME
@@ -14,55 +14,57 @@
                         , NOTICE_FILE_SIZE
                         , COMMUNITY_IMG_URL
             ) value (
-            	  (SELECT
-                   		IFNULL(MAX(FILE_NO), 0) +1
+                 (SELECT
+                         IFNULL(MAX(FILE_NO), 0) +1
                    FROM
-                   		FILE_COMMUNITY ALIAS_FOR_SUBQUERY
+                         FILE_COMMUNITY ALIAS_FOR_SUBQUERY
                    WHERE
-                   		NOTICE_NO = #{noticeNo}
+                         NOTICE_NO = #{noticeNo}
                    AND
-                   		NOTICE_CATEGORY = #{noticeCategory})
-		            , #{nickname}
-		            , #{noticeCategory}
-		            , #{noticeNo}
-		            , #{noticeFileName}
-		            , #{noticeFilePath}
-		            , #{noticeFileSize}
-		            , #{communityImgUrl}
+                         NOTICE_CATEGORY = #{noticeCategory})
+                  , #{nickname}
+                  , #{noticeCategory}
+                  , #{noticeNo}
+                  , #{noticeFileName}
+                  , #{noticeFilePath}
+                  , #{noticeFileSize}
+                  , #{communityImgUrl}
             )
-		</insert>
+      </insert>
 
-		<select id="getCommunityFileList" resultType="FileCommunityVO">
-			SELECT * FROM FILE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-			     NOTICE_NO = #{noticeNo}
-		</select>
+      <select id="getCommunityFileList" resultType="FileCommunityVO">
+         SELECT * FROM FILE_COMMUNITY
+         WHERE
+            NOTICE_CATEGORY = #{noticeCategory}
+         AND
+              NOTICE_NO = #{noticeNo}
+      </select>
 
-		<select id="getCommunityImgList" resultType="FileCommunityVO">
-			SELECT * FROM FILE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-		</select>
+      <select id="getCommunityImgList" resultType="FileCommunityVO">
+         SELECT * FROM FILE_COMMUNITY
+         WHERE
+            NOTICE_CATEGORY = #{imgFileList.noticeCategory}
+         AND FILE_NO = 1
+         LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+      </select>
 
-		<!-- 한개 삭제 -->
-		<delete id="deleteCommunityFile">
-			DELETE FROM FILE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-				NOTICE_NO = #{noticeNo}
-			AND
-				FILE_NO = #{fileNo}
-		</delete>
+      <!-- 한개 삭제 -->
+      <delete id="deleteCommunityFile">
+         DELETE FROM FILE_COMMUNITY
+         WHERE
+            NOTICE_CATEGORY = #{noticeCategory}
+         AND
+            NOTICE_NO = #{noticeNo}
+         AND
+            FILE_NO = #{fileNo}
+      </delete>
 
-		<!-- 글 삭제 시 모두 삭제 -->
-		<delete id="deleteCommunityFileAll">
-		  DELETE FROM FILE_COMMUNITY
-		  WHERE
-		      NOTICE_NO = #{noticeNo}
-		  AND
-		      NOTICE_CATEGORY = #{noticeCategory}
-		</delete>
+      <!-- 글 삭제 시 모두 삭제 -->
+      <delete id="deleteCommunityFileAll">
+        DELETE FROM FILE_COMMUNITY
+        WHERE
+            NOTICE_NO = #{noticeNo}
+        AND
+            NOTICE_CATEGORY = #{noticeCategory}
+      </delete>
 </mapper>

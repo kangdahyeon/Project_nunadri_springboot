@@ -187,8 +187,8 @@
     }
     
     #image_container {
-	
-	width: 100px;
+   
+   width: 100px;
 }
   </style>
 
@@ -205,7 +205,7 @@
 
     <section class="container_edit">
 
-	<input type="hidden" name="nickname" th:value="${nickname}">
+   <input type="hidden" name="nickname" th:value="${nickname}">
 
       <!-- feed photo START -->
       <section class="e_leftbox">
@@ -265,7 +265,7 @@
           </div>
 
           <div class="hashtagbox">
-         <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" onchange="setThumbnail(event);">
+         <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" onchange="setThumbnail(event);"required>
       </div>
 
           <!-- <div class="tagbox">
@@ -297,7 +297,7 @@
 
         auto: true, //자동으로 슬라이드 
 
-        controls: true, //좌우 화살표	
+        controls: true, //좌우 화살표   
 
         pager: true, //페이징 
 
@@ -319,13 +319,13 @@
   </script>
   
   <script> function setThumbnail(event) {
-	$("#image_container").html("");
-		 var reader = new FileReader(); reader.onload = function(event) { 
-			var img = document.createElement("img"); 
-			img.setAttribute("src", event.target.result);
-			 document.querySelector("#image_container").appendChild(img); }; 
-			 reader.readAsDataURL(event.target.files[0]); } 
-	</script>
+   $("#image_container").html("");
+       var reader = new FileReader(); reader.onload = function(event) { 
+         var img = document.createElement("img"); 
+         img.setAttribute("src", event.target.result);
+          document.querySelector("#image_container").appendChild(img); }; 
+          reader.readAsDataURL(event.target.files[0]); } 
+   </script>
 
 
   <script>
