@@ -66,6 +66,19 @@
 		box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
 		border-radius: 5px;
 	}
+		.commentProfile {
+		position: relative; 
+		width : 50px;
+		height: 50px;
+	}
+	
+	.commentProfile  > img {
+		width : 100%;
+		height: 100%;
+		object-fit: cover;
+		margin: auto;
+	}
+
 </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -103,7 +116,7 @@
                     <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>
                      </span>
                      <!-- feed creator date -->
-                    <p class="v_title" style="margin-top:4%; color: hotpink;"th:text="'모임시간 : '+${getBoard.myhouseDate}+'일 '+${getBoard.myhouseTime}"></p>
+                    <p class="v_title" style="margin-top:4%; color: rgb(241, 175, 196);"th:text="'모임시간 : '+${getBoard.myhouseDate}+'일 '+${getBoard.myhouseTime}"></p>
                     <!-- feed creator nickname -->
                     
                     <a href="" class="v_nickname2" th:text="${getBoard.nickname}">닉네임</a>
@@ -173,8 +186,9 @@
               
                   
           
-          <form action="/smallGroupComment" method="post" id="commentInsert">
+          <form method="post" id="commentInsert">
           <input type="hidden" name="nickname" th:value="${nickname}">
+           <input type="hidden" name="id" th:value="${#authentication.principal.username}">
             <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
             <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
@@ -183,10 +197,10 @@
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" id="commentInsert" placeholder="댓글달기" name="myhouseComment" autofocus required>
+                          <input type="text" id="commentText" placeholder="댓글달기" name="myhouseComment" autofocus required>
                         </div>
                         <div class="submitbox">
-                          <input type="button" id="commentInsert" value="게시" onclick="commentSubmit()">
+                          <input type="button" id="comment_submit" value="게시" onclick="commentSubmit()">
                         </div>
           
                       </div>
@@ -204,7 +218,6 @@
                <!--</form>-->
             </div>
           </div>
-   
           </div>
         </div>
       </div>
@@ -262,11 +275,20 @@
   
     <!--댓글 기능 ajax-->
 <script th:inline="javascript">
+$(document).ready(function(){
+      getCommentList();
+      $("#commentText").keydown(function(key) {
+                if (key.keyCode == 13) {
+                   commentSubmit();
+                   return false;
+                }
+            });
+})
 
 let houseNo = $("#houseNo").val();
 let myhouseCategory = $("#myhouseCategory").val();
 let myhouseNo = $("#myhouseNo").val();   
-//let smallGroupJoin = $("#smallGroupJoin").val();
+
      $(document).ready(function(){
       getCommentList();
       
@@ -281,23 +303,23 @@ function getCommentList(){
             'myhouseCategory' : myhouseCategory,
             'houseNo' : houseNo,
             'myhouseNo':myhouseNo
- //           'smallGroupJoin': smallGroupJoin
       },
       success:function(result){
          $("#comment").html("");
          for(let i=0; i<result.length; i++){
             let str = "";
-            if(result[i].smallGroupJoin == "O"){
-			str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
+            str+="<div class='commentDetail'><div class='commentProfile'>"+'<img src="'+"/profile/"+ result[i].profile +'"/>' + "</div><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
             str+="<div class='commentContent'>" + result[i].myhouseComment+
-            "</div><input class='commentStyle col-me-2' type='hidden'></></div><hr>" 
-			}else{
-            str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
+            "</div>"
+            console.log(result[i].id);
+            if(result[i].id === [[${#authentication.principal.username}]]){
+	
+            str += "<button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button>"
+	
+			}
             
-            str+="<div class='commentContent'>" + result[i].myhouseComment+
-            "</div><button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button></div><hr>" 
-            }
+            str += "</div><hr>" 
             $("#comment").append(str);
          }
       }
@@ -341,20 +363,6 @@ function commentSubmit(){
       }
    })
 }
-
-//function onDisplay(){
-	//$('#noneDiv').show();
-//}
-//function offDisplay(){
-	// $.ajax({
-		
-//	},
-	
-	  // success:function(result){
-    //     $("#comment").html("");
-         
-  //       })
-//}
 
 
 </script >

@@ -25,6 +25,10 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+    .titleColor{
+	color: rgb(241, 175, 196) !important;
+}
+
   </style>
 
   <link href="../../../css/main.css" rel="stylesheet">
@@ -62,7 +66,7 @@
             <table class="type04">
               <tr>
                 <th id="table_width_no">No</th>
-                <th id="table_text">모임</th>
+                <th id="table_text">모임</th >
                 <th id="table_width_writer">호스트</th>
                 <th id="table_width_date">날짜</th>
                 <th id="table_width_hit">조회수</th>
@@ -71,10 +75,10 @@
               <tr  th:each="board, status: ${boardList}">
                 <td th:text="${board.myhouseNo}"></td >
             <span th:if="${board.peopleMax}==${board.peopleJoin}">
-             	<td><a th:text="${board.myhouseTitle} +' <모집마감>'" th:href="'/smallGroupDetail/'+${board.houseNo}+'/s/'+${board.myhouseNo}"></a></td>
+             	<td><a class="titleColor" th:text="${board.myhouseTitle} +' <모집마감>'" th:href="'/smallGroupDetail/'+${board.houseNo}+'/s/'+${board.myhouseNo}"></a ></td>
             </span>
             <span th:if="${board.peopleMax}!=${board.peopleJoin}">
-                <td><a th:text="${board.myhouseTitle}" th:href="'/smallGroupDetail/'+${board.houseNo}+'/s/'+${board.myhouseNo}"></a></td>
+                <td><a class="titleColor" th:text="${board.myhouseTitle}" th:href="'/smallGroupDetail/'+${board.houseNo}+'/s/'+${board.myhouseNo}"></a ></td>
             </span>
              <!--   <td><a th:text="${board.myhouseTitle}" th:href="'/smallGroupDetail/'+${board.houseNo}+'/s/'+${board.myhouseNo}"></a></td> -->
                 <td th:text="${board.nickname}"></td >

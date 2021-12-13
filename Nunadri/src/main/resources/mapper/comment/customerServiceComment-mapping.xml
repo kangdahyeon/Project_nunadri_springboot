@@ -40,21 +40,6 @@
 		AND QNA_NO = #{qnaNo}
 		AND ID = #{id}
 	</delete>
-	
-	<!--  <delete id="deleteCustomerServiceCommentList">
-		DELETE FROM CUSTOMERSERVICE_COMMENT
-		WHERE QNA_COMMENT_NO = #{qnaCommentNo}
-		AND QNA_NO = #{qnaNo}
-		AND ID = #{id}
-	</delete> -->
-   		
-	
-	<!--  <delete id="deleteMyhouseCommentList">
-        DELETE FROM myhouse_comment
-        WHERE myhouse_no = #{myhouseNo}
-        AND MYHOUSE_CATEGORY = #{myhouseCategory}
-        AND HOUSE_NO = #{houseNo} 
-     </delete> -->
-        
+
 
 </mapper>
