@@ -43,7 +43,7 @@
           <h1 class="h2" th:if="${category.toString().equals('f')}">자유게시판</h1>
          <h1 class="h2" th:if="${category.toString().equals('n')}">공지사항</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">도와주세요</h1>
-          <h1 class="h2" th:if="${category.toString().equals('h')}">소모임</h1>
+          <h1 class="h2" th:if="${category.toString().equals('s')}">소모임</h1>
           <h1 class="h2" th:if="${category.toString().equals('h')}">중고거래</h1>
 
         <form name="search-form" th:action="'/myhouseBoard/'+${category}" method="post" role="form">
@@ -62,9 +62,9 @@
                 <select name="myhouseCategory" id="sOption" class="div_right boarderselect">
                   <option value="n">공지사항</option>
                   <option value="h">도와주세요</option>
-                  <option value="f">소모임</option>
+                  <option value="s">소모임</option>
                   <option value="f">자유게시판</option>
-                  <option value="f">중고거래</option>
+                  <option value="m">중고거래</option>
                 </select>
            
             </div >   

@@ -35,7 +35,7 @@ public class MyhouseCommentController {
    
    
    
-
+   
    @PostMapping("/insertMyhouseComment")
    @ResponseBody
    public boolean insertMyhouseComment(MyhouseCommentVO commentInsert) {
@@ -59,11 +59,12 @@ public class MyhouseCommentController {
    
    //소모임 댓글
    @PostMapping("/smallGroupComment")
-   public String insertsmallGroupComment(MyhouseCommentVO commentInsert) {
+   @ResponseBody
+   public boolean insertsmallGroupComment(MyhouseCommentVO commentInsert) {
 
       myhouseCommentService.insertMyhouseComment(commentInsert);
       
-      return "redirect:/smallGroupDetail/"+ commentInsert.getHouseNo() + "/s/" +commentInsert.getMyhouseNo();
+      return true;
 
    }
    

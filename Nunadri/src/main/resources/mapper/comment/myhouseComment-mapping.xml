@@ -6,107 +6,75 @@
 
 <mapper namespace="com.springproject.mapper.MyhouseCommentMapper">
 
+   <insert id="insertMyhouseComment">
+      INSERT INTO MYHOUSE_COMMENT
+      (
+      MYHOUSE_COMMENT_NO
+      , MYHOUSE_CATEGORY
+      , HOUSE_NO
+      , MYHOUSE_NO
+      , NICKNAME
+      , MYHOUSE_COMMENT
+      , SMALL_GROUP_JOIN
+      , MYHOUSE_COMMENT_REGDATE
 
-	<insert id="insertMyhouseComment">
-		INSERT INTO MYHOUSE_COMMENT
-		(
-		MYHOUSE_COMMENT_NO
-		, MYHOUSE_CATEGORY
-		, HOUSE_NO
-		, MYHOUSE_NO
-		, ID
-		, NICKNAME
-		, MYHOUSE_COMMENT
-		, SMALL_GROUP_JOIN
-		, MYHOUSE_COMMENT_REGDATE
+      ) values (
+      (SELECT
+      IFNULL(MAX(MYHOUSE_COMMENT_NO), 0) + 1
+      FROM
+      MYHOUSE_COMMENT ALIAS_FOR_SUBQUERY
+      WHERE
+      MYHOUSE_CATEGORY =#{myhouseCategory}
+      AND
+      MYHOUSE_NO = #{myhouseNo}
+      AND
+      HOUSE_NO = #{houseNo})
+      , #{myhouseCategory}
+      , #{houseNo}
+      , #{myhouseNo}
+      , #{nickname}
+      , #{myhouseComment}
+      , #{smallGroupJoin}
+      , NOW()
+      )
+   </insert>
 
-		) values (
-		(SELECT
-		IFNULL(MAX(MYHOUSE_COMMENT_NO), 0) + 1
-		FROM
-		MYHOUSE_COMMENT ALIAS_FOR_SUBQUERY
-		WHERE
-		MYHOUSE_CATEGORY =#{myhouseCategory}
-		AND
-		MYHOUSE_NO = #{myhouseNo}
-		AND
-		HOUSE_NO = #{houseNo})
-		, #{myhouseCategory}
-		, #{houseNo}
-		, #{myhouseNo}
-		, #{id}
-		, #{nickname}
-		, #{myhouseComment}
-		, #{smallGroupJoin}
-		, NOW()
-		)
-	</insert>
-
-	 <select id="getMyhouseComment"
-		resultType="com.springproject.vo.MyhouseCommentVO">
-		SELECT * FROM MYHOUSE_COMMENT
-		WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND MYHOUSE_NO = #{myhouseNo}
-		AND HOUSE_NO = #{houseNo}
-		ORDER BY MYHOUSE_COMMENT_NO ASC
-	</select>
-
-
-	<!-- <select id="getMyhouseComment"
-		parameterType="com.springproject.vo.MyhouseCommentVO"
-		resultType="HashMap">
-		SELECT M.HOUSE_NO AS houseNo,
-		M.MYHOUSE_NO AS myhouseNo,
-		C.NICKNAME AS nickname,
-		C.MYHOUSE_COMMENT_NO AS myhouseCommentNo,
-		C.MYHOUSE_COMMENT AS myhouseComment,
-		C.MYHOUSE_COMMENT_REGDATE AS regDate,
-		M.id AS id
-		FROM NOTICE_MYHOUSE AS M
-		LEFT OUTER JOIN
-		MYHOUSE_COMMENT AS C
-		ON M.HOUSE_NO = c.house_no
-		AND m.myhouse_category =
-		c.myhouse_category
-		AND m.myhouse_no = c.myhouse_no
-		WHERE
-		m.MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND m.HOUSE_NO = #{houseNo}
-		AND m.MYHOUSE_NO = #{myhouseNo}
-		ORDER BY MYHOUSE_COMMENT_NO ASC
-	</select> -->
-
-
-
-
-	<delete id="deleteMyhouseComment">
-		DELETE FROM MYHOUSE_COMMENT
-		WHERE MYHOUSE_COMMENT_NO = #{myhouseCommentNo}
-		AND MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND MYHOUSE_NO = #{myhouseNo}
-		AND HOUSE_NO = #{houseNo}
-	</delete>
-
-	<!-- 소모임 댓글 삭제 -->
-	<delete id="deleteSmallGroupComment">
-		DELETE FROM MYHOUSE_COMMENT
-		<!-- WHERE MYHOUSE_COMMENT_NO = #{myhouseCommentNo} -->
-		WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND MYHOUSE_NO = #{myhouseNo}
-		AND HOUSE_NO = #{houseNo}
-		AND SMALL_GROUP_JOIN = "O"
-		AND NICKNAME = #{nickname}
-	</delete>
-
-	<!-- 소모임 -->
-	<select id="updateJoin" resultType="int">
-		SELECT COUNT(*) FROM MYHOUSE_COMMENT
-		WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
-		AND MYHOUSE_NO = #{myhouseNo}
-		AND HOUSE_NO = #{houseNo}
-		AND NICKNAME = #{nickname}
-		<!-- AND MYHOUSE_COMMENT_NO = #{myhouseCommentNo} -->
-		AND SMALL_GROUP_JOIN = "O"
-	</select>
-
+   <select id="getMyhouseComment" resultType="com.springproject.vo.MyhouseCommentVO"> 
+      SELECT * FROM MYHOUSE_COMMENT
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+      ORDER BY MYHOUSE_COMMENT_NO ASC
+      </select>
+   
+   <delete id="deleteMyhouseComment">
+      DELETE FROM MYHOUSE_COMMENT
+      WHERE MYHOUSE_COMMENT_NO = #{myhouseCommentNo}
+      AND MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+   </delete>
+   
+   <!-- 소모임 댓글 삭제 -->
+   <delete id="deleteSmallGroupComment">
+      DELETE FROM MYHOUSE_COMMENT
+      <!-- WHERE MYHOUSE_COMMENT_NO = #{myhouseCommentNo} -->
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+      AND SMALL_GROUP_JOIN = "O"
+      AND NICKNAME = #{nickname}
+   </delete>
+   
+    <!-- 소모임 댓글 조인-->
+      <select id="updateJoin" resultType="int"> 
+      SELECT COUNT(*) FROM MYHOUSE_COMMENT
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory}
+      AND MYHOUSE_NO = #{myhouseNo}
+      AND HOUSE_NO = #{houseNo}
+      AND NICKNAME = #{nickname}
+      <!-- AND MYHOUSE_COMMENT_NO = #{myhouseCommentNo}  -->
+      AND SMALL_GROUP_JOIN = "O"
+      </select>
+	
 </mapper>

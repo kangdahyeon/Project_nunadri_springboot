@@ -640,6 +640,26 @@
       border-radius: 4px;
       transition: all 300ms ease-in-out;
     }
+     /*파일 이름 뜨게 하는 input박스 설정*/
+   .uploadFileText {
+			background-color: transparent;
+			border-style: none;
+			width: 250px;
+			margin-left: 10px;
+			font-size: small;
+	}
+  /*수정 파일 리스트*/	
+  .uploadFileList{
+	    display: inline-block;
+	    padding-right: 20px;
+        color : white;
+	}
+	.uploadFileList button{
+		background-color: rgb(10, 55, 50);
+		color: black;
+		border: 0;
+		cursor: pointer;
+	}
   </style>
 
   <link href="../../css/main.css" rel="stylesheet">
@@ -665,16 +685,23 @@
             <input type="text" class="form-control textbox" name="qnaTitle" th:value="${customerBoardUpdate.qnaTitle}" placeholder="제목을 입력해주세요." required>
               <div class="form-group">
                 <textarea class="form-control"  th:text="${customerBoardUpdate.qnaContent}" rows="11" name="qnaContent" placeholder="내용을 입력해주세요" required></textarea>
-                   <div class="input-group">
-                   <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple">
-                  </div>
+                  <div class="input-group">
+                          <input type="file" name="uploadFiles" class="btn btn-default" id="button_color" multiple="multiple" style="display: none;" 
+                          onchange="javascript:document.getElementById('fileName').value = this.value.split('\\')[this.value.split('\\').length-1]">
+                            <a class="btn btn-default" id="button_color"
+                             onclick="document.all.uploadFiles.click();">
+                             &nbsp<i class="far fa-image">&nbsp</i>
+                              </a>
+                            <!--파일 이름 뜨는곳-->
+                            <input type="text" id="fileName" readonly="readonly" class="uploadFileText">
+                             
+                             <!--이미지 삭제 기능-->
+                    	<div class="uploadFileList" th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+               				<span th:text="${file.qnaFileName}"></span  >
+               				<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
+              			</div  >
+                   </div>
               </div>
-              
-                <!--이미지 삭제 기능-->
-              <div  th:each="file, status: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
-               	<span th:text="${file.qnaFileName}"></span> 
-               	<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
-              </div  >
               
               <!--이미지 삭제 버튼 클릭 시 해당 파일 넘버를 배열에 담고 히든 값으로 저장-->
               <input type="hidden" id="arr" name="arrNo">

@@ -254,7 +254,7 @@
                 <section class="v_leftbox2">
                  
                   <!-- feed photo -->
-                  <ul class="bxslider">
+                  <ul class="bxslider" th:if="${#lists.size(fileList)}>0">
 			         <li th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.qnaImgUrl}}" /></li >
 		         </ul>
 		         
