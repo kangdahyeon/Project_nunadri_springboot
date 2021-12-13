@@ -91,9 +91,6 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 							.build();
 			memberservice.join(socialMember);
 		} else {
-//			UserDetailsServiceImpl social = new UserDetailsServiceImpl();
-//			social.loadUserByUsername(socialMember.getId());
-//			System.out.println("이놈은 누구냐"+social);
 			System.out.println("소셜로그인을 이미 한적이 있습니다. 당신은 자동 회원가입이 되어있어요");
 			
 		}

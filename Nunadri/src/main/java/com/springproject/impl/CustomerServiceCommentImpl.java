@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.springproject.dto.CustomerServiceCommentDto;
 import com.springproject.mapper.CustomerServiceCommentMapper;
 import com.springproject.service.CustomerServiceCommentService;
 import com.springproject.vo.CustomerServiceCommentVO;
+import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,9 +35,6 @@ public class CustomerServiceCommentImpl implements CustomerServiceCommentService
 		customerServiceCommentMapper.deleteCustomerServiceComment(customerCommentDelete);
 	}
 
-//	@Override
-//	public void deleteCustomerServiceCommentList(CustomerServiceCommentVO customerCommentDeleteList) {
-//		customerServiceCommentMapper.deleteCustomerServiceCommentList(customerCommentDeleteList);		
-//	}
+
 
 }
