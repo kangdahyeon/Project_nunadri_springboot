@@ -98,6 +98,9 @@ public class MyHouseController {
         	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList));
         	return "view/myhome/fleamarket/fleamarket_list";
         }
+        if(category.equals("s")) {
+        	 return "view/myhome/smallGroup/boarder_smallgroup_list";
+        }
 
 		return "view/myhome/boarder/boarder_list";
 	}
@@ -181,6 +184,10 @@ public class MyHouseController {
 		if(update.getMyhouseCategory().equals("m")) {
 			return "view/myhome/fleaMarket/fleamarket_update";
 		}
+		//소모임
+		if(update.getMyhouseCategory().equals("s")) {
+			return  "view/myhome/smallGroup/boarder_smallgroup_update";
+		}
 		
 		return "view/myhome/boarder/boarder_update";
 	}
@@ -231,43 +238,15 @@ public class MyHouseController {
 		if(category.equals("m")) {
 			return "redirect:/items/" + myhouseNo;
 		}
+		//소모임
+		if(category.equals("s")) {
+			return "redirect:/smallGroupDetail/" + houseNo + "/" + category + "/" + myhouseNo;
+		}
 
 		return "redirect:/myhouseBoardDetail/"+ houseNo + "/" + category + "/" +myhouseNo;
 	}
 
 	
-	
-	// 소모임 게시판 리스트
-	@RequestMapping("/board/s") //
-	public String smallGroup(NoticeMyhouseVO boardList, @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
-		String s = "s";
-
-		boardList.setMyhouseCategory(s);
-		//
-		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
-
-		// 검색값 없을때 기본 값 설정
-		if (boardList.getSearchCondition() == null) {
-			boardList.setSearchCondition("MYHOUSE_TITLE");
-		}
-		if (boardList.getSearchKeyword() == null) {
-			boardList.setSearchKeyword("");
-		}
-
-		// 검색, 키워드 값(페이징 처리시 필요)
-		condition = boardList.getSearchCondition();
-		keyword = boardList.getSearchKeyword();
-
-		int total = myhouseService.selectMyHouseBoardCount(boardList);
-
-		model.addAttribute("category", s);
-		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
-		model.addAttribute("pageMaker", new PageVO(cri, total));
-		model.addAttribute("condition", boardList.getSearchCondition());
-		model.addAttribute("keyword", boardList.getSearchKeyword());
-		return "view/myhome/smallGroup/boarder_smallgroup_list";
-	}
-		
 	// 소모임 글 작성 폼
 	@GetMapping("/smallGroupInsert")
 	public String smallGroupInsert() {
@@ -311,7 +290,6 @@ public class MyHouseController {
 
 		// 인원 컬럼
 		myhouseService.peopleJoinIncrease(vo);
-
 		// 참여 댓글 인서트
 		myhouseCommentService.insertMyhouseComment(commentVO);
 
@@ -337,55 +315,6 @@ public class MyHouseController {
 		return "redirect:/smallGroupDetail/" + vo.getHouseNo() + "/s/" + vo.getMyhouseNo();
 	}		
 
-	// 소모임 수정 페이지
-	@GetMapping("/updateSmallGroup/{houseNo}/{myhouseCategory}/{myhouseNo}")
-	public String updateSmallGroupBoard(NoticeMyhouseVO update, Model model) {
-
-		model.addAttribute("updateBoard", myhouseService.getMyhouseBoard(update));
-		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(update));
-		return "view/myhome/smallGroup/boarder_smallgroup_update";
-	}
-
-	// 소모임 수정
-	@PostMapping("/updateSmallgroup") // 뷰에서 삭제할 파일의 넘버를 배열로 받는다
-	public String updateSmallGroup(NoticeMyhouseVO updateNotice, @RequestParam("arrNo") int[] arr,
-			HttpServletRequest request, MultipartHttpServletRequest mhsr) {
-
-		String category = updateNotice.getMyhouseCategory();
-		int houseNo = updateNotice.getHouseNo();
-		int myhouseNo = updateNotice.getMyhouseNo();
-
-		// 수정
-		myhouseService.updateMyhouseBoard(updateNotice);
-
-		// 파일 삭제를 위한 객체
-		FileMyhouseVO vo = new FileMyhouseVO();
-		if (arr != null) {
-			vo.setHouseNo(updateNotice.getHouseNo());
-			vo.setMyhouseCategory(updateNotice.getMyhouseCategory());
-			vo.setMyhouseNo(updateNotice.getMyhouseNo());
-			for (int x : arr) {
-				vo.setFileNo(x);
-				myhouseFileService.deleteMyhouseFileList(vo);
-			}
-		}
-
-		// 파일 업로드
-		try {
-
-			FileUtils fileUtils = new FileUtils();
-			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(houseNo, category, myhouseNo, request, mhsr);
-
-			if (!CollectionUtils.isEmpty(fileList)) {
-				myhouseFileService.insertMyhouseFileList(fileList);
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return "redirect:/smallGroupDetail/" + houseNo + "/" + category + "/" + myhouseNo;
-	}
 
 		@GetMapping("/fleamarketInsert")
 		public String fleamarketInsert() {

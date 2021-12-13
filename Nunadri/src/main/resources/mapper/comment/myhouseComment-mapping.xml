@@ -67,7 +67,7 @@
       AND NICKNAME = #{nickname}
    </delete>
    
-    <!-- 소모임 -->
+    <!-- 소모임 댓글 조인-->
       <select id="updateJoin" resultType="int"> 
       SELECT COUNT(*) FROM MYHOUSE_COMMENT
       WHERE MYHOUSE_CATEGORY = #{myhouseCategory}

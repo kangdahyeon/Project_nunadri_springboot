@@ -261,7 +261,7 @@
           
                   <!-- feed photo -->
                   <div>
-                    <ul class="bxslider">
+                    <ul class="bxslider" th:if="${#lists.size(fileList)}>0">
     			            <li th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.communityImgUrl}}"/></li>
     		            </ul>
     		          </div >

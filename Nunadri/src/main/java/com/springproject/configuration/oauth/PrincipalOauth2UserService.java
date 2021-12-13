@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -18,12 +19,14 @@ import com.springproject.configuration.oauth.provider.GoogleUserInfo;
 import com.springproject.configuration.oauth.provider.KakaoUserInfo;
 import com.springproject.configuration.oauth.provider.NaverUserInfo;
 import com.springproject.configuration.oauth.provider.OAuth2UserInfo;
+import com.springproject.impl.UserDetailsServiceImpl;
 import com.springproject.role.Role;
 import com.springproject.service.MemberService;
 import com.springproject.vo.MemberVO;
+import com.springproject.vo.SecurityUser;
 
 @Service
-public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
+public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	//임시 비밀번호 값으로 사용하기 위한 코스키 외부노출(X)
 	@Value("${cos.key}")
 	private String cosKey;
@@ -34,8 +37,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 
 	@Autowired
 	private MemberService memberservice;
-
-	//구글 로그인 후처리되는 함수
+	
+	//로그인 후처리되는 함수
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 		System.out.println("userRequest : " + userRequest.getClientRegistration());
@@ -88,7 +91,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService{
 							.build();
 			memberservice.join(socialMember);
 		} else {
+//			UserDetailsServiceImpl social = new UserDetailsServiceImpl();
+//			social.loadUserByUsername(socialMember.getId());
+//			System.out.println("이놈은 누구냐"+social);
 			System.out.println("소셜로그인을 이미 한적이 있습니다. 당신은 자동 회원가입이 되어있어요");
+			
 		}
 
 		return new PrincipalDetails(socialMember, oAuth2User.getAttributes());

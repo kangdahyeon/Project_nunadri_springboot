@@ -3,10 +3,7 @@ package com.springproject.vo;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.User.UserBuilder;
-import org.springframework.util.Assert;
 
 import lombok.Getter;
 import lombok.Setter;

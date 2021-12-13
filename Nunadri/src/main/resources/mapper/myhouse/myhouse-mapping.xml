@@ -94,7 +94,9 @@
 		
 		<!-- 페이징 카운트 쿼리문 -->
         <select id="selectMyHouseBoardCount" resultType="int">
-      SELECT COUNT(*) FROM NOTICE_MYHOUSE WHERE MYHOUSE_CATEGORY = #{myhouseCategory} 
+      SELECT COUNT(*) FROM NOTICE_MYHOUSE 
+      WHERE MYHOUSE_CATEGORY = #{myhouseCategory} 
+      AND HOUSE_NO = #{houseNo}
             <if test="searchCondition == 'MYHOUSE_TITLE'">
                AND MYHOUSE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
