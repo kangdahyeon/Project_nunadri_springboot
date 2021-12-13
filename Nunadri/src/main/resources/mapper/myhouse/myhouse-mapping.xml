@@ -75,7 +75,7 @@
 		SELECT * FROM NOTICE_MYHOUSE 
 		WHERE MYHOUSE_CATEGORY = #{paramList.myhouseCategory}
 		AND HOUSE_NO = #{paramList.houseNo}
-		AND NICKNAME = #{paramList.nickname}
+		AND ID = #{paramList.id}
         
 	<if test="paramList.searchCondition == 'MYHOUSE_TITLE'"> 
             AND MYHOUSE_TITLE LIKE CONCAT('%', #{paramList.searchKeyword}, '%')

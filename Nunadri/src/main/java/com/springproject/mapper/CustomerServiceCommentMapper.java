@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.springproject.dto.CustomerServiceCommentDto;
 import com.springproject.vo.CustomerServiceCommentVO;
+import com.springproject.vo.MemberVO;
 
 @Mapper
 public interface CustomerServiceCommentMapper {
@@ -15,7 +17,5 @@ public interface CustomerServiceCommentMapper {
 	
 	void deleteCustomerServiceComment(CustomerServiceCommentVO customerCommentDelete);
 
-//	void deleteCustomerServiceCommentList(CustomerServiceCommentVO customerCommentDeleteList);
-	
 
 }

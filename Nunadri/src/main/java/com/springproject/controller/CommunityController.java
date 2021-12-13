@@ -190,41 +190,31 @@ public class CommunityController {
       System.out.println(cvo.getNoticeCategory() + "333333333333333333333333333333333333");
 
       if (cvo.getNoticeCategory().equals("B")) {
-         System.out.println(cvo.getNoticeCategory() + "11111111111111111111111111111");
          return "view/community/feed/feed_update";
       }
-      System.out.println(cvo.getNoticeCategory() + "222222222222222222222222222222222");
 
       return "view/community/community_boarder_update";
    }
 
    @PostMapping("/updateCommunity")
-   public String updateMyhouse(CommunityVO cvo, @RequestParam("arrNo") int[] arr, HttpServletRequest request,
+   public String updateMyhouse(CommunityVO cvo, @RequestParam(value="arrNo", defaultValue = "0") int[] arr, HttpServletRequest request,
          MultipartHttpServletRequest mhsr) throws Exception {
 
       int noticeNo = cvo.getNoticeNo();
       String category = cvo.getNoticeCategory();
 
       communityService.updateCommunity(cvo);
-
       // 파일삭제를 위한 객체
       FileCommunityVO fvo = new FileCommunityVO();
-     	String path = request.getSession().getServletContext().getRealPath("/") + "/upload/";
-
       if (arr != null) {
          fvo.setNoticeCategory(cvo.getNoticeCategory());
          fvo.setNoticeNo(cvo.getNoticeNo());
-//			List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
+
          for (int x : arr) {
-//				for(FileCommunityVO fvo2 : list) {
-//					File file = new File(path + fvo2.getCommunityImgUrl());
-//					if(file.exists()) {
-//						file.delete();
-//				}
-            fvo.setFileNo(x);
-            communityFileService.deleteCommunityFile(fvo);
-         }
-      }
+        	 	fvo.setFileNo(x);
+        	 	communityFileService.deleteCommunityFile(fvo);
+			    }
+       }
       // 파일업로드
       try {
          FileUtils fileUtils = new FileUtils();
@@ -237,13 +227,6 @@ public class CommunityController {
       } catch (Exception e) {
          e.printStackTrace();
       }
-      if (cvo.getNoticeCategory().equals("B")) {
-         System.out.println(cvo.getNoticeCategory());
-
-         return "view/community/feed/feed_detail" + category + "/" + noticeNo;
-
-      }
-
       return "redirect:/communityDetail/" + category + "/" + noticeNo;
    }
   
@@ -259,6 +242,7 @@ public class CommunityController {
       model.addAttribute("fileList", communityFileService.getCommunityFileList(cvo));
       System.out.println("파일테스트-----" + communityFileService.getCommunityFileList(cvo));
 
+      System.out.println("==========" + communityService.getCommunityDetail(cvo));
       if (cvo.getNoticeCategory().equals("B")) {
 
          like.setId(user.getId());

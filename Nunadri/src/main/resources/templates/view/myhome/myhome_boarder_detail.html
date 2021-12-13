@@ -307,7 +307,7 @@
                   <!-- commenting START -->
                   <section class="commentingbox">
           
-          <form  method="post" id="commentInsert">
+          <form  method="post" id="commentInsert" action="/insertMyhouseComment">
           <input type="hidden" name="nickname" th:value="${nickname}">
           <input type="hidden" name="id" th:value="${#authentication.principal.username}">
             <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
@@ -322,7 +322,6 @@
                         <div class="submitbox">
                           <input type="button" id="comment_submit" value="게시" onclick="commentSubmit()">
                         </div>
-          
                       </div>
           </form>
                     <!-- commenting form END -->
@@ -358,6 +357,8 @@
         navbar.classList.remove('navbar_display');
       }
     });
+    
+   
   </script>
   
   <!--캐러셀 기능 스크립트-->
@@ -401,6 +402,12 @@ let myhouseNo = $("#myhouseNo").val();
 
      $(document).ready(function(){
       getCommentList();
+      $("#commentText").keydown(function(key) {
+                if (key.keyCode == 13) {
+                   commentSubmit();
+                   return false;
+                }
+            });
 })
 
 

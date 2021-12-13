@@ -2,6 +2,8 @@ package com.springproject.vo;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 @Data
@@ -11,9 +13,12 @@ public class CommunityVO {
 	
 	private int noticeNo;
 	
+	private String id;
+	
 	private String nickname;
 	private String id;
 	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date noticeRegDate;
 	
 	private String noticeTitle;

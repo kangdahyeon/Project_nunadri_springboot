@@ -229,6 +229,18 @@
 	 box-shadow: 1px 1px 2px 1px rgb(0 0 0 / 20%);
     border-radius: 5px;
 }
+	.commentProfile {
+		position: relative; 
+		width : 50px;
+		height: 50px;
+	}
+	
+	.commentProfile  > img {
+		width : 100%;
+		height: 100%;
+		object-fit: cover;
+		margin: auto;
+	}
 
   </style>
 
@@ -411,8 +423,13 @@ function getCommentList(){
             str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
             str+="<div class='commentContent'>" + result[i].qnaComment+
-            "</div><button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].qnaCommentNo + ")'>삭제</button></div><hr>" 
+            "</div>"
+             console.log(result[i].id);
+            if(result[i].id === [[${#authentication.principal.username}]]){
             
+            str += "<button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].qnaCommentNo + ")'>삭제</button>" 
+            }
+           str += "</div><hr>" 
             $("#comment").append(str);
          }
       }

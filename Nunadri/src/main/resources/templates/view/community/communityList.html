@@ -71,7 +71,7 @@
              <tbody>
 					<tr th:each="communityList, status : ${communityList}">
 						<td th:text="${communityList.noticeNo}"></td>
-						<td class="text-left">
+						<td>
 							<a th:text="${communityList.noticeTitle}" th:href="'/communityDetail/'+${communityList.noticeCategory}+'/'+${communityList.noticeNo}"></a>
 						</td>
 						<td th:text="${communityList.nickname}"></td>

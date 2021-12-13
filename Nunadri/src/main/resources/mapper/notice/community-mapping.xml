@@ -15,6 +15,7 @@
       <insert id="insertCommunity">
          INSERT INTO NOTICE_COMMUNITY 
       (
+
          <include refid="communityColumns" />
          
           ) values (
@@ -176,5 +177,25 @@
     AND NOTICE_NO=#{noticeNo}
     AND ID=#{id}
   </delete>
+  
+     <select id="memberCommunityBoardList" resultType="CommunityVO" parameterType="HashMap"> 
+      SELECT * FROM NOTICE_COMMUNITY 
+      WHERE NOTICE_CATEGORY = #{paramList.noticeCategory}
+      AND ID = #{paramList.id}
+        
+   <if test="paramList.searchCondition == 'NOTICE_TITLE'"> 
+            AND NOTICE_TITLE LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+          </if> 
+         <if test="paramList.searchCondition == 'NOTICE_CONTENT'">
+            AND NOTICE_CONTENT LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if> 
+         <if test="paramList.searchCondition == 'NICKNAME'">
+            AND NICKNAME LIKE CONCAT('%', #{paramList.searchKeyword}, '%')
+         </if>
+           
+        ORDER BY NOTICE_NO DESC
+        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+      
+      </select>
 
 </mapper>

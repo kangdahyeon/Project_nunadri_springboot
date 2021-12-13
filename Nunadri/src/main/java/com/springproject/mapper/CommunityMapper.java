@@ -42,4 +42,6 @@ public interface CommunityMapper {
       void deleteLike(LikeVO like);
       
       LikeVO getLikeList(LikeVO like);
+      
+      List<CommunityVO> memberCommunityBoardList(Map<String,Object> map);
 }

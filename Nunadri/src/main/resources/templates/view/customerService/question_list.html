@@ -32,6 +32,7 @@
       box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.15);
       border-radius: 4px;
     }
+    
   </style>
 
 </head>
@@ -69,14 +70,12 @@
                 <th id="table_text">제목</th>
                 <th id="table_width_writer">작성자</th>
                 <th id="table_width_writer">작성일</th>
-                <th id="table_width_hit">조회수</th>
               </tr>
               <tr th:each="customerService, status: ${customerBoardList}">
-                <td th:text="${customerService.qnaNo}"></td >
-                <td> <a th:text="${customerService.qnaTitle}" th:href="'/CustomerServiceBoardDetail/'+${customerService.qnaNo}+'/'+${customerService.id}"></a></td>
+                <td th:text="${customerService.qnaNo}"></td  >
+                <td> <a th:text="${customerService.qnaTitle}" th:href="'/CustomerServiceBoardDetail/'+${customerService.qnaNo}+'/'+${customerService.id}"></a></td  >
                 <td th:text="${customerService.nickname}"></td >
                 <td th:text="${customerService.qnaRegDate}"></td >
-                <td>0</td>
               </tr>
             </table>
 			</div>
