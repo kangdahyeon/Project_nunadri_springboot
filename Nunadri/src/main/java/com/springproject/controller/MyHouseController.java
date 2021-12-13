@@ -45,7 +45,7 @@ public class MyHouseController {
 	private final MyhouseCommentService myhouseCommentService;
 
 	static String condition ="";
-	   static String keyword="";
+	static String keyword="";
 
 
 	//유저의 닉네임을 model에 저장(변수명 = "nickname")
@@ -74,35 +74,36 @@ public class MyHouseController {
 		boardList.setHouseNo(myhouseService.getHouseNo(user.getNickname()));
 
 
-		  //검색값 없을때 기본 값 설정
-        if(boardList.getSearchCondition() == null) {
-           boardList.setSearchCondition("MYHOUSE_TITLE");
-           }
-           if(boardList.getSearchKeyword() == null) {
-              boardList.setSearchKeyword("");
-           }
+		//검색값 없을때 기본 값 설정
+		if(boardList.getSearchCondition() == null) {
+			boardList.setSearchCondition("MYHOUSE_TITLE");
+		}
+		if(boardList.getSearchKeyword() == null) {
+			boardList.setSearchKeyword("");
+		}
 
-           //검색, 키워드 값(페이징 처리시 필요)
-           condition = boardList.getSearchCondition();
-           keyword = boardList.getSearchKeyword();
+		//검색, 키워드 값(페이징 처리시 필요)
+		condition = boardList.getSearchCondition();
+		keyword = boardList.getSearchKeyword();
 
-           int total = myhouseService.selectMyHouseBoardCount(boardList);
+		int total = myhouseService.selectMyHouseBoardCount(boardList);
 
 		model.addAttribute("category", category);
 		model.addAttribute("boardList", myhouseService.getMyhouseBoardList(boardList, cri));
 		model.addAttribute("pageMaker", new PageVO(cri, total));
-        model.addAttribute("condition", boardList.getSearchCondition());
-        model.addAttribute("keyword", boardList.getSearchKeyword());
-
-        if(category.equals("m")) {
-        	model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList));
-        	return "view/myhome/fleamarket/fleamarket_list";
-        }
+		model.addAttribute("condition", boardList.getSearchCondition());
+		model.addAttribute("keyword", boardList.getSearchKeyword());
+		
+		
+		System.out.println(new PageVO(cri, total));
+		//중고거래 게시판
+		if(category.equals("m")) {
+			model.addAttribute("fleaMarketList", myhouseFileService.getFleamarketList(boardList, cri));
+			return "view/myhome/fleamarket/fleamarket_list";
+		}
 
 		return "view/myhome/boarder/boarder_list";
 	}
-
-
 
 
 
@@ -126,12 +127,12 @@ public class MyHouseController {
 			String category = noticeInsert.getMyhouseCategory();
 			FileUtils fileUtils = new FileUtils();
 			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(noticeInsert.getHouseNo(),
-												category, myhouseNo, request, mhsr);
+					category, myhouseNo, request, mhsr);
 
-		if(!CollectionUtils.isEmpty(fileList)) {
-			myhouseFileService.insertMyhouseFileList(fileList);
-		}
-		myhouseService.insertMyhouseBoard(noticeInsert);
+			if(!CollectionUtils.isEmpty(fileList)) {
+				myhouseFileService.insertMyhouseFileList(fileList);
+			}
+			myhouseService.insertMyhouseBoard(noticeInsert);
 
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -147,6 +148,7 @@ public class MyHouseController {
 
 		//조회수 증가 기능
 		myhouseService.hitIncrease(vo);
+
 
 		model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
 		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
@@ -176,12 +178,12 @@ public class MyHouseController {
 
 		model.addAttribute("updateBoard",myhouseService.getMyhouseBoard(update));
 		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(update));
-		
+
 		//중고거래 수정 폼
 		if(update.getMyhouseCategory().equals("m")) {
 			return "view/myhome/fleaMarket/fleamarket_update";
 		}
-		
+
 		return "view/myhome/boarder/boarder_update";
 	}
 
@@ -219,15 +221,15 @@ public class MyHouseController {
 			FileUtils fileUtils = new FileUtils();
 			List<FileMyhouseVO> fileList = fileUtils.parseFileInfo(houseNo, category, myhouseNo, request, mhsr);
 
-		if(!CollectionUtils.isEmpty(fileList)) {
-			myhouseFileService.insertMyhouseFileList(fileList);
-		}
+			if(!CollectionUtils.isEmpty(fileList)) {
+				myhouseFileService.insertMyhouseFileList(fileList);
+			}
 
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		if(category.equals("m")) {
 			return "redirect:/items/" + myhouseNo;
 		}
@@ -235,8 +237,8 @@ public class MyHouseController {
 		return "redirect:/myhouseBoardDetail/"+ houseNo + "/" + category + "/" +myhouseNo;
 	}
 
-	
-	
+
+
 	// 소모임 게시판 리스트
 	@RequestMapping("/board/s") //
 	public String smallGroup(NoticeMyhouseVO boardList, @AuthenticationPrincipal SecurityUser user, Model model, Criteria cri) {
@@ -267,7 +269,7 @@ public class MyHouseController {
 		model.addAttribute("keyword", boardList.getSearchKeyword());
 		return "view/myhome/smallGroup/boarder_smallgroup_list";
 	}
-		
+
 	// 소모임 글 작성 폼
 	@GetMapping("/smallGroupInsert")
 	public String smallGroupInsert() {
@@ -387,21 +389,29 @@ public class MyHouseController {
 		return "redirect:/smallGroupDetail/" + houseNo + "/" + category + "/" + myhouseNo;
 	}
 
-		@GetMapping("/fleamarketInsert")
-		public String fleamarketInsert() {
-			return "view/myhome/fleaMarket/fleamarket_insert";
-		}
 
 
 
-		@GetMapping("/items/{myhouseNo}")
-		public String fleamarketDetail(@AuthenticationPrincipal SecurityUser user, NoticeMyhouseVO vo, Model model) {
-			int houseNo = myhouseService.getHouseNo(user.getNickname());
-			vo.setHouseNo(houseNo);
-			model.addAttribute("userInfo", memberService.getMemberInfo(user.getId()));
-			model.addAttribute("itemDetail", myhouseFileService.getItem(vo));
+	//중고거래 작성 폼
+	@GetMapping("/fleamarketInsert")
+	public String fleamarketInsert() {
+		return "view/myhome/fleaMarket/fleamarket_insert";
+	}
 
-			return "view/myhome/fleaMarket/fleamarket_detail";
-		}
+
+	//중고거래 상세 페이지
+	@GetMapping("/items/{myhouseNo}")
+	public String fleamarketDetail(@AuthenticationPrincipal SecurityUser user, NoticeMyhouseVO vo, Model model) {
+		int houseNo = myhouseService.getHouseNo(user.getNickname());
+		vo.setHouseNo(houseNo);
+		vo.setMyhouseCategory("m");
+		//조회수 증가 기능
+				myhouseService.hitIncrease(vo);
+
+		model.addAttribute("userInfo", memberService.getMemberInfo(user.getId()));
+		model.addAttribute("itemDetail", myhouseFileService.getItem(vo));
+
+		return "view/myhome/fleaMarket/fleamarket_detail";
+	}
 
 }

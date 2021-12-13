@@ -10,8 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.springproject.mapper.MemberMapper;
 import com.springproject.service.MemberService;
 import com.springproject.vo.Criteria;
-import com.springproject.vo.FileCommunityVO;
-import com.springproject.vo.HouseVO;
 
 import com.springproject.vo.MemberVO;
 

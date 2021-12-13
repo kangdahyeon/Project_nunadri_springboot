@@ -1,170 +1,184 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springproject.mapper.CommunityMapper">
-	<sql id="communityColumns">
-			  NOTICE_CATEGORY
-			, NOTICE_NO
-			, NICKNAME
-			, NOTICE_REGDATE
-			, NOTICE_TITLE
-			, NOTICE_CONTENT
-			, NOTICE_HIT
-	</sql>
-		
-		<insert id="insertCommunity">
-			INSERT INTO projectdb.NOTICE_COMMUNITY 
-		(
-			 NOTICE_NO
-			, NOTICE_CATEGORY
-			, NICKNAME
-			, NOTICE_REGDATE
-			, NOTICE_TITLE
-			, NOTICE_CONTENT
-			, NOTICE_HIT
-			
-    		) values (
-    			(SELECT 
-					IFNULL(MAX(NOTICE_NO), 0) + 1 
-				FROM 
-					projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
-				WHERE 
-					NOTICE_CATEGORY = #{noticeCategory})
-									, #{noticeCategory}
-									, #{nickname}
-									, date_format(now(), '%Y-%m-%d %H:%m')
-									, #{noticeTitle}
-									, #{noticeContent}
-									, #{noticeHit}
-   		 )	
-		</insert>
-	
-		<select id="getCommunityDetail" parameterType="CommunityVO" resultType="CommunityVO">
-			SELECT
-				<include refid="communityColumns" />
-			FROM
-				projectdb.NOTICE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-				NOTICE_NO = #{noticeNo}
-		</select>
-		
-		<!-- 조회수 증가 쿼리 -->
-		<update id="hitIncrease">
-			UPDATE NOTICE_COMMUNITY
-			SET 
-				NOTICE_HIT = NOTICE_HIT + 1 
-			WHERE
-				 NOTICE_CATEGORY = #{noticeCategory}
-        	AND 
-        		NOTICE_NO = #{noticeNo}	
-		</update>
-	
-		<update id="updateCommunity" parameterType="CommunityVO">
-			UPDATE NOTICE_COMMUNITY
-			SET
-			NOTICE_CATEGORY = #{noticeCategory}
-				, NOTICE_TITLE = #{noticeTitle}
-				, NOTICE_CONTENT = #{noticeContent}
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-				NOTICE_NO = #{noticeNo}
-		</update>
-		
-		<select id="getCommunity" resultType="CommunityVO">
-			SELECT * FROM NOTICE_COMMUNITY
-			WHERE
-				NOTICE_CATEGORY = #{noticeCategory}
-			AND
-				NOTICE_NO = #{noticeNo}
-		</select>
-	
-		<delete id="deleteCommunitySeq">
-			DELETE FROM NOTICE_COMMUNITY
-			WHERE 
-				NOTICE_NO = #{noticeNo} 
-			AND 
-				NOTICE_CATEGORY = #{noticeCategory}
-		</delete>
-		
-		      
-		<delete id="deleteCommunityCommentList">
-		      DELETE FROM COMMUNITY_COMMENT
+   <sql id="communityColumns">
+           NOTICE_CATEGORY
+         , NOTICE_NO
+         , NICKNAME
+         , NOTICE_REGDATE
+         , NOTICE_TITLE
+         , NOTICE_CONTENT
+         , NOTICE_HIT
+   </sql>
+      
+      <insert id="insertCommunity">
+         INSERT INTO projectdb.NOTICE_COMMUNITY 
+      (
+          NOTICE_NO
+         , NOTICE_CATEGORY
+         , NICKNAME
+         , NOTICE_REGDATE
+         , NOTICE_TITLE
+         , NOTICE_CONTENT
+         , NOTICE_HIT
+         
+          ) values (
+             (SELECT 
+               IFNULL(MAX(NOTICE_NO), 0) + 1 
+            FROM 
+               projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
+            WHERE 
+               NOTICE_CATEGORY = #{noticeCategory})
+                           , #{noticeCategory}
+                           , #{nickname}
+                           , date_format(now(), '%Y-%m-%d %H:%m')
+                           , #{noticeTitle}
+                           , #{noticeContent}
+                           , #{noticeHit}
+          )   
+      </insert>
+   
+      <select id="getCommunityDetail" parameterType="CommunityVO" resultType="CommunityVO">
+         SELECT
+            <include refid="communityColumns" />
+         FROM
+            projectdb.NOTICE_COMMUNITY
+         WHERE
+            NOTICE_CATEGORY = #{noticeCategory}
+         AND
+            NOTICE_NO = #{noticeNo}
+      </select>
+      
+      <!-- 조회수 증가 쿼리 -->
+      <update id="hitIncrease">
+         UPDATE NOTICE_COMMUNITY
+         SET 
+            NOTICE_HIT = NOTICE_HIT + 1 
+         WHERE
+             NOTICE_CATEGORY = #{noticeCategory}
+           AND 
+              NOTICE_NO = #{noticeNo}   
+      </update>
+   
+      <update id="updateCommunity" parameterType="CommunityVO">
+         UPDATE NOTICE_COMMUNITY
+         SET
+         NOTICE_CATEGORY = #{noticeCategory}
+            , NOTICE_TITLE = #{noticeTitle}
+            , NOTICE_CONTENT = #{noticeContent}
+         WHERE
+            NOTICE_CATEGORY = #{noticeCategory}
+         AND
+            NOTICE_NO = #{noticeNo}
+      </update>
+      
+      <select id="getCommunity" resultType="CommunityVO">
+         SELECT * FROM NOTICE_COMMUNITY
+         WHERE
+            NOTICE_CATEGORY = #{noticeCategory}
+         AND
+            NOTICE_NO = #{noticeNo}
+      </select>
+   
+      <delete id="deleteCommunitySeq">
+         DELETE FROM NOTICE_COMMUNITY
+         WHERE 
+            NOTICE_NO = #{noticeNo} 
+         AND 
+            NOTICE_CATEGORY = #{noticeCategory}
+      </delete>
+      
+            
+      <delete id="deleteCommunityCommentList">
+            DELETE FROM COMMUNITY_COMMENT
               WHERE
                    NOTICE_NO = #{noticeNo}
               AND 
                   NOTICE_CATEGORY = #{noticeCategory}
-		</delete>
-	
-		<select id="getCommunityList" resultType="CommunityVO" parameterType="HashMap">
-			SELECT 
-				<include refid="communityColumns" />
-			FROM
-			    NOTICE_COMMUNITY
-			WHERE
-			    NOTICE_CATEGORY = #{communityList.noticeCategory}
-			<if test="communityList.searchCondition == 'NOTICE_TITLE'"> 
+      </delete>
+   
+      <select id="getCommunityList" resultType="CommunityVO" parameterType="HashMap">
+         SELECT 
+            <include refid="communityColumns" />
+         FROM
+             NOTICE_COMMUNITY
+         WHERE
+             NOTICE_CATEGORY = #{communityList.noticeCategory}
+         <if test="communityList.searchCondition == 'NOTICE_TITLE'"> 
             AND 
-            	NOTICE_TITLE LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
-          	</if> 
-         	<if test="communityList.searchCondition == 'NOTICE_CONTENT'">
+               NOTICE_TITLE LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
+             </if> 
+            <if test="communityList.searchCondition == 'NOTICE_CONTENT'">
             AND 
-            	NOTICE_CONTENT LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
-         	</if> 
-         	<if test="communityList.searchCondition == 'NICKNAME'">
+               NOTICE_CONTENT LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
+            </if> 
+            <if test="communityList.searchCondition == 'NICKNAME'">
             AND 
-            	NICKNAME LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
-         	</if>
-			ORDER BY NOTICE_NO DESC
-			LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
-		</select>
+               NICKNAME LIKE CONCAT('%', #{communityList.searchKeyword}, '%')
+            </if>
+         ORDER BY NOTICE_NO DESC
+         LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+      </select>
 
-		<select id="getCommunityNo" resultType="int">
-			SELECT 
-				IFNULL(MAX(NOTICE_NO), 0) + 1 
-			FROM 
-				NOTICE_COMMUNITY
-		</select>
-		
-		<!-- 페이징 카운트 쿼리문 -->
+      <select id="getCommunityNo" resultType="int">
+         SELECT 
+            IFNULL(MAX(NOTICE_NO), 0) + 1 
+         FROM 
+            NOTICE_COMMUNITY
+      </select>
+      
+      <!-- 페이징 카운트 쿼리문 -->
         <select id="selectCommunityCount" resultType="int">
-		      SELECT COUNT(*) FROM NOTICE_COMMUNITY 
-		      WHERE 
-		      		NOTICE_CATEGORY = #{noticeCategory}
+            SELECT COUNT(*) FROM NOTICE_COMMUNITY 
+            WHERE 
+                  NOTICE_CATEGORY = #{noticeCategory}
             <if test="searchCondition == 'NOTICE_TITLE'">
                AND 
-               		NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                     NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
             <if test="searchCondition == 'NOTICE_CONTENT'">
                AND 
-               		NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                     NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
             <if test="searchCondition == 'NICKNAME'">
                   AND 
-                  		NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NICKNAME LIKE CONCAT('%', #{searchKeyword}, '%')
             </if>
       </select> 
       
+      <select id="getLikeList" resultType="LikeVO">
+          SELECT * FROM FEEDLIKE
+         WHERE NOTICE_CATEGORY= 'B'
+          AND NOTICE_NO=#{noticeNo}
+          AND ID=#{id}
+      </select>
+      
+      <select id="likeHit" resultType="int">
+          SELECT COUNT(NOTICE_NO) from FEEDLIKE
+         WHERE NOTICE_CATEGORY= 'B'
+          AND NOTICE_NO=#{noticeNo}
+      </select>
+      
 
-<update id="likeCheck" parameterType="LikeVO">
-    UPDATE like
-    SET LIKE_NO = LIKE_NO + 1 
-    AND LIKE_HIT = LIKE_HIT + 1
-    WHERE NOTICE_CATEGORY=#{noticeCategory} 
-    AND NOTICE_NO=#{noticeNo}
-    AND LIKE_NO= 0
-    AND NICKNAME=#{nickname}
-  </update>
+<insert id="insertLike" parameterType="LikeVO">
+    INSERT INTO FEEDLIKE
+    (
+          NOTICE_CATEGORY
+         , NOTICE_NO
+         , ID
+         
+          ) values (
+                       #{noticeCategory}
+                     , #{noticeNo}
+                     , #{id}
+          )   
+  </insert>
   
-  <update id="likeCheckCancel" parameterType="LikeVO">
-    UPDATE like
-    SET LIKE_NO = 0 
-    AND LIKE_HIT = LIKE_HIT - 1
+  <delete id="deleteLike" parameterType="LikeVO">
+    DELETE FROM FEEDLIKE
     WHERE NOTICE_CATEGORY=#{noticeCategory} 
     AND NOTICE_NO=#{noticeNo}
-    AND LIKE_NO= 1
-    AND NICKNAME=#{nickname}
-  </update>
+    AND ID=#{id}
+  </delete>
 
 </mapper>

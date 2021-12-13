@@ -3,6 +3,7 @@ package com.springproject.service;
 import java.util.List;
 
 import com.springproject.vo.Criteria;
+import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
 public interface MyhouseService {
@@ -36,6 +37,5 @@ public interface MyhouseService {
 	
 	//소모임 참여인원 감소
 	void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease);
-	
 
 }

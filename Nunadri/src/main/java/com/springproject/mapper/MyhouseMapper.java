@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
 
@@ -48,7 +49,5 @@ public interface MyhouseMapper {
 	
 	//소모임 참여인원 감소
 	void peopleJoinDecrease(NoticeMyhouseVO peopleDecrease);
-	
-
 	
 }

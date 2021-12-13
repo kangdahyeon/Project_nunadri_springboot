@@ -13,7 +13,6 @@
 		, HOUSE_NO
 		, MYHOUSE_NO
 		, MYHOUSE_CATEGORY
-		, NICKNAME
 		, MYHOUSE_FILENAME
 		, MYHOUSE_FILE_PATH
 		, MYHOUSE_FILE_SIZE
@@ -33,7 +32,6 @@
 		, #{houseNo}
 		, #{myhouseNo}
 		, #{myhouseCategory}
-		, #{nickname}
 		, #{myhouseFilename}
 		, #{myhouseFilePath}
 		, #{myhouseFileSize}
@@ -61,7 +59,7 @@
    
    
    
-   <select id="getFleamarketList" parameterType="com.springproject.vo.NoticeMyhouseVO" resultType="HashMap">
+ <!--   <select id="getFleamarketList" parameterType="com.springproject.vo.NoticeMyhouseVO" resultType="HashMap">
    	 SELECT M.HOUSE_NO AS houseNo,
    	  M.MYHOUSE_NO AS myhouseNo,
    	   M.NICKNAME AS nickname,
@@ -82,6 +80,45 @@
         m.MYHOUSE_CATEGORY = 'm'
         AND m.HOUSE_NO = #{houseNo}
         AND f.File_NO = 1
+        
+   </select> -->
+   
+   
+     <select id="getFleamarketList" parameterType="hashMap" resultType="HashMap">
+   	 SELECT M.HOUSE_NO AS houseNo,
+   	  M.MYHOUSE_NO AS myhouseNo,
+   	   M.NICKNAME AS nickname,
+		M.MYHOUSE_TITLE AS myhouseTitle,
+		 M.MYHOUSE_CONTENT AS myhouseContent,
+		  M.MYHOUSE_REGDATE AS regDate,
+		M.MYHOUSE_HIT AS hit,
+		 M.PRICE AS price,
+		 F.FILE_NO AS fileNo,
+		  F.MYHOUSE_FILENAME AS fileName,
+		   F.MYHOUSE_IMG_URL AS myhouseImgUrl
+		FROM `NOTICE_MYHOUSE` AS M
+		LEFT OUTER JOIN `FILE_MYHOUSE` AS F
+		ON M.HOUSE_NO = f.house_no
+		AND m.myhouse_category = f.myhouse_category
+		AND m.myhouse_no = f.myhouse_no
+		 WHERE 
+        m.MYHOUSE_CATEGORY = 'm'
+        AND m.HOUSE_NO = #{fleaMarketList.houseNo}
+        AND f.File_NO = 1
+        
+        <if test="fleaMarketList.searchCondition == 'MYHOUSE_TITLE'"> 
+            AND MYHOUSE_TITLE LIKE CONCAT('%', #{fleaMarketList.searchKeyword}, '%')
+          </if> 
+         <if test="fleaMarketList.searchCondition == 'MYHOUSE_CONTENT'">
+            AND MYHOUSE_CONTENT LIKE CONCAT('%', #{fleaMarketList.searchKeyword}, '%')
+         </if> 
+         <if test="fleaMarketList.searchCondition == 'NICKNAME'">
+            AND NICKNAME LIKE CONCAT('%', #{fleaMarketList.searchKeyword}, '%')
+         </if>
+       
+        ORDER BY M.MYHOUSE_NO DESC
+        LIMIT #{criteria.amount} OFFSET #{criteria.startNum}
+        
    </select>
    
    
@@ -94,6 +131,7 @@
 		 M.MYHOUSE_CONTENT AS myhouseContent,
 		  M.MYHOUSE_REGDATE AS regDate,
 		M.MYHOUSE_HIT AS hit,
+		M.ID AS id,
 		 M.PRICE AS price,
 		 F.FILE_NO AS fileNo,
 		  F.MYHOUSE_FILENAME AS fileName,
