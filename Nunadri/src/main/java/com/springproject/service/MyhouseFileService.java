@@ -3,6 +3,7 @@ package com.springproject.service;
 import java.util.HashMap;
 import java.util.List;
 
+import com.springproject.vo.Criteria;
 import com.springproject.vo.FileMyhouseVO;
 import com.springproject.vo.NoticeMyhouseVO;
 
@@ -16,7 +17,10 @@ public interface MyhouseFileService {
 	
 	void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll);
 	
-	List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO join);
+	//List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO join);
 	
 	List<HashMap<String, Object>> getItem(NoticeMyhouseVO item);
+
+
+	List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO vo, Criteria cri);
 }

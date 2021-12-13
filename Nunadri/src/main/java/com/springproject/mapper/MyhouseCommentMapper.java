@@ -1,6 +1,7 @@
 package com.springproject.mapper;
 
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -16,6 +17,8 @@ public interface MyhouseCommentMapper {
    void insertMyhouseComment(MyhouseCommentVO commentInsert);
    
    List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList);
+  
+ //  List<HashMap<String, Object>> getMyhouseComment(MyhouseCommentVO commentList);
    
    void deleteMyhouseComment(MyhouseCommentVO commentDelete);
    

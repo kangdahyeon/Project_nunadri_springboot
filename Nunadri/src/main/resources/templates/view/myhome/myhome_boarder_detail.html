@@ -37,12 +37,12 @@
    }
      .commentNickname {
       color : coral;
-      width: 70px;
+      width: 100px !important;
       text-align: left;
    }
    
    	.commentContent{
-	width: 400px;
+	width: 270px;
 	padding: 0px;
 	text-align: left;
 	
@@ -232,6 +232,10 @@
     border-radius: 5px;
 }
 
+.bx-default-pager{
+	display: none ;
+}
+
     
   </style>
 
@@ -257,10 +261,9 @@
           
                   <!-- feed photo -->
 
-                  <ul class="bxslider">
+                  <ul class="bxslider" th:if="${#lists.size(fileList)}>0">
 			         <li  th:each="file:${fileList}"><img th:src="@{'/upload/'+${file.myhouseImgUrl}}" /></li  >
 		         </ul>
-
                   <!-- profile START -->
                   <div class="v_profile">
                     <p class="v_title" th:text="${getBoard.myhouseTitle}"></p>
@@ -273,15 +276,12 @@
                   </div>
                   <!-- profile END -->
                   
-                  
-                  
-                  
                  
                   <div class="edit_div2" style="right: 155px;">
- 					<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >수정</a   >
+ 					<a class="v_edit feedview_btn" id="writerBtn" th:if="${#strings.equals(getBoard.id, #authentication.principal.username)}" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >수정</a   >
                   </div>
                   <div class="delete_div2" style="right: 90px;">
-                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >삭제</a   >
+                    <a class="v_edit feedview_btn" id="writerBtn" th:if="${#strings.equals(getBoard.id, #authentication.principal.username)}" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/'+${getBoard.myhouseCategory}+'/'+${getBoard.myhouseNo}" >삭제</a   >
                   </div>
                   <div class="delete_div2">
                   <a class="v_edit feedview_btn" id="writerBtn" th:href="'/board/'+${getBoard.myhouseCategory}" >목록으로</a  >
@@ -307,24 +307,23 @@
                   <!-- commenting START -->
                   <section class="commentingbox">
           
-          <form action="/insertMyhouseComment" method="post">
+          <form  method="post" id="commentInsert">
           <input type="hidden" name="nickname" th:value="${nickname}">
+          <input type="hidden" name="id" th:value="${#authentication.principal.username}">
             <input type="hidden" id="houseNo" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" id="myhouseCategory" name="myhouseCategory" th:value="${getBoard.myhouseCategory}">
             <input type="hidden" id="myhouseNo" name="myhouseNo" th:value="${getBoard.myhouseNo}">
                     <!-- commenting form START -->
-                    <form method="post" enctype="multipart/form-data">
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" placeholder="댓글달기" name="myhouseComment" autofocus required>
+                          <input type="text" placeholder="댓글달기" id="commentText" name="myhouseComment" autofocus required>
                         </div>
                         <div class="submitbox">
-                          <input type="submit" id="comment_submit" value="게시" onclick="commentSubmit()">
+                          <input type="button" id="comment_submit" value="게시" onclick="commentSubmit()">
                         </div>
           
                       </div>
-                    </form>
           </form>
                     <!-- commenting form END -->
           
@@ -373,7 +372,6 @@
 
         controls: true, //좌우 화살표	
 
-        pager: true, //페이징 
 
         pause: 3000,
 
@@ -394,17 +392,6 @@
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
     <!--댓글 기능 ajax-->
 <script th:inline="javascript">
 
@@ -414,9 +401,10 @@ let myhouseNo = $("#myhouseNo").val();
 
      $(document).ready(function(){
       getCommentList();
-      
 })
 
+
+//댓글 목록 불러오기
 function getCommentList(){
    
    $.ajax({
@@ -434,14 +422,22 @@ function getCommentList(){
             str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
             str+="<div class='commentContent'>" + result[i].myhouseComment+
-            "</div><button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button></div><hr>" 
+            "</div>"
+            if(result[i].id === [[${#authentication.principal.username}]]){
+	
+            str += "<button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button>"
+	
+			}
             
+            str += "</div><hr>" 
             $("#comment").append(str);
          }
       }
    })
 }
 
+
+//댓글 삭제 ajax
 function deleteComment(myhouseCommentNo){
    if(confirm("댓글을 삭제하시겠습니까?")){
    $.ajax({
@@ -463,6 +459,23 @@ function deleteComment(myhouseCommentNo){
       
    }
    
+}
+
+
+//댓글 등록 ajax
+function commentSubmit(){
+	
+	$.ajax({
+		type: 'POST',
+		url:'/insertMyhouseComment',
+		data:$("#commentInsert").serialize(),
+		success:function(data){
+			if(data){
+				getCommentList();
+				$("#commentText").val("");
+			}
+		}
+	})
 }
 
 

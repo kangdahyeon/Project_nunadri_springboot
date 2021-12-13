@@ -2,6 +2,7 @@ package com.springproject.mapper;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -22,10 +23,12 @@ public interface MyhouseFileMapper {
 	
 	void deleteMyhouseFileAll(NoticeMyhouseVO deleteFileAll);
 	
-	List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO join);
+	//List<HashMap<String, Object>> getFleamarketList(NoticeMyhouseVO join);
 
 	List<HashMap<String, Object>> getItem(NoticeMyhouseVO item);
 
+	
+	List<HashMap<String, Object>> getFleamarketList(Map<String,Object> map);
 }
 
 
