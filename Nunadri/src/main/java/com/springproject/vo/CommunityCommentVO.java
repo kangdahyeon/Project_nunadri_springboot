@@ -17,5 +17,7 @@ public class CommunityCommentVO {
 	
 	private String nickname;
 	
+	private String id;
+	
 	private Date communityCommentRegdate;
 }

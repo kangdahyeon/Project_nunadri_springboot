@@ -16,6 +16,7 @@ public class CommunityVO {
 	private String id;
 	
 	private String nickname;
+	private String id;
 	
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd")
 	private Date noticeRegDate;

@@ -13,27 +13,21 @@
    </sql>
       
       <insert id="insertCommunity">
-         INSERT INTO projectdb.NOTICE_COMMUNITY 
+         INSERT INTO NOTICE_COMMUNITY 
       (
-          NOTICE_NO
-         , NOTICE_CATEGORY
-         , ID
-         , NICKNAME
-         , NOTICE_REGDATE
-         , NOTICE_TITLE
-         , NOTICE_CONTENT
-         , NOTICE_HIT
+
+         <include refid="communityColumns" />
          
           ) values (
-             (SELECT 
-               IFNULL(MAX(NOTICE_NO), 0) + 1 
-            FROM 
-               projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
-            WHERE 
-               NOTICE_CATEGORY = #{noticeCategory})
-                           , #{noticeCategory}
-                           , #{id}
+                     #{noticeCategory}
+				             ,(SELECT 
+				               IFNULL(MAX(NOTICE_NO), 0) + 1 
+				            FROM 
+				               projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
+				            WHERE 
+				               NOTICE_CATEGORY = #{noticeCategory})
                            , #{nickname}
+                           , #{id}
                            , date_format(now(), '%Y-%m-%d %H:%m')
                            , #{noticeTitle}
                            , #{noticeContent}

@@ -1,6 +1,7 @@
 package com.springproject.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +10,6 @@ import com.springproject.dto.CommunityCommentDto;
 import com.springproject.mapper.CommunityCommentMapper;
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
-import com.springproject.vo.MemberVO;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,8 +21,8 @@ public class CommunityCommentServiceImpl implements CommunityCommentService {
 	private final CommunityCommentMapper communityCommentMapper;
 
 	@Override
-	public void insertCommunityComment(CommunityCommentVO ccv) {
-		communityCommentMapper.insertCommunityComment(ccv);
+	public void insertCommunityComment(CommunityCommentVO commentInsert) {
+		communityCommentMapper.insertCommunityComment(commentInsert);
 	}
 
 	@Override
@@ -36,8 +36,8 @@ public class CommunityCommentServiceImpl implements CommunityCommentService {
 	}
 	
 	@Override
-	public List<CommunityCommentDto> getProfile(MemberVO profile) {
+	public List<CommunityCommentDto> getProfile(Map<String, Object> paramMap) {
 		
-		return communityCommentMapper.getProfile(profile);
+		return communityCommentMapper.getProfile(paramMap);
 	}
 }
