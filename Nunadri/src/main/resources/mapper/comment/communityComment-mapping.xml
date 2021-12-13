@@ -62,10 +62,17 @@
       		NOTICE_NO = #{noticeNo}
    </delete>
    
-   <select id="getProfile" resultType="MemberVO">
-   		SELECT PROFILE FROM 
-   			MEMBER AS M, COMMUNITY_COMMENT AS C
-			WHERE M.NICKNAME = C.NICKNAME;
+   <select id="getProfile" resultType="com.springproject.dto.CommunityCommentDto">
+   		SELECT 
+						C.NICKNAME,
+						M.PROFILE,
+						C.COMMUNITY_COMMENT_NO,
+						C.COMMUNITY_COMMENT,
+						C.NOTICE_CATEGORY,
+						C.NOTICE_NO
+		 	FROM 
+					MEMBER AS M, COMMUNITY_COMMENT AS C
+					WHERE M.ID = C.ID;
    </select>
 
 </mapper>

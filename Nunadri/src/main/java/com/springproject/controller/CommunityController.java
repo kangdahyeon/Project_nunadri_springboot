@@ -1,6 +1,12 @@
 package com.springproject.controller;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -92,6 +98,7 @@ public class CommunityController {
 
       return "redirect:/commu/" + communityInsert.getNoticeCategory();
    }
+  
 
    // 게시물 리스트
    @RequestMapping("/commu/{category}")
@@ -153,21 +160,27 @@ public class CommunityController {
      
      return json; 
      }
-    
-   // 게시물 삭제
-   @GetMapping("/deleteCommunity/{noticeCategory}/{noticeNo}")
-   public String deleteCommunity(CommunityVO cvo) {
+  
+  	// 게시물 삭제
+	@GetMapping("/deleteCommunity/{noticeCategory}/{noticeNo}")
+	public String deleteCommunity(CommunityVO cvo, HttpServletRequest request) {
+		
+		communityService.deleteCommunity(cvo);
+		// 게시물
+		communityService.deleteCommunityCommentList(cvo);
 
-      communityService.deleteCommunity(cvo);
-      // 게시물
-      communityService.deleteCommunityCommentList(cvo);
-
-
-
-      communityFileService.deleteCommunityFileAll(cvo);
-
-      return "redirect:/commu/" + cvo.getNoticeCategory();
-   }
+		FileCommunityVO fvo = new FileCommunityVO();
+		String path = request.getSession().getServletContext().getRealPath("/") + "/upload/";
+		List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
+		for(FileCommunityVO fvo2 : list) {
+			File file = new File(path + fvo2.getCommunityImgUrl());
+			if(file.exists()) {
+				file.delete();
+			}
+		}
+		communityFileService.deleteCommunityFileAll(cvo);
+		return "redirect:/commu/" + cvo.getNoticeCategory();
+	}
 
    @GetMapping("/updateCommunityBoard/{noticeCategory}/{noticeNo}")
    public String updateMyhouseBoard(CommunityVO cvo, Model model) {
@@ -196,11 +209,18 @@ public class CommunityController {
 
       // 파일삭제를 위한 객체
       FileCommunityVO fvo = new FileCommunityVO();
+     	String path = request.getSession().getServletContext().getRealPath("/") + "/upload/";
 
       if (arr != null) {
          fvo.setNoticeCategory(cvo.getNoticeCategory());
          fvo.setNoticeNo(cvo.getNoticeNo());
+        //			List<FileCommunityVO> list = communityFileService.getCommunityFileList(cvo);
          for (int x : arr) {
+           //				for(FileCommunityVO fvo2 : list) {
+//					File file = new File(path + fvo2.getCommunityImgUrl());
+//					if(file.exists()) {
+//						file.delete();
+//					}
             fvo.setFileNo(x);
             communityFileService.deleteCommunityFile(fvo);
          }
@@ -226,6 +246,7 @@ public class CommunityController {
 
       return "redirect:/communityDetail/" + category + "/" + noticeNo;
    }
+  
 
    // 게시글 상세페이지
    @GetMapping(value = "/communityDetail/{noticeCategory}/{noticeNo}")
@@ -284,6 +305,4 @@ public class CommunityController {
       System.out.println(json);
       return json;
    }
-
- 
 }

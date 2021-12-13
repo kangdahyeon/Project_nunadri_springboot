@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.springproject.dto.CommunityCommentDto;
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
 
@@ -20,13 +21,17 @@ public class CommunityCommentController {
 
    private final CommunityCommentService communityCommentService;
 
-
+  
+   
    //게시판(공지사항, 도와주세요, 자유게시판) 목록
    @ResponseBody
    @GetMapping("/getCommunityComment")
-   public List<CommunityCommentVO> getCommunityComment(CommunityCommentVO ccv) {
-     
-      return communityCommentService.getCommunityComment(ccv);
+   public List<CommunityCommentDto> getCommunityComment(CommunityCommentVO ccv) {
+	   MemberVO vo = new MemberVO();
+	   vo.setNickname(ccv.getNickname());
+	   List<CommunityCommentDto> list = communityCommentService.getProfile(vo);
+   
+      return list;
    }
    
    

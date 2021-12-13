@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.springproject.dto.CommunityCommentDto;
 import com.springproject.mapper.CommunityCommentMapper;
 import com.springproject.service.CommunityCommentService;
 import com.springproject.vo.CommunityCommentVO;
@@ -35,7 +36,7 @@ public class CommunityCommentServiceImpl implements CommunityCommentService {
 	}
 	
 	@Override
-	public Object[] getProfile(MemberVO profile) {
+	public List<CommunityCommentDto> getProfile(MemberVO profile) {
 		
 		return communityCommentMapper.getProfile(profile);
 	}
