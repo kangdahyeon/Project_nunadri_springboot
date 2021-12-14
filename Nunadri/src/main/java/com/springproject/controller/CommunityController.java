@@ -81,6 +81,7 @@ public class CommunityController {
 	   
       try {
          int seq = communityService.getCoummunityNo();
+         System.out.println(seq + "=================================");
          String category = communityInsert.getNoticeCategory();
 
          FileUtils fileUtils = new FileUtils();
@@ -131,7 +132,7 @@ public class CommunityController {
       if (category.equals("B")) {
 
          model.addAttribute("imgFileList", communityFileService.getCommunityImgList(communityList, cri));
-         System.out.println(communityFileService.getCommunityImgList(communityList, cri).size());
+         System.out.println(communityFileService.getCommunityImgList(communityList, cri));
          return "view/community/feed/feed_list";
 
       }

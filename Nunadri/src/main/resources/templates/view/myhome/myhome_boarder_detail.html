@@ -439,7 +439,7 @@ function getCommentList(){
          $("#comment").html("");
          for(let i=0; i<result.length; i++){
             let str = "";
-            str+="<div class='commentDetail'><div class='commentProfile'>"+'<img src="'+"/profile/"+ result[i].profile +'"/>' + "</div><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
+            str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
             str+="<div class='commentContent'>" + result[i].myhouseComment+
             "</div>"

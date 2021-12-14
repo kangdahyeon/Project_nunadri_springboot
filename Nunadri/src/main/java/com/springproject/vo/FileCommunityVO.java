@@ -8,6 +8,8 @@ public class FileCommunityVO {
 	private int fileNo;
 
 	private String noticeCategory;
+	
+	private String id;
 
 	private int noticeNo;
 	

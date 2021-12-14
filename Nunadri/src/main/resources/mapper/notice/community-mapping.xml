@@ -20,12 +20,12 @@
          
           ) values (
                      #{noticeCategory}
-				             ,(SELECT 
-				               IFNULL(MAX(NOTICE_NO), 0) + 1 
-				            FROM 
-				               projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
-				            WHERE 
-				               NOTICE_CATEGORY = #{noticeCategory})
+                         ,(SELECT 
+                           IFNULL(MAX(NOTICE_NO), 0) + 1 
+                        FROM 
+                           projectdb.NOTICE_COMMUNITY ALIAS_FOR_SUBQUERY 
+                        WHERE 
+                           NOTICE_CATEGORY = #{noticeCategory})
                            , #{nickname}
                            , #{id}
                            , date_format(now(), '%Y-%m-%d %H:%m')
@@ -122,6 +122,7 @@
             IFNULL(MAX(NOTICE_NO), 0) + 1 
          FROM 
             NOTICE_COMMUNITY
+            WHERE NOTICE_CATEGORY = 'B'
       </select>
       
       <!-- 페이징 카운트 쿼리문 -->

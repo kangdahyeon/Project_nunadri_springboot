@@ -645,11 +645,11 @@
    .uploadFileText {
 			background-color: transparent;
 			border-style: none;
-			width: 400px;
+			width: 250px;
 			margin-left: 10px;
 			font-size: small;
 	}
-	 /*수정 파일 리스트*/	
+  /*수정 파일 리스트*/	
   .uploadFileList{
 	    display: inline-block;
 	    padding-right: 20px;
@@ -701,17 +701,17 @@
                				<span th:text="${file.noticeFileName}"></span  >
                				<button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
               			</div  >-->
-                      </div>
-                  </div>
               
 
               
               
               <!--이미지 삭제 기능-->
-              <div th:each="file: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
+              <div class="uploadFileList" th:each="file: ${fileList}"  th:classappend="imgList + ${file.fileNo}">
                      <span th:text="${file.noticeFileName}"></span>
                     <button type='button' th:onclick='|deleteFile(${file.fileNo})|'>삭제</button>
-            </div >
+            </div  >
+                      </div>
+                  </div>
               
           
               
