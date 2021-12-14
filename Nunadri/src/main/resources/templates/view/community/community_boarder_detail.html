@@ -337,7 +337,7 @@
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" placeholder="댓글달기" name="communityComment" autofocus required>
+                          <input type="text" id="commentText" placeholder="댓글달기" name="communityComment" autofocus required>
                         </div>
                         <div class="submitbox">
                           <input type="button" id="comment_submit" value="게시" onclick="commentSubmit()">
@@ -458,6 +458,7 @@ function getCommentList(){
             
             str+="<div class='commentContent'>" + result[i].communityComment+"</div>"
             console.log(result[i].id);
+            console.log(result[i].profile);
             if(result[i].id === [[${#authentication.principal.username}]]) {
             str += "<button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].communityCommentNo + ")'>삭제</button>" 	
 						}

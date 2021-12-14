@@ -37,8 +37,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      security.authorizeRequests()
                       .antMatchers("/", "/login", "/signup", "/findid",
                     		  "/findpwd","/login/error","/checkPassword","/checkPwdCode","/checkMail","/sendId").permitAll()
-                     .antMatchers("/admin/**").hasRole("ADMIN") //권한 부분 추가(찾기 시리즈)
-                      .anyRequest().authenticated();
+                     .antMatchers("/admin/*").hasRole("ADMIN").anyRequest().authenticated(); 
                  
         
       security.csrf().disable();

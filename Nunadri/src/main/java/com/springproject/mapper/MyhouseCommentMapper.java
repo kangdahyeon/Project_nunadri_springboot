@@ -1,7 +1,6 @@
 package com.springproject.mapper;
 
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -27,5 +26,6 @@ public interface MyhouseCommentMapper {
    
    //소모임 참여인원 중복방지
    int updateJoin(MyhouseCommentVO vo);
+   
 
 }

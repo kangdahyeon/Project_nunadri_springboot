@@ -1,6 +1,5 @@
 package com.springproject.service;
 
-import java.util.HashMap;
 import java.util.List;
 
 import com.springproject.vo.MyhouseCommentVO;
@@ -21,5 +20,6 @@ void insertMyhouseComment(MyhouseCommentVO commentInsert);
    
    //소모임 업데이트시 숫자값 받아오기
    int updateJoin(MyhouseCommentVO vo);
+   
 
 }

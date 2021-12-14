@@ -6,6 +6,18 @@
 
 <mapper namespace="com.springproject.mapper.MyhouseCommentMapper">
 
+<sql id="myhouseComment">
+		HOUSE_NO
+		,MYHOUSE_CATEGORY
+		,MYHOUSE_NO
+		,MYHOUSE_COMMENT_NO
+		,MYHOUSE_COMMENT
+		,NICKNAME
+		,ID
+		,MYHOUSE_COMMENT_REGDATE
+		,SMALL_GROUP_JOIN
+	</sql>
+	
 <insert id="insertMyhouseComment">
 		INSERT INTO MYHOUSE_COMMENT
 		(

@@ -91,6 +91,7 @@
              
              <input type="hidden" name="myhouseCategory" value="s">
              <input type="hidden" name="nickname" th:value="${nickname}">
+             <input type="hidden" name="id" th:value="${#authentication.principal.username}">
               <input class="datepicker" id="picker_color" name="myhouseDate" placeholder="날짜를 선택하세요" required>
               <input class="timepicker-no-scrollbar" id="picker_color" name="myhouseTime" placeholder="시간을 선택하세요">
               <input type="number" min="2" max="9" style="width:177.2px;" id="picker_color" name="peopleMax" placeholder="참여 인원" required>
