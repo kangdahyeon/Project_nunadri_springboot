@@ -337,7 +337,7 @@
                       <div class="commentingline">
           
                         <div class="textbox">
-                          <input type="text" placeholder="댓글달기" name="communityComment" autofocus required>
+                          <input type="text" id="commentText" placeholder="댓글달기" name="communityComment" autofocus required>
                         </div>
                         <div class="submitbox">
                           <input type="button" id="comment_submit" value="게시" onclick="commentSubmit()">
@@ -432,6 +432,12 @@ let noticeNo = $("#noticeNo").val();
 
      $(document).ready(function(){
       getCommentList();
+       $("#commentText").keydown(function(key) {
+                if (key.keyCode == 13) {
+                   commentSubmit();
+                   return false;
+                }
+            });
       
 })
 
