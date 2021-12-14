@@ -127,15 +127,13 @@
                   </div>
                   <!-- profile END -->
                   
-               <div class="edit_div2" style="right: 220px;">
+               <div class="edit_div2" style="right: 90px;">
                  <form action="/peopleJoin" method="post">  
              <input type="hidden" name="houseNo" th:value="${getBoard.houseNo}">
             <input type="hidden" name="myhouseNo" th:value="${getBoard.myhouseNo}">
             <input type="hidden" name="myhouseCategory" value="s">
              <input type="hidden" name="joinCheck" th:value="${joinCheck}">
-             <!--<input type="text" name="nickname" th:value="${nickname}">
-             <input type="text" name="nickname" th:value="${getBoard.nickname}">-->
-               <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin} and ${joinCheck}==0 and ${nickname}!=${getBoard.nickname}">
+               <span th:if="${getBoard.peopleMax}!=${getBoard.peopleJoin} and ${joinCheck}==0 and ${#authentication.principal.username}!=${getBoard.id}">
              		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석하기</button >
                		</span >
                </div>
@@ -147,19 +145,19 @@
             <input type="hidden" name="myhouseCategory" value="s">
             <input type="hidden" name="peopleJoin" th:value="${getBoard.peopleJoin}">
             <input type="hidden" name="joinCheck" th:value="${joinCheck}">
-            
-               <div class="edit_div2" style="right: 220px;">
+               <div class="edit_div2" style="right: 90px;">
                	<span th:if="${getBoard.peopleJoin} != 1 and ${joinCheck}==1">
              		  <button type="submit" class="v_edit feedview_btn" id="writerBtn">참석취소</button>
                	<spna>	
                
                </div>
                </form>
-               <div class="edit_div2" style="right: 155px;">
-              		<a class="v_edit feedview_btn" id="writerBtn" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >수정</a   >
+               
+               <div class="edit_div2" style="right:90px; margin-top:34px;">
+              		<a class="v_edit feedview_btn" id="writerBtn"  th:if="${#strings.equals(getBoard.id, #authentication.principal.username)}" th:href="'/updateMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >수정</a   >
                   </div>
-                  <div class="delete_div2" style="right: 90px;">
-                    <a class="v_edit feedview_btn" id="writerBtn" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >삭제</a   >
+                  <div class="delete_div2" style="margin-top:34px;">
+                    <a class="v_edit feedview_btn" id="writerBtn"   th:if="${#strings.equals(getBoard.id, #authentication.principal.username)}" th:href="'/deleteMyhouseBoard/'+${getBoard.houseNo}+'/s/'+${getBoard.myhouseNo}" >삭제</a   >
                   </div>
                   <div class="delete_div2">
                   <a class="v_edit feedview_btn" id="writerBtn" th:href="'/board/s'" >목록으로</a  >
