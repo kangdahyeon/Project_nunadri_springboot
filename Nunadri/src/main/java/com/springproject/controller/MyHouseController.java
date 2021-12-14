@@ -53,7 +53,7 @@ public class MyHouseController {
 	public String userNickname(@AuthenticationPrincipal SecurityUser user) {
 		return user.getNickname();
 	}
-
+	
 
 	//우리집 메인
 	@GetMapping("/myhome")
@@ -149,6 +149,7 @@ public class MyHouseController {
 		myhouseService.hitIncrease(vo);
 
 
+		System.out.println(myhouseService.getMyhouseBoard(vo).getId());
 		model.addAttribute("getBoard",myhouseService.getMyhouseBoard(vo));
 		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
 
@@ -253,15 +254,13 @@ public class MyHouseController {
 	@GetMapping("/smallGroupDetail/{houseNo}/{myhouseCategory}/{myhouseNo}")
 	public String getSmallGroupBoard(NoticeMyhouseVO vo, MyhouseCommentVO commentVO,
 			@AuthenticationPrincipal SecurityUser user, Model model) {
-
+			
 		if (commentVO.getNickname() == null) {
 			commentVO.setNickname(user.getNickname());
 		}
 
 		// 조회수 증가 기능
 		myhouseService.hitIncrease(vo);
-
-		// System.out.println("소모임상세 번호는?"+myhouseCommentService.updateJoin(commentVO));
 		model.addAttribute("getBoard", myhouseService.getMyhouseBoard(vo));
 		model.addAttribute("fileList", myhouseFileService.getMyhouseFileList(vo));
 		model.addAttribute("joinCheck", myhouseCommentService.updateJoin(commentVO));

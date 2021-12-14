@@ -1,6 +1,5 @@
 package com.springproject.impl;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,5 +56,6 @@ public class MyhouseCommentServiceImpl implements MyhouseCommentService {
 	   }
 	   
    }
+
 
 }

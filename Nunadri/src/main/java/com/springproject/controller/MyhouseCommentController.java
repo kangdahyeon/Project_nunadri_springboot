@@ -3,13 +3,16 @@ package com.springproject.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.springproject.dto.MyhouseCommentDto;
 import com.springproject.service.MyhouseCommentService;
+import com.springproject.vo.MemberVO;
 import com.springproject.vo.MyhouseCommentVO;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +33,7 @@ public class MyhouseCommentController {
    public List<MyhouseCommentVO> getMyhouseComment(MyhouseCommentVO commentList) {
       return myhouseCommentService.getMyhouseComment(commentList);
    }
-   
+
    
    
    

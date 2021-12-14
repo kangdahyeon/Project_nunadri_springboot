@@ -236,6 +236,19 @@
 	display: none ;
 }
 
+	.commentProfile {
+		position: relative; 
+		width : 40px;
+		height: 30px;
+	}
+	
+	.commentProfile  > img {
+		width : 100%;
+		height: 100%;
+		object-fit: cover;
+		margin: auto;
+		border-radius: 50%;
+	}
     
   </style>
 
@@ -426,11 +439,12 @@ function getCommentList(){
          $("#comment").html("");
          for(let i=0; i<result.length; i++){
             let str = "";
-            str+="<div class='commentDetail'><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
+            str+="<div class='commentDetail'><div class='commentProfile'>"+'<img src="'+"/profile/"+ result[i].profile +'"/>' + "</div><div class='commentNickname col-md-2'>"+result[i].nickname+"</div>"
             
             str+="<div class='commentContent'>" + result[i].myhouseComment+
             "</div>"
             console.log(result[i].id);
+            console.log(result[i].profile);
             if(result[i].id === [[${#authentication.principal.username}]]){
 	
             str += "<button class='commentStyle col-me-2' type='button' onclick='deleteComment("+ result[i].myhouseCommentNo + ")'>삭제</button>"
