@@ -432,7 +432,12 @@ let noticeNo = $("#noticeNo").val();
 
      $(document).ready(function(){
       getCommentList();
-      
+       $("#commentText").keydown(function(key) {
+                if (key.keyCode == 13) {
+                   commentSubmit();
+                   return false;
+                }
+            });
 })
 
 // 댓글 목록 불러오기
